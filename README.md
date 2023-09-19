@@ -30,7 +30,7 @@ Created by leading experts in the industry (read: two formerly broke students), 
 1. [Code](#1-code)
 2. [Technologies](#2-technologies)
 3. [Installation](#3-installation)
-4. [API Endpoints](#4-team)
+4. [Team](#4-team)
 5. [About me](#5-about-me)
 6. [Contact](#6-like-this-project-lets-connect)
 
