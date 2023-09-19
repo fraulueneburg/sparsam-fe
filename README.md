@@ -3,9 +3,11 @@
 > [!IMPORTANT]
 > Please note that this project is currently in revision. The demo still works, of course. You can follow my progress here or on [Linkedin](https://linkedin.com/in/fraulueneburg)
 
-### 👉&nbsp;&nbsp;See the demo at&nbsp;&nbsp;[sparsam.netlify.app](https://sparsam.netlify.app/)
-
 ---
+
+## Demo
+
+### 👉&nbsp;&nbsp;See the demo at&nbsp;&nbsp;[sparsam.netlify.app](https://sparsam.netlify.app/)
 
 ## Description
 
@@ -19,15 +21,26 @@ Created by leading experts in the industry (read: two formerly broke students), 
 - lets you define custom spending categories
 - weekly and monthly view of your budget
 - charts for your monthly expenses
-- nice things for edge cases
-- awesome graphics
+- awesome memes for edge cases
+- nice graphics
 
-## Code
+---
+
+## Content
+
+1. [Code](#1-code)
+2. [Technologies](#2-technologies)
+3. [Installation](#3-installation)
+4. [API Endpoints](#4-team)
+5. [About me](#5-about-me)
+6. [Contact](#6-like-this-project-lets-connect)
+
+## 1. Code
 
 - Frontend at https://github.com/fraulueneburg/sparsam-fe
 - Backend at https://github.com/fraulueneburg/sparsam-be
 
-## Technologies
+## 2. Technologies
 
 | Name                       | Description                                                                             |
 | :------------------------- | :-------------------------------------------------------------------------------------- |
@@ -44,7 +57,7 @@ Created by leading experts in the industry (read: two formerly broke students), 
 | **Bulma CSS:**             | we just used the columns part. It’s that good.                                          |
 | **CSS Custom Properties:** | For easy switching between light and dark mode. And because we wanted to brag a little. |
 
-## Installation
+## 3. Installation
 
 ### Clone the repository:
 
@@ -76,18 +89,18 @@ npm install chartjs
 - start the server: `npm start`
 - go to [http://localhost:3000](http://localhost:3000) to access sparsam on your local machine
 
-## Team
+## 4. Team
 
 Sparsam was created in a team with [Michel Saber](https://github.com/michelsaber).
 
 ---
 
-## About Me
+## 5. About Me
 
 I’m Wiebke, a Full Stack Web Developer and UI/UX Designer, currently living in Hamburg, Germany.  
 Usability is a top priority in my work and I am also strongly advocating for (and keep learning about) web accessibility.
 
-## Like this project? Let’s connect:
+## 6. Like this project? Let’s connect:
 
 <a href="https://linkedin.com/in/fraulueneburg" target="_blank">
 <img alt="LinkedIn" src="https://img.shields.io/badge/-linkedin-1572B6?&style=for-the-badge&logo=css3&logoColor=white" />
