@@ -1,3 +1,5 @@
+![Screenshot of the sparsam budgeting app](https://github.com/fraulueneburg/sparsam-fe/assets/122455194/19f8f53d-d6d4-4ae8-8ff1-127248585f21)
+
 # [IN REVISION] 👷🐽<br />sparsam - An awesome budgeting app
 
 > [!IMPORTANT]
