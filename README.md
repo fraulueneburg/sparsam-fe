@@ -17,12 +17,11 @@ Created by leading experts in the industry (read: two formerly broke students), 
 
 ## Features
 
-- calculates your monthly budget using your earnings and expenses
-- lets you define custom spending categories
-- weekly and monthly view of your budget
-- charts for your monthly expenses
-- awesome memes for edge cases
-- nice graphics
+- 💻 automatically calculates your weekly budget based on your monthly earnings and expenses
+- 🗒️ lets you define custom spending categories
+- 🤓 weekly and monthly view of your budget
+- 🍰 beautiful charts of your monthly expenses
+- 😻 awesome memes for edge cases
 
 ---
 
