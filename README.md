@@ -1,9 +1,9 @@
-# [IN REVISION] <span style="speak: none;">👷🐽</span><br />sparsam - An awesome budgeting app
+# [IN REVISION] 👷🐽<br />sparsam - An awesome budgeting app
 
 > [!IMPORTANT]
 > Please note that this project is currently in revision. The demo still works, of course. You can follow my progress here or on [Linkedin](https://linkedin.com/in/fraulueneburg)
 
-### <span style="speak: none;">👉&nbsp;&nbsp;</span>See the demo at&nbsp;&nbsp;[sparsam.netlify.app](https://sparsam.netlify.app/)
+### 👉&nbsp;&nbsp;See the demo at&nbsp;&nbsp;[sparsam.netlify.app](https://sparsam.netlify.app/)
 
 ---
 
@@ -68,7 +68,7 @@ npm install chartjs
 
 ### Set up MongoDB
 
-- Install MongoDB <span style="speak: none;">👉</span> https://docs.mongodb.com/manual/installation/
+- Install MongoDB 👉 https://docs.mongodb.com/manual/installation/
 - Configure MongoDB connection
 
 ### Run Locally
