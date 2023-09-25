@@ -4,7 +4,7 @@ import { useNavigate, Link } from 'react-router-dom'
 import { AuthContext } from '../context/auth.context'
 import { API_URL } from '../config'
 
-function FormLogin() {
+function FormLogin(props) {
 	const [emailInput, setEmailInput] = useState('')
 	const [passwordInput, setPasswordInput] = useState('')
 	const navigate = useNavigate()
@@ -34,7 +34,7 @@ function FormLogin() {
 	}
 
 	return (
-		<form onSubmit={handleSubmit}>
+		<form onSubmit={handleSubmit} className={props.classes ? 'form-login ' + props.classes : 'form-login'}>
 			<input
 				type="email"
 				name="email"
