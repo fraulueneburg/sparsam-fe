@@ -93,7 +93,7 @@ function FormBudget(props) {
 	const handleDeleteEarning = (index, event) => {
 		event.preventDefault()
 		const filteredEarnings = earnings.filter((elem, i) => {
-			if (i !== index) return elem
+			return i !== index ? elem : null
 		})
 		setEarnings(filteredEarnings)
 		setEarningsTotal(calculateTotal(filteredEarnings))
@@ -136,7 +136,7 @@ function FormBudget(props) {
 	const handleDeleteExpense = (index, event) => {
 		event.preventDefault()
 		const filteredExpenses = expenses.filter((elem, i) => {
-			if (i !== index) return elem
+			return i !== index ? elem : null
 		})
 		setExpenses(filteredExpenses)
 		setExpensesTotal(calculateTotal(filteredExpenses))
@@ -159,7 +159,7 @@ function FormBudget(props) {
 	const handleDeleteSpendingCategory = (index, event) => {
 		event.preventDefault()
 		const filteredSpendingCategories = spendingCategories.filter((elem, i) => {
-			if (i !== index) return elem
+			return i !== index ? elem : null
 		})
 		setSpendingCategories(filteredSpendingCategories)
 	}

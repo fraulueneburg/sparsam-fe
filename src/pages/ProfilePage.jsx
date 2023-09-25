@@ -107,6 +107,7 @@ function ProfilePage() {
 						value={emailInput}
 						placeholder="Email"
 						onChange={(e) => setEmailInput(e.target.value)}
+						autoComplete="username"
 					/>
 				</div>
 				<div className="input-group">
@@ -119,14 +120,14 @@ function ProfilePage() {
 						value={passwordInput}
 						placeholder="*********"
 						onChange={(e) => setPasswordInput(e.target.value)}
+						autoComplete="current-password"
 						required
 					/>
 				</div>
-				<button type="submit">SAVE</button>
+				<button type="submit">save</button>
 			</form>
-
 			<button className="btn-delete" type="submit" onClick={handleDelete}>
-				DELETE
+				delete
 			</button>
 		</>
 	)

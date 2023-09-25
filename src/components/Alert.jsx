@@ -4,7 +4,7 @@ function Alert(props) {
 
 	return (
 		<>
-			<p class={type ? 'alert alert-' + type : 'alert'}>{content}</p>
+			<p className={type ? 'alert alert-' + type : 'alert'}>{content}</p>
 		</>
 	)
 }

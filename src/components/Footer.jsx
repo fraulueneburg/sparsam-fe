@@ -18,7 +18,7 @@ function Footer() {
 					rel="noreferrer"
 					aria-label="view the sparsam github repository">
 					<svg
-						class="svg-icon icon-github"
+						className="svg-icon icon-github"
 						width="24"
 						height="24"
 						aria-hidden="true"
