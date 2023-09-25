@@ -241,6 +241,11 @@ main a {
 
 /*----- BUTTONS -----*/
 
+button,
+input[type='submit'] {
+	font-weight: bold;
+}
+
 button:disabled {
 	cursor: normal;
 }
