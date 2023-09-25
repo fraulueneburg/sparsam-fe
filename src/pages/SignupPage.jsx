@@ -3,6 +3,7 @@ import { useState, useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { AuthContext } from '../context/auth.context'
 import { API_URL } from '../config'
+import Alert from '../components/Alert'
 
 function SignupPage() {
 	const [nameInput, setNameInput] = useState('')
@@ -55,6 +56,18 @@ function SignupPage() {
 					value={passwordInput}
 					placeholder="*********"
 					onChange={(e) => setPasswordInput(e.target.value)}
+				/>
+				<Alert
+					type="primary"
+					content={
+						<>
+							<strong>
+								☝️ Coming <u>so</u> soon:&nbsp;
+							</strong>
+							No-signup demo for anyone reviewing Wiebke’s portfolio.
+							<br /> For now, just sign up with x@y.z or something. We won’t shame you, promise.
+						</>
+					}
 				/>
 				<input type="submit" value="Sign up now" />
 			</form>
