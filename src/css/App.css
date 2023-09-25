@@ -402,12 +402,7 @@ input[type='number'] {
 }
 
 .form-budget #spendingCategories .grid {
-	grid-template-columns: auto auto 70px;
-}
-
-.form-budget #spendingCategories legend {
-	font-size: 1rem;
-	border: none;
+	grid-template-columns: auto 70px;
 }
 
 /*----- TABLES -----*/
