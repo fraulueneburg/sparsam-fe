@@ -16,7 +16,7 @@ function Footer() {
 					href="https://github.com/fraulueneburg/sparsam-fe"
 					target="_blank"
 					rel="noreferrer"
-					aria-label="view the github repository for this app">
+					aria-label="view the sparsam github repository">
 					<svg
 						class="svg-icon icon-github"
 						width="24"
