@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import BudgetForm from '../components/FormBudget'
+import BudgetForm from '../components/BudgetForm'
 import axios from 'axios'
 import { API_URL } from '../config'
 

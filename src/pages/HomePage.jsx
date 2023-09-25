@@ -1,5 +1,5 @@
-import LoginForm from '../components/FormLogin'
-import cuteDog from '../assets/img/cute-dog.jpg'
+import LoginForm from '../components/LoginForm'
+import cuteDog from '../assets/cute-dog.jpg'
 
 function HomePage() {
 	return (

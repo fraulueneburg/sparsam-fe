@@ -5,14 +5,14 @@ import { useNavigate } from 'react-router-dom'
 import { API_URL } from '../config'
 import { CategoryScale } from 'chart.js'
 import { Pie } from 'react-chartjs-2'
-import { ReactComponent as IconEdit } from '../assets/img/icon-edit.svg'
-import { ReactComponent as IconMinus } from '../assets/img/icon-minus.svg'
-import { ReactComponent as IconPlus } from '../assets/img/icon-plus.svg'
-import { ReactComponent as IconChevronLeft } from '../assets/img/icon-chevron-left.svg'
-import { ReactComponent as IconChevronRight } from '../assets/img/icon-chevron-right.svg'
-import { ReactComponent as IconClose } from '../assets/img/icon-close.svg'
-import dailyExpensesGif from '../assets/img/gif-no-daily-expenses.gif'
-import noChartGif from '../assets/img/gif-no-chart.gif'
+import { ReactComponent as IconEdit } from '../assets/icon-edit.svg'
+import { ReactComponent as IconMinus } from '../assets/icon-minus.svg'
+import { ReactComponent as IconPlus } from '../assets/icon-plus.svg'
+import { ReactComponent as IconChevronLeft } from '../assets/icon-chevron-left.svg'
+import { ReactComponent as IconChevronRight } from '../assets/icon-chevron-right.svg'
+import { ReactComponent as IconClose } from '../assets/icon-close.svg'
+import dailyExpensesGif from '../assets/gif-no-daily-expenses.gif'
+import noChartGif from '../assets/gif-no-chart.gif'
 
 function DailyExpensesForm(props) {
 	const navigate = useNavigate()
@@ -475,22 +475,22 @@ function DailyExpensesForm(props) {
 										<th>Category</th>
 										<th>Name</th>
 										<th style={{ textAlign: 'right' }}>Amount</th>
-										<th></th>
+										<th style={{ textAlign: 'right', width: '130px' }}></th>
 									</tr>
 								</thead>
 								<tbody>
 									{dailyExpensesArr
 										.sort((a, b) => (a.date > b.date ? -1 : b.date > a.date ? 1 : 0))
-										.map((dailyExpense, index, arr) => {
+										.map((dailyExpense, index) => {
 											if (dailyExpense._id !== editExpenseId) {
 												return (
 													<tr key={dailyExpense._id}>
 														<td style={{ width: '140px' }}>
-															<time className={index > 0 && dailyExpense.date === arr[index - 1].date ? 'hidden' : null}>
-																{writeOutDate(dailyExpense.date)}
-															</time>
+															<time dateTime={dailyExpense.date}>{writeOutDate(dailyExpense.date)}</time>
 														</td>
-														<td>{dailyExpense.category}</td>
+														<td>
+															<strong>{dailyExpense.category}</strong>
+														</td>
 														<td>{dailyExpense.name}</td>
 														<td style={{ textAlign: 'right' }}>
 															-{dailyExpense.amount.toFixed(2)} {currency}

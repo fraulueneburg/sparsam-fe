@@ -3,11 +3,11 @@ import './css/grid.css'
 import './css/App.css'
 import { Routes, Route } from 'react-router-dom'
 import Layout from './pages/Layout'
-import HomePage from './pages/Home'
-import SignupPage from './pages/Signup'
-import ProfilePage from './pages/Settings_User'
-import BudgetOverview from './pages/Budget'
-import SettingsBudget from './pages/Settings_Budget'
+import HomePage from './pages/HomePage'
+import SignupPage from './pages/SignupPage'
+import ProfilePage from './pages/ProfilePage'
+import BudgetOverview from './pages/BudgetOverview'
+import BudgetSettings from './pages/BudgetSettings'
 import PrivatePage from './pages/PrivatePage'
 
 function App() {
@@ -37,7 +37,7 @@ function App() {
 						path="/budget/settings"
 						element={
 							<PrivatePage>
-								<SettingsBudget />
+								<BudgetSettings />
 							</PrivatePage>
 						}
 					/>
