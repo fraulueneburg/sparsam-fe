@@ -5,11 +5,9 @@
 > [!IMPORTANT]
 > Please note that this project is currently in revision. The demo still works, of course. You can follow my progress here or on [Linkedin](https://linkedin.com/in/fraulueneburg)
 
----
-
-## Demo
-
 ### 👉&nbsp;&nbsp;See the demo at&nbsp;&nbsp;[sparsam.netlify.app](https://sparsam.netlify.app/)
+
+---
 
 ## Description
 
@@ -32,9 +30,10 @@ Created by leading experts in the industry (read: two formerly broke students), 
 1. [Code](#1-code)
 2. [Technologies](#2-technologies)
 3. [Installation](#3-installation)
-4. [Team](#4-team)
-5. [About me](#5-about-me)
-6. [Contact](#6-like-this-project-lets-connect)
+4. [Demo](#4-demo)
+5. [Team](#5-team)
+6. [About me](#6-about-me)
+7. [Contact](#7-like-this-project-lets-connect)
 
 ## 1. Code
 
@@ -90,18 +89,22 @@ npm install chartjs
 - start the server: `npm start`
 - go to [http://localhost:3000](http://localhost:3000) to access sparsam on your local machine
 
-## 4. Team
+## 4. Demo
+
+### 👉&nbsp;&nbsp;See the demo at&nbsp;&nbsp;[sparsam.netlify.app](https://sparsam.netlify.app/)
+
+## 5. Team
 
 Sparsam was created in a team with [Michel Saber](https://github.com/michelsaber).
 
 ---
 
-## 5. About Me
+## 6. About Me
 
 I’m Wiebke, a Full Stack Web Developer and UI/UX Designer, currently living in Hamburg, Germany.  
 Usability is a top priority in my work and I am also strongly advocating for (and keep learning about) web accessibility.
 
-## 6. Like this project? Let’s connect:
+## 7. Like this project? Let’s connect:
 
 <a href="https://linkedin.com/in/fraulueneburg" target="_blank">
 <img alt="LinkedIn" src="https://img.shields.io/badge/-linkedin-1572B6?&style=for-the-badge&logo=css3&logoColor=white" />
