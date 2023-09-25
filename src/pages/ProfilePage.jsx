@@ -3,9 +3,9 @@ import { useState, useContext, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { AuthContext } from '../context/auth.context'
 import { API_URL } from '../config'
-import { ReactComponent as IconUser } from '../assets/icon-user.svg'
-import { ReactComponent as IconEmail } from '../assets/icon-email.svg'
-import { ReactComponent as IconPassword } from '../assets/icon-password.svg'
+import { ReactComponent as IconUser } from '../assets/icons/icon-user.svg'
+import { ReactComponent as IconEmail } from '../assets/icons/icon-email.svg'
+import { ReactComponent as IconPassword } from '../assets/icons/icon-password.svg'
 
 function ProfilePage() {
 	const [nameInput, setNameInput] = useState()

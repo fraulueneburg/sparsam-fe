@@ -1,7 +1,7 @@
 import { AuthContext } from '../context/auth.context'
 import { useContext, useRef } from 'react'
 import { NavLink } from 'react-router-dom'
-import { ReactComponent as IconMenu } from '../assets/icon-menu.svg'
+import { ReactComponent as IconMenu } from '../assets/icons/icon-menu.svg'
 
 function Navbar() {
 	const { logOutUser, isLoggedIn } = useContext(AuthContext)
