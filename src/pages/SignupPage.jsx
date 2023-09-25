@@ -41,6 +41,18 @@ function SignupPage() {
 	return (
 		<>
 			<h1>Sign up</h1>
+			<Alert
+				type="primary"
+				content={
+					<>
+						<strong>
+							☝️ Coming <u>so</u> soon:&nbsp;
+						</strong>
+						No-signup demo for anyone reviewing Wiebke’s portfolio.
+						<br /> For now, just sign up with x@y.z or something. We won’t shame you, promise.
+					</>
+				}
+			/>
 			<form onSubmit={handleSubmit}>
 				<input type="text" name="name" value={nameInput} placeholder="Name" onChange={(e) => setNameInput(e.target.value)} />
 				<input
@@ -56,18 +68,6 @@ function SignupPage() {
 					value={passwordInput}
 					placeholder="*********"
 					onChange={(e) => setPasswordInput(e.target.value)}
-				/>
-				<Alert
-					type="primary"
-					content={
-						<>
-							<strong>
-								☝️ Coming <u>so</u> soon:&nbsp;
-							</strong>
-							No-signup demo for anyone reviewing Wiebke’s portfolio.
-							<br /> For now, just sign up with x@y.z or something. We won’t shame you, promise.
-						</>
-					}
 				/>
 				<input type="submit" value="Sign up now" />
 			</form>
