@@ -86,7 +86,7 @@ function ProfilePage() {
 			<form onSubmit={handleSubmit}>
 				<h1>My Profile</h1>
 				<div className="input-group">
-					<span class="input-group-text">
+					<span className="input-group-text">
 						<IconUser />
 					</span>
 					<input
@@ -98,7 +98,7 @@ function ProfilePage() {
 					/>
 				</div>
 				<div className="input-group">
-					<span class="input-group-text">
+					<span className="input-group-text">
 						<IconEmail />
 					</span>
 					<input
@@ -110,7 +110,7 @@ function ProfilePage() {
 					/>
 				</div>
 				<div className="input-group">
-					<span class="input-group-text">
+					<span className="input-group-text">
 						<IconPassword />
 					</span>
 					<input
