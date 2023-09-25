@@ -8,7 +8,7 @@ import earningsGif from '../assets/gif-no-earnings.gif'
 import expensesGif from '../assets/gif-no-expenses.gif'
 import spendingsGif from '../assets/gif-no-spendings.gif'
 
-function BudgetForm(props) {
+function FormBudget(props) {
 	const navigate = useNavigate()
 	const [dataLoaded, setDataLoaded] = useState(false)
 
@@ -387,4 +387,4 @@ function BudgetForm(props) {
 	}
 }
 
-export default BudgetForm
+export default FormBudget

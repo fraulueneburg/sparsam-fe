@@ -4,7 +4,7 @@ import { useNavigate, Link } from 'react-router-dom'
 import { AuthContext } from '../context/auth.context'
 import { API_URL } from '../config'
 
-function LoginForm() {
+function FormLogin() {
 	const [emailInput, setEmailInput] = useState('')
 	const [passwordInput, setPasswordInput] = useState('')
 	const navigate = useNavigate()
@@ -61,4 +61,4 @@ function LoginForm() {
 	)
 }
 
-export default LoginForm
+export default FormLogin

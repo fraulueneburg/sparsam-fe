@@ -14,7 +14,7 @@ import { ReactComponent as IconClose } from '../assets/icon-close.svg'
 import dailyExpensesGif from '../assets/gif-no-daily-expenses.gif'
 import noChartGif from '../assets/gif-no-chart.gif'
 
-function DailyExpensesForm(props) {
+function FormDailyExpenses(props) {
 	const navigate = useNavigate()
 	const propBudgetData = props.budgetData[0]
 	const categoriesArr = propBudgetData.spendingCategories
@@ -591,4 +591,4 @@ function DailyExpensesForm(props) {
 	)
 }
 
-export default DailyExpensesForm
+export default FormDailyExpenses
