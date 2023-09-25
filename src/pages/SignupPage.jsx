@@ -45,9 +45,7 @@ function SignupPage() {
 				type="primary"
 				content={
 					<>
-						<strong>
-							☝️ Coming <u>so</u> soon:&nbsp;
-						</strong>
+						<strong>☝️ Coming soon:&nbsp;</strong>
 						No-signup demo for anyone reviewing Wiebke’s portfolio.
 						<br /> For now, just sign up with x@y.z or something. We won’t shame you, promise.
 					</>
