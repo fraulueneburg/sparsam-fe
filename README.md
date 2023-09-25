@@ -5,7 +5,7 @@
 > [!IMPORTANT]
 > Please note that this project is currently in revision. The demo still works, of course. You can follow my progress here or on [Linkedin](https://linkedin.com/in/fraulueneburg)
 
-### 👉&nbsp;&nbsp;See the demo at&nbsp;&nbsp;[sparsam.netlify.app](https://sparsam.netlify.app/)
+### 👉&nbsp;&nbsp;See the demo at&nbsp;&nbsp;[sparsam-app.netlify.app](https://sparsam-app.netlify.app/)
 
 ---
 
@@ -91,7 +91,7 @@ npm install chartjs
 
 ## 4. Demo
 
-### 👉&nbsp;&nbsp;See the demo at&nbsp;&nbsp;[sparsam.netlify.app](https://sparsam.netlify.app/)
+### 👉&nbsp;&nbsp;See the demo at&nbsp;&nbsp;[sparsam-app.netlify.app](https://sparsam-app.netlify.app/)
 
 ## 5. Team
 
