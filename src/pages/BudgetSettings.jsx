@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import BudgetForm from '../components/BudgetForm'
+import FormBudget from '../components/FormBudget'
 import axios from 'axios'
 import { API_URL } from '../config'
 
@@ -29,7 +29,7 @@ function BudgetSettings() {
 			<>
 				<h1>Settings</h1>
 				<p>Add your monthly earnings, expenses and spending categories here:</p>
-				<BudgetForm budgetData={existingBudget} />
+				<FormBudget budgetData={existingBudget} />
 			</>
 		)
 	} else {

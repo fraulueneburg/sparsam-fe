@@ -1,5 +1,5 @@
 import Alert from '../components/Alert'
-import LoginForm from '../components/FormLogin'
+import FormLogin from '../components/FormLogin'
 import cuteDog from '../assets/cute-dog.jpg'
 
 function HomePage() {
@@ -23,7 +23,7 @@ function HomePage() {
 					<img src={cuteDog} alt="" />
 				</div>
 				<div className="column">
-					<LoginForm />
+					<FormLogin />
 				</div>
 			</div>
 		</>
