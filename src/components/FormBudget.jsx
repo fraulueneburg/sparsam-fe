@@ -378,7 +378,7 @@ function FormBudget(props) {
 							</button>
 						</div>
 					</fieldset>
-					<button>Save changes and start planning</button>
+					<button type="submit">Save changes and start planning</button>
 				</form>
 			</>
 		)
