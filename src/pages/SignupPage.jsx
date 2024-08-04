@@ -3,6 +3,9 @@ import { useState, useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { AuthContext } from '../context/auth.context'
 import { API_URL } from '../config'
+import { ReactComponent as IconUser } from '../assets/icons/icon-user.svg'
+import { ReactComponent as IconEmail } from '../assets/icons/icon-email.svg'
+import { ReactComponent as IconPassword } from '../assets/icons/icon-password.svg'
 import Alert from '../components/Alert'
 
 function SignupPage() {
@@ -52,21 +55,42 @@ function SignupPage() {
 				}
 			/>
 			<form onSubmit={handleSubmit}>
-				<input type="text" name="name" value={nameInput} placeholder="Name" onChange={(e) => setNameInput(e.target.value)} />
-				<input
-					type="email"
-					name="email"
-					value={emailInput}
-					placeholder="Email"
-					onChange={(e) => setEmailInput(e.target.value)}
-				/>
-				<input
-					type="password"
-					name="password"
-					value={passwordInput}
-					placeholder="*********"
-					onChange={(e) => setPasswordInput(e.target.value)}
-				/>
+				<div className="input-group">
+					<span className="input-group-text">
+						<IconUser />
+					</span>
+					<input
+						type="text"
+						name="name"
+						value={nameInput}
+						placeholder="Name"
+						onChange={(e) => setNameInput(e.target.value)}
+					/>
+				</div>
+				<div className="input-group">
+					<span className="input-group-text">
+						<IconEmail />
+					</span>
+					<input
+						type="email"
+						name="email"
+						value={emailInput}
+						placeholder="Email"
+						onChange={(e) => setEmailInput(e.target.value)}
+					/>
+				</div>
+				<div className="input-group">
+					<span className="input-group-text">
+						<IconPassword />
+					</span>
+					<input
+						type="password"
+						name="password"
+						value={passwordInput}
+						placeholder="*********"
+						onChange={(e) => setPasswordInput(e.target.value)}
+					/>
+				</div>
 				<input type="submit" value="Sign up now" />
 			</form>
 		</>

@@ -3,6 +3,8 @@ import { useContext, useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { AuthContext } from '../context/auth.context'
 import { API_URL } from '../config'
+import { ReactComponent as IconEmail } from '../assets/icons/icon-email.svg'
+import { ReactComponent as IconPassword } from '../assets/icons/icon-password.svg'
 
 function FormLogin(props) {
 	const [emailInput, setEmailInput] = useState('')
@@ -35,22 +37,32 @@ function FormLogin(props) {
 
 	return (
 		<form onSubmit={handleSubmit} className={props.classes ? 'form-login ' + props.classes : 'form-login'}>
-			<input
-				type="email"
-				name="email"
-				autoComplete="email"
-				value={emailInput}
-				placeholder="Email"
-				onChange={(e) => setEmailInput(e.target.value)}
-			/>
-			<input
-				type="password"
-				name="password"
-				autoComplete="password"
-				value={passwordInput}
-				placeholder="*********"
-				onChange={(e) => setPasswordInput(e.target.value)}
-			/>
+			<div className="input-group">
+				<span className="input-group-text">
+					<IconEmail />
+				</span>
+				<input
+					type="email"
+					name="email"
+					autoComplete="email"
+					value={emailInput}
+					placeholder="Email"
+					onChange={(e) => setEmailInput(e.target.value)}
+				/>
+			</div>
+			<div className="input-group">
+				<span className="input-group-text">
+					<IconPassword />
+				</span>
+				<input
+					type="password"
+					name="password"
+					autoComplete="password"
+					value={passwordInput}
+					placeholder="*********"
+					onChange={(e) => setPasswordInput(e.target.value)}
+				/>
+			</div>
 			<input type="submit" value="Login" />
 			<p style={{ textAlign: 'center' }}>
 				<small>
