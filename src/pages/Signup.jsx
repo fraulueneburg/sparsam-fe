@@ -8,7 +8,7 @@ import { ReactComponent as IconEmail } from '../assets/icons/icon-email.svg'
 import { ReactComponent as IconPassword } from '../assets/icons/icon-password.svg'
 import Alert from '../components/Alert'
 
-function SignupPage() {
+function Signup() {
 	const [nameInput, setNameInput] = useState('')
 	const [emailInput, setEmailInput] = useState('')
 	const [passwordInput, setPasswordInput] = useState('')
@@ -97,4 +97,4 @@ function SignupPage() {
 	)
 }
 
-export default SignupPage
+export default Signup

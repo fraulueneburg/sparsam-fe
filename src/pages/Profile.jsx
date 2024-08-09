@@ -7,7 +7,7 @@ import { ReactComponent as IconUser } from '../assets/icons/icon-user.svg'
 import { ReactComponent as IconEmail } from '../assets/icons/icon-email.svg'
 import { ReactComponent as IconPassword } from '../assets/icons/icon-password.svg'
 
-function ProfilePage() {
+function Profile() {
 	const [nameInput, setNameInput] = useState()
 	const [emailInput, setEmailInput] = useState('')
 	const [passwordInput, setPasswordInput] = useState('')
@@ -133,4 +133,4 @@ function ProfilePage() {
 	)
 }
 
-export default ProfilePage
+export default Profile
