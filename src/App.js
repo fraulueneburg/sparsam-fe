@@ -9,6 +9,7 @@ import Profile from './pages/Profile'
 import BudgetOverview from './pages/BudgetOverview'
 import BudgetSettings from './pages/BudgetSettings'
 import PrivatePage from './pages/PrivatePage'
+import ProfileDeleted from './pages/ProfileDeleted'
 
 function App() {
 	return (
@@ -25,6 +26,7 @@ function App() {
 							</PrivatePage>
 						}
 					/>
+					<Route path="/profile-deleted" element={<ProfileDeleted />}></Route>
 					<Route
 						path="/budget"
 						element={

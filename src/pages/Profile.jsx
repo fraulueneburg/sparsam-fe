@@ -6,9 +6,13 @@ import { API_URL } from '../config'
 import { ReactComponent as IconUser } from '../assets/icons/icon-user.svg'
 import { ReactComponent as IconEmail } from '../assets/icons/icon-email.svg'
 import { ReactComponent as IconPassword } from '../assets/icons/icon-password.svg'
+import { ModalProvider, useModal } from '../context/ModalContext'
+import ModalButton from '../components/ModalButton'
+import Modal from '../components/Modal'
+import cryingGif from '../assets/img/gif-crying.gif'
 
 function Profile() {
-	const [nameInput, setNameInput] = useState()
+	const [nameInput, setNameInput] = useState('')
 	const [emailInput, setEmailInput] = useState('')
 	const [passwordInput, setPasswordInput] = useState('')
 	const { setToken, setIsLoggedIn, logOutUser } = useContext(AuthContext)
@@ -63,8 +67,8 @@ function Profile() {
 
 	const handleDelete = async (e) => {
 		e.preventDefault()
-		const gotToken = localStorage.getItem('authToken')
 
+		const gotToken = localStorage.getItem('authToken')
 		try {
 			await axios.delete(
 				`${API_URL}/auth/profile/delete`,
@@ -75,7 +79,7 @@ function Profile() {
 			)
 
 			logOutUser()
-			navigate('/')
+			navigate('/profile-deleted')
 		} catch (err) {
 			console.log('DELETE USER ERROR', err)
 		}
@@ -83,7 +87,7 @@ function Profile() {
 
 	return (
 		<>
-			<form onSubmit={handleSubmit}>
+			<form onSubmit={handleSubmit} className="edit-profile">
 				<h1>My Profile</h1>
 				<div className="input-group">
 					<span className="input-group-text">
@@ -126,9 +130,28 @@ function Profile() {
 				</div>
 				<button type="submit">save</button>
 			</form>
-			<button className="btn-delete" type="submit" onClick={handleDelete}>
-				delete
-			</button>
+			<ModalProvider>
+				<ModalButton className="btn-delete">delete profile</ModalButton>
+				<Modal
+					modalClassName="modal-delete"
+					title="Are you sure?"
+					description={
+						<>
+							<p>
+								{`Oh, ${nameInput}, we hate to see you go.`}
+								<br />
+								{`But, no worries. As long as you’re happy, we’re happy.`}
+								<br />
+								{`Click the button below to delete your profile.`}
+							</p>
+						</>
+					}
+					image={cryingGif}
+					alt="A crying man in a suit dabbs away tears with a wad of banknotes"
+					onConfirm={handleDelete}
+					buttonLabel={'delete profile'}
+				/>
+			</ModalProvider>
 		</>
 	)
 }
