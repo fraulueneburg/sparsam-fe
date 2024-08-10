@@ -57,7 +57,7 @@ function FormLogin(props) {
 				<input
 					type="password"
 					name="password"
-					autoComplete="password"
+					autoComplete="current-password"
 					value={passwordInput}
 					placeholder="*********"
 					onChange={(e) => setPasswordInput(e.target.value)}

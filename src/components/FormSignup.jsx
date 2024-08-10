@@ -53,6 +53,7 @@ function FormSignup() {
 						value={nameInput}
 						placeholder="Name"
 						onChange={(e) => setNameInput(e.target.value)}
+						autoComplete="username"
 					/>
 				</div>
 				<div className="input-group">
@@ -64,6 +65,7 @@ function FormSignup() {
 						name="email"
 						value={emailInput}
 						placeholder="Email"
+						autoComplete="email"
 						onChange={(e) => setEmailInput(e.target.value)}
 					/>
 				</div>
@@ -76,6 +78,7 @@ function FormSignup() {
 						name="password"
 						value={passwordInput}
 						placeholder="*********"
+						autoComplete="new-password"
 						onChange={(e) => setPasswordInput(e.target.value)}
 					/>
 				</div>
