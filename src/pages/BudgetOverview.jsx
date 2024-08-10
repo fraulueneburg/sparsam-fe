@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import FormDailyExpenses from '../components/FormDailyExpenses'
+import YourExpenses from '../components/YourExpenses'
 import axios from 'axios'
 import { Link } from 'react-router-dom'
 import { API_URL } from '../config'
@@ -31,7 +31,7 @@ function BudgetOverview() {
 		return (
 			<>
 				<h1>Your Budget</h1>
-				<FormDailyExpenses budgetData={existingBudget} dailyExpensesData={existingDailyExpenses} />
+				<YourExpenses budgetData={existingBudget} dailyExpensesData={existingDailyExpenses} />
 			</>
 		)
 	} else if (dataLoaded && existingBudget.length === 0) {

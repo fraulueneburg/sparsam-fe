@@ -6,15 +6,15 @@ import { API_URL } from '../config'
 import { CategoryScale } from 'chart.js'
 import { Pie } from 'react-chartjs-2'
 import { ReactComponent as IconEdit } from '../assets/icons/icon-edit.svg'
-import { ReactComponent as IconMinus } from '../assets/icons/icon-minus.svg'
-import { ReactComponent as IconPlus } from '../assets/icons/icon-plus.svg'
+import { ReactComponent as IconCheck } from '../assets/icons/icon-check.svg'
 import { ReactComponent as IconChevronLeft } from '../assets/icons/icon-chevron-left.svg'
 import { ReactComponent as IconChevronRight } from '../assets/icons/icon-chevron-right.svg'
 import { ReactComponent as IconClose } from '../assets/icons/icon-close.svg'
+import { ReactComponent as IconMinus } from '../assets/icons/icon-minus.svg'
 import dailyExpensesGif from '../assets/img/gif-no-daily-expenses.gif'
 import noChartGif from '../assets/img/gif-no-chart.gif'
 
-function FormDailyExpenses(props) {
+function YourExpenses(props) {
 	const navigate = useNavigate()
 	const propBudgetData = props.budgetData[0]
 	const categoriesArr = propBudgetData.spendingCategories
@@ -220,6 +220,7 @@ function FormDailyExpenses(props) {
 
 	const handleDeleteDailyExpense = async (index, event) => {
 		event.preventDefault()
+
 		const filteredDailyExpensesArr = dailyExpensesArr.filter((elem, i) => {
 			return i !== index ? elem : null
 		})
@@ -334,6 +335,13 @@ function FormDailyExpenses(props) {
 						<button onClick={() => setNumOfItemsToNavigate((prev) => prev - 1)} aria-label={`go to previous ${timePeriod}`}>
 							<IconChevronLeft />
 						</button>
+						{!isCurrentTime ? (
+							<button onClick={() => setNumOfItemsToNavigate((prev) => prev - numOfItemsToNavigate)}>
+								see current {timePeriod}
+							</button>
+						) : (
+							<div></div>
+						)}
 						<button
 							onClick={() => setNumOfItemsToNavigate((prev) => prev + 1)}
 							aria-label={`go to next ${timePeriod}`}
@@ -399,7 +407,7 @@ function FormDailyExpenses(props) {
 									<tbody>
 										{categoriesTotalArr.map((elem, index) => {
 											return (
-												<tr className={elem > 0 ? null : 'greyed-out'}>
+												<tr className={elem > 0 ? null : 'greyed-out'} key={index}>
 													<td>
 														<div className="color-indicator" style={{ backgroundColor: chartColorsArr[index] }}></div>{' '}
 														{categoriesArr[index]}
@@ -430,33 +438,30 @@ function FormDailyExpenses(props) {
 					</section>
 				</>
 			) : null}
-			<section>
-				<h2>Add an expense:</h2>
-				<form onSubmit={handleAddDailyExpense} className="form-daily-expenses">
-					<div className="grid">
-						<input
-							type="date"
-							name="date"
-							min={firstDayISO}
-							max={lastDayISO}
-							placeholder={`${isCurrentTime ? dateTodayISO : firstDayISO}`}
-							required></input>
-						<select name="category">
-							{propBudgetData.spendingCategories.map((elem, index) => {
-								return <option key={elem + '-' + index}>{elem}</option>
-							})}
-						</select>
-					</div>
-					<div className="grid">
-						<input type="text" name="name" placeholder="name"></input>
-						<div className="input-group">
-							<span className="input-group-text">–</span>
-							<input type="number" name="amount" placeholder="0,00" step=".01" required></input>
-							<span className="text">€</span>
-							<button className="btn-add-item">
-								<IconPlus />
-							</button>
-						</div>
+			<section className="expenses">
+				<h2>Your Expenses</h2>
+				<form onSubmit={handleAddDailyExpense} className="form-inline form-add-expense" style={{ marginBottom: '1.5rem' }}>
+					<input
+						type="date"
+						name="date"
+						min={firstDayISO}
+						max={lastDayISO}
+						placeholder={`${isCurrentTime ? dateTodayISO : firstDayISO}`}
+						required
+					/>
+					<select name="category">
+						{propBudgetData.spendingCategories.map((elem, index) => {
+							return <option key={elem + '-' + index}>{elem}</option>
+						})}
+					</select>
+					<input type="text" name="name" placeholder="name"></input>
+					<div className="input-group">
+						<span className="input-group-text">–</span>
+						<input type="number" name="amount" placeholder="0,00" step=".01" required></input>
+						<span className="text">€</span>
+						<button className="btn-add-item">
+							<IconCheck />
+						</button>
 					</div>
 				</form>
 				<div className="card">
@@ -471,11 +476,11 @@ function FormDailyExpenses(props) {
 							<table className="table-daily-expenses">
 								<thead>
 									<tr>
-										<th style={{ width: '140px' }}>Date</th>
+										<th style={{ width: '120px' }}>Date</th>
 										<th>Category</th>
 										<th>Name</th>
 										<th style={{ textAlign: 'right' }}>Amount</th>
-										<th style={{ textAlign: 'right', width: '130px' }}></th>
+										<th style={{ textAlign: 'right' }}></th>
 									</tr>
 								</thead>
 								<tbody>
@@ -485,7 +490,7 @@ function FormDailyExpenses(props) {
 											if (dailyExpense._id !== editExpenseId) {
 												return (
 													<tr key={dailyExpense._id}>
-														<td style={{ width: '140px' }}>
+														<td>
 															<time dateTime={dailyExpense.date}>{writeOutDate(dailyExpense.date)}</time>
 														</td>
 														<td>
@@ -496,12 +501,6 @@ function FormDailyExpenses(props) {
 															-{dailyExpense.amount.toFixed(2)} {currency}
 														</td>
 														<td>
-															<button
-																data-key={dailyExpense._id}
-																className="btn-delete-item"
-																onClick={(event) => handleDeleteDailyExpense(index, event)}>
-																<IconMinus />
-															</button>
 															<button
 																data-key={dailyExpense._id}
 																className="btn-edit-item"
@@ -515,55 +514,65 @@ function FormDailyExpenses(props) {
 												return (
 													<tr key={dailyExpense._id}>
 														<td colSpan="5">
-															<button onClick={() => setEditExpenseId(0)} className="btn-close" aria-label="close">
-																<IconClose />
-															</button>
-															<form onSubmit={handleUpdateDailyExpense} data-key={dailyExpense._id}>
-																<div className="grid">
+															<form
+																className="form-inline form-edit-expense"
+																onSubmit={handleUpdateDailyExpense}
+																data-key={dailyExpense._id}>
+																<input
+																	type="date"
+																	name="date"
+																	max={lastDayFromTodayISO}
+																	value={editExpenseDate}
+																	onChange={(event) => setEditExpenseDate(event.target.value)}
+																	required
+																/>
+																<select
+																	name="category"
+																	value={editExpenseCategory}
+																	onChange={(event) => setEditExpenseCategory(event.target.value)}
+																	required>
+																	{propBudgetData.spendingCategories.map((elem, index) => {
+																		return <option key={elem + '-' + index}>{elem}</option>
+																	})}
+																</select>
+																<input
+																	type="text"
+																	//value={dailyExpense.name}
+																	value={editExpenseName}
+																	onChange={(event) => setEditExpenseName(event.target.value)}
+																	name="name"
+																/>
+																<div className="input-group">
+																	<span className="input-group-text">–</span>
 																	<input
-																		type="date"
-																		name="date"
-																		max={lastDayFromTodayISO}
-																		value={editExpenseDate}
-																		onChange={(event) => setEditExpenseDate(event.target.value)}
+																		type="number"
+																		name="amount"
+																		//value={dailyExpense.amount.toFixed(2)}
+																		value={editExpenseAmount}
+																		placeholder="0,00"
+																		step=".01"
+																		onChange={(event) => setEditExpenseAmount(event.target.value)}
 																		required
 																	/>
-																	<select
-																		name="category"
-																		value={editExpenseCategory}
-																		onChange={(event) => setEditExpenseCategory(event.target.value)}
-																		required>
-																		{propBudgetData.spendingCategories.map((elem, index) => {
-																			return <option key={elem + '-' + index}>{elem}</option>
-																		})}
-																	</select>
+																	<span className="text">€</span>
 																</div>
-																<div className="grid">
-																	<input
-																		type="text"
-																		//value={dailyExpense.name}
-																		value={editExpenseName}
-																		onChange={(event) => setEditExpenseName(event.target.value)}
-																		name="name"
-																	/>
-																	<div className="input-group">
-																		<span className="input-group-text">–</span>
-																		<input
-																			type="number"
-																			name="amount"
-																			//value={dailyExpense.amount.toFixed(2)}
-																			value={editExpenseAmount}
-																			placeholder="0,00"
-																			step=".01"
-																			onChange={(event) => setEditExpenseAmount(event.target.value)}
-																			required
-																		/>
-																		<span className="text">€</span>
-																	</div>
+																<div className="btn-group">
+																	<button type="submit" className="btn-add-item" aria-label="save changed">
+																		<IconCheck />
+																	</button>
+																	<button
+																		data-key={dailyExpense._id}
+																		className="btn-delete-item"
+																		onClick={(event) => handleDeleteDailyExpense(index, event)}>
+																		<IconMinus />
+																	</button>
+																	<button
+																		onClick={() => setEditExpenseId(0)}
+																		className="btn-close"
+																		aria-label="cancel editing">
+																		<IconClose />
+																	</button>
 																</div>
-																<button type="submit" className="btn-save-item">
-																	save changes
-																</button>
 															</form>
 														</td>
 													</tr>
@@ -576,10 +585,23 @@ function FormDailyExpenses(props) {
 										<td></td>
 										<td></td>
 										<td></td>
+										<td>
+											<strong>
+												{(budgetTotal - budgetLeft).toFixed(2) * -1} {currency}
+											</strong>
+										</td>
+										<td>spent</td>
+									</tr>
+									<tr className={`${budgetLeft < 0 ? 'is-negative' : null}`}>
+										<td></td>
+										<td></td>
 										<td></td>
 										<td>
-											-{(budgetTotal - budgetLeft).toFixed(2)} {currency}
+											<strong>
+												{budgetLeft.toFixed(2)} {currency}
+											</strong>
 										</td>
+										<td>left</td>
 									</tr>
 								</tfoot>
 							</table>
@@ -591,4 +613,4 @@ function FormDailyExpenses(props) {
 	)
 }
 
-export default FormDailyExpenses
+export default YourExpenses
