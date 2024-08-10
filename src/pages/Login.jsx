@@ -1,10 +1,10 @@
 import Alert from '../components/Alert'
-import FormSignup from '../components/FormSignup'
+import FormLogin from '../components/FormLogin'
 
-function Signup() {
+function Login() {
 	return (
 		<>
-			<h1>Sign up</h1>
+			<h1>Login</h1>
 			<Alert
 				type="primary"
 				content={
@@ -15,9 +15,9 @@ function Signup() {
 					</>
 				}
 			/>
-			<FormSignup />
+			<FormLogin />
 		</>
 	)
 }
 
-export default Signup
+export default Login

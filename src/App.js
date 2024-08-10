@@ -3,13 +3,14 @@ import './css/grid.css'
 import './css/App.css'
 import { Routes, Route } from 'react-router-dom'
 import Layout from './pages/Layout'
+import PrivatePage from './pages/PrivatePage'
 import HomePage from './pages/HomePage'
 import Signup from './pages/Signup'
+import Login from './pages/Login'
 import Profile from './pages/Profile'
+import ProfileDeleted from './pages/ProfileDeleted'
 import BudgetOverview from './pages/BudgetOverview'
 import BudgetSettings from './pages/BudgetSettings'
-import PrivatePage from './pages/PrivatePage'
-import ProfileDeleted from './pages/ProfileDeleted'
 
 function App() {
 	return (
@@ -18,6 +19,7 @@ function App() {
 				<Route path="/" element={<Layout />}>
 					<Route path="/" element={<HomePage />}></Route>
 					<Route path="/auth/signup" element={<Signup />}></Route>
+					<Route path="/auth/login" element={<Login />}></Route>
 					<Route
 						path="/auth/profile"
 						element={

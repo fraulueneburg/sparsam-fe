@@ -1,5 +1,5 @@
 import Alert from '../components/Alert'
-import FormLogin from '../components/FormLogin'
+import FormSignup from '../components/FormSignup'
 
 function HomePage() {
 	return (
@@ -37,7 +37,7 @@ function HomePage() {
 					</ul>
 				</div>
 				<div className="column">
-					<FormLogin />
+					<FormSignup />
 				</div>
 			</div>
 		</>

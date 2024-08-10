@@ -64,8 +64,8 @@ function Navbar() {
 							</NavLink>
 						</li>
 						<li>
-							<NavLink onClick={showNavbar} to="/auth/signup">
-								Sign Up
+							<NavLink onClick={showNavbar} to="/auth/login">
+								Login
 							</NavLink>
 						</li>
 					</ul>
