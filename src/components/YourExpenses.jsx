@@ -11,6 +11,7 @@ import { ReactComponent as IconChevronLeft } from '../assets/icons/icon-chevron-
 import { ReactComponent as IconChevronRight } from '../assets/icons/icon-chevron-right.svg'
 import { ReactComponent as IconClose } from '../assets/icons/icon-close.svg'
 import { ReactComponent as IconMinus } from '../assets/icons/icon-minus.svg'
+
 import dailyExpensesGif from '../assets/img/gif-no-daily-expenses.gif'
 import noChartGif from '../assets/img/gif-no-chart.gif'
 
@@ -59,7 +60,7 @@ function YourExpenses(props) {
 				day: 'numeric',
 			})
 		}
-		return writtenDate
+		return `${writtenDate.slice(0, 2)}, ${writtenDate.slice(4)}`
 	}
 
 	// VARIABLES
@@ -198,22 +199,25 @@ function YourExpenses(props) {
 		}
 
 		try {
-			await axios.post(`${API_URL}/budget/addexpense`, newDailyExpense, {
+			const response = await axios.post(`${API_URL}/budget/addexpense`, newDailyExpense, {
 				headers: { authorization: `Bearer ${gotToken}` },
 			})
+
+			const createdExpense = response.data
+
+			setDailyExpensesArr(
+				[createdExpense, ...dailyExpensesArr].sort((a, b) => (a.date > b.date ? -1 : b.date > a.date ? 1 : 0))
+			)
+			setdailyExpensesTotal(calculateTotal([createdExpense, ...dailyExpensesArr]))
+			setBudgetLeft(budgetTotal - calculateTotal([createdExpense, ...dailyExpensesArr]))
+
+			event.target.name.value = ''
+			event.target.amount.value = ''
+
 			navigate('/budget')
 		} catch (err) {
-			console.log('THIS IS THE ADD EXPENSE ERR', err)
+			console.log('ERROR WHILE ADDING EXPENSE:', err)
 		}
-
-		setDailyExpensesArr(
-			[newDailyExpense, ...dailyExpensesArr].sort((a, b) => (a.date > b.date ? -1 : b.date > a.date ? 1 : 0))
-		)
-		setdailyExpensesTotal(calculateTotal([newDailyExpense, ...dailyExpensesArr]))
-		setBudgetLeft(budgetTotal - calculateTotal([newDailyExpense, ...dailyExpensesArr]))
-
-		event.target.name.value = ''
-		event.target.amount.value = ''
 	}
 
 	// DELETE EXPENSE
@@ -232,7 +236,7 @@ function YourExpenses(props) {
 			})
 			navigate('/budget')
 		} catch (err) {
-			console.log('THIS IS THE ERR', err)
+			console.log('ERROR WHILE DELETING EXPENSE', err)
 		}
 		setdailyExpensesTotal(calculateTotal(filteredDailyExpensesArr))
 		setBudgetLeft(budgetTotal - calculateTotal(filteredDailyExpensesArr))
@@ -476,7 +480,7 @@ function YourExpenses(props) {
 							<table className="table-daily-expenses">
 								<thead>
 									<tr>
-										<th style={{ width: '120px' }}>Date</th>
+										<th style={{ width: '110px' }}>Date</th>
 										<th>Category</th>
 										<th>Name</th>
 										<th style={{ textAlign: 'right' }}>Amount</th>
@@ -486,10 +490,12 @@ function YourExpenses(props) {
 								<tbody>
 									{dailyExpensesArr
 										.sort((a, b) => (a.date > b.date ? -1 : b.date > a.date ? 1 : 0))
-										.map((dailyExpense, index) => {
+										.map((dailyExpense, index, arr) => {
 											if (dailyExpense._id !== editExpenseId) {
 												return (
-													<tr key={dailyExpense._id}>
+													<tr
+														key={dailyExpense._id}
+														className={index > 0 && arr[index - 1].date == arr[index].date ? null : 'first-of-date'}>
 														<td>
 															<time dateTime={dailyExpense.date}>{writeOutDate(dailyExpense.date)}</time>
 														</td>
@@ -566,6 +572,7 @@ function YourExpenses(props) {
 																		onClick={(event) => handleDeleteDailyExpense(index, event)}>
 																		<IconMinus />
 																	</button>
+
 																	<button
 																		onClick={() => setEditExpenseId(0)}
 																		className="btn-close"
@@ -587,7 +594,7 @@ function YourExpenses(props) {
 										<td></td>
 										<td>
 											<strong>
-												{(budgetTotal - budgetLeft).toFixed(2) * -1} {currency}
+												{((budgetTotal - budgetLeft) * -1).toFixed(2)} {currency}
 											</strong>
 										</td>
 										<td>spent</td>

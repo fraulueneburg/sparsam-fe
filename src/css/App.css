@@ -351,6 +351,11 @@ form:not(.form-inline) {
 	margin-bottom: 0.75rem;
 }
 
+label.disabled {
+	color: var(--form-element-color);
+	color: hsl(205, 20%, 32%);
+}
+
 input[type='date'] {
 	width: 165px;
 }
@@ -489,7 +494,7 @@ select {
 
 .table-wrapper {
 	overflow-x: auto;
-	padding: var(--block-spacing-horizontal);
+	padding: 0.75rem 1rem;
 }
 
 table {
@@ -526,7 +531,8 @@ table.table-daily-expenses tbody td:nth-last-child(2) {
 }
 
 table.table-daily-expenses tbody td:not(:last-child) {
-	padding-top: 0.75rem;
+	padding-bottom: 0.5rem;
+	padding-top: 0.5rem;
 }
 
 tr.greyed-out {
@@ -558,8 +564,17 @@ tfoot td {
 
 /*----- TABLE DAILY EXPENSES -----*/
 
+.table-daily-expenses .first-of-date td {
+	border-top: 3px solid #1f2d38;
+}
+
+.table-daily-expenses .first-of-date time {
+	display: block;
+}
+
 .table-daily-expenses time {
 	font-weight: bold;
+	display: none;
 }
 
 .table-daily-expenses th:last-child,
@@ -942,6 +957,10 @@ h2 + .alert {
 	margin-top: 0;
 	padding: 1rem 0.5rem;
 	text-align: center;
+}
+
+.alert p:last-child {
+	margin-bottom: 0;
 }
 
 @media (max-width: 600px) {
