@@ -1,6 +1,6 @@
 import './css/pico.min.css'
 import './css/grid.css'
-import './css/App.css'
+import './css/App.scss'
 import { Routes, Route } from 'react-router-dom'
 import Layout from './pages/Layout'
 import PrivatePage from './pages/PrivatePage'
@@ -9,12 +9,12 @@ import Signup from './pages/Signup'
 import Login from './pages/Login'
 import Profile from './pages/Profile'
 import ProfileDeleted from './pages/ProfileDeleted'
-import BudgetOverview from './pages/BudgetOverview'
-import BudgetSettings from './pages/BudgetSettings'
+import Budget from './pages/Budget'
+import Settings from './pages/Settings'
 
 function App() {
 	return (
-		<div className="App">
+		<>
 			<Routes>
 				<Route path="/" element={<Layout />}>
 					<Route path="/" element={<HomePage />}></Route>
@@ -33,21 +33,21 @@ function App() {
 						path="/budget"
 						element={
 							<PrivatePage>
-								<BudgetOverview />
+								<Budget />
 							</PrivatePage>
 						}
 					/>
 					<Route
-						path="/budget/settings"
+						path="/settings"
 						element={
 							<PrivatePage>
-								<BudgetSettings />
+								<Settings />
 							</PrivatePage>
 						}
 					/>
 				</Route>
 			</Routes>
-		</div>
+		</>
 	)
 }
 
