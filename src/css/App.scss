@@ -409,6 +409,12 @@ form {
 	margin: 0;
 }
 
+form + p small {
+	display: block;
+	margin-top: 1rem;
+	text-align: center;
+}
+
 form:not(.form-inline) {
 	display: flex;
 	flex-direction: column;
