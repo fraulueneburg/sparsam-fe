@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { useState, useContext } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import { AuthContext } from '../context/auth.context'
 import { API_URL } from '../config'
 import { ReactComponent as IconUser } from '../assets/icons/icon-user.svg'
@@ -86,7 +86,7 @@ function FormSignup() {
 			</form>
 			<p>
 				<small>
-					Already have an account? <a href="/auth/login">Login now</a>
+					Already have an account? <Link to="/auth/login">Login now</Link>
 				</small>
 			</p>
 		</>
