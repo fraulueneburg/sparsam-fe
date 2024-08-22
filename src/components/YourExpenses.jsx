@@ -1,8 +1,8 @@
 import axios from 'axios'
-import Chart from 'chart.js/auto'
-import { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 import { API_URL } from '../config'
+import { useEffect, useState } from 'react'
+import { useNavigate, useSearchParams } from 'react-router-dom'
+import Chart from 'chart.js/auto'
 import { CategoryScale } from 'chart.js'
 import { Pie } from 'react-chartjs-2'
 import { ReactComponent as IconEdit } from '../assets/icons/icon-edit.svg'
@@ -11,17 +11,20 @@ import { ReactComponent as IconChevronLeft } from '../assets/icons/icon-chevron-
 import { ReactComponent as IconChevronRight } from '../assets/icons/icon-chevron-right.svg'
 import { ReactComponent as IconClose } from '../assets/icons/icon-close.svg'
 import { ReactComponent as IconMinus } from '../assets/icons/icon-minus.svg'
-
 import dailyExpensesGif from '../assets/img/gif-no-daily-expenses.gif'
 import noChartGif from '../assets/img/gif-no-chart.gif'
 
 function YourExpenses(props) {
-	const navigate = useNavigate()
-	const propBudgetData = props.budgetData[0]
-	const categoriesArr = propBudgetData.spendingCategories
-	const currency = propBudgetData.currency
-	const propDailyExpensesData = props.dailyExpensesData
 	const gotToken = localStorage.getItem('authToken')
+	const navigate = useNavigate()
+	const [searchParams] = useSearchParams()
+	const propBudgetData = props.budgetData
+
+	const currency = propBudgetData.currency.symbol
+	const propDailyExpensesData = props.dailyExpensesData
+	const categoriesArr = propBudgetData.categories
+	const chartCategoriesArr = categoriesArr.map((elem) => elem.name)
+
 	const chartColorsArr = [
 		'#00acc1',
 		'#8e24aa',
@@ -38,10 +41,18 @@ function YourExpenses(props) {
 
 	// GENERAL FUNCTIONS
 
-	const calculateTotal = (arr) => {
-		return arr.reduce((acc, curr) => {
-			return acc + curr.amount
+	const calculateTotal = (arr = []) => {
+		if (!Array.isArray(arr)) {
+			return '0.00'
+		}
+		const sum = arr.reduce((acc, curr) => {
+			if (curr && typeof curr.amount === 'number') {
+				return acc + curr.amount
+			} else {
+				return acc
+			}
 		}, 0)
+		return sum.toFixed(2)
 	}
 
 	const writeOutDate = (ISOdate) => {
@@ -66,7 +77,7 @@ function YourExpenses(props) {
 	// VARIABLES
 	// WEEKLY/MONTHLY BUDGET
 
-	const [timePeriod, setTimePeriod] = useState('week')
+	const timePeriod = searchParams.get('timePeriod') || 'week'
 
 	const [monthlyBudget, setMonthlyBudget] = useState(
 		calculateTotal(propBudgetData.earnings) - calculateTotal(propBudgetData.expenses)
@@ -96,7 +107,7 @@ function YourExpenses(props) {
 		)
 	)
 
-	const [dailyExpensesTotal, setdailyExpensesTotal] = useState(calculateTotal(dailyExpensesArr))
+	const [dailyExpensesTotal, setDailyExpensesTotal] = useState(calculateTotal(dailyExpensesArr))
 	const [budgetTotal, setBudgetTotal] = useState((monthlyBudget / 31) * 7)
 	const [budgetLeft, setBudgetLeft] = useState(budgetTotal - dailyExpensesTotal)
 	const [numOfItemsToNavigate, setNumOfItemsToNavigate] = useState(0)
@@ -106,7 +117,7 @@ function YourExpenses(props) {
 	const [categoriesTotalArr, setCategoriesTotalArr] = useState(
 		categoriesArr.map((oneCategory) => {
 			return dailyExpensesArr.reduce((acc, curr) => {
-				return curr.category === oneCategory ? acc + curr.amount : acc
+				return curr.category === oneCategory.name ? acc + curr.amount : acc
 			}, 0)
 		})
 	)
@@ -158,35 +169,11 @@ function YourExpenses(props) {
 	}, [firstDayISO, lastDayISO, numOfItemsToNavigate, timePeriod, propDailyExpensesData])
 
 	useEffect(() => {
-		setdailyExpensesTotal(calculateTotal(dailyExpensesArr))
+		setDailyExpensesTotal(calculateTotal(dailyExpensesArr))
 		setBudgetLeft(budgetTotal - calculateTotal(dailyExpensesArr))
+	}, [dailyExpensesArr, budgetTotal, categoriesArr])
 
-		if (timePeriod === 'month') {
-			setCategoriesTotalArr(
-				categoriesArr.map((oneCategory) => {
-					return dailyExpensesArr.reduce((acc, curr) => {
-						return curr.category === oneCategory ? acc + curr.amount : acc
-					}, 0)
-				})
-			)
-		}
-	}, [dailyExpensesArr, budgetTotal, categoriesArr, timePeriod])
-
-	useEffect(() => {
-		setChartData({
-			labels: categoriesArr,
-			datasets: [
-				{
-					data: categoriesTotalArr,
-					backgroundColor: chartColorsArr,
-					borderColor: '#11191f',
-					borderWidth: 2,
-				},
-			],
-		})
-	}, [categoriesArr, categoriesTotalArr])
-
-	// ADD EXPENSE
+	// ADD NEW EXPENSE
 
 	const handleAddDailyExpense = async (event) => {
 		event.preventDefault()
@@ -197,24 +184,29 @@ function YourExpenses(props) {
 			name: event.target.name.value,
 			amount: +event.target.amount.value,
 		}
-
 		try {
 			const response = await axios.post(`${API_URL}/budget/addexpense`, newDailyExpense, {
 				headers: { authorization: `Bearer ${gotToken}` },
 			})
-
 			const createdExpense = response.data
+			const newArr = [createdExpense, ...dailyExpensesArr].sort((a, b) => (a.date > b.date ? -1 : b.date > a.date ? 1 : 0))
 
-			setDailyExpensesArr(
-				[createdExpense, ...dailyExpensesArr].sort((a, b) => (a.date > b.date ? -1 : b.date > a.date ? 1 : 0))
+			console.log('ADD EXPENSE RESPONSE', createdExpense)
+			console.log('NEW ARR', newArr)
+
+			setDailyExpensesArr(newArr)
+			setDailyExpensesTotal(calculateTotal(newArr))
+			setBudgetLeft(budgetTotal - calculateTotal(newArr))
+
+			setCategoriesTotalArr(
+				categoriesArr.map((oneCategory) => {
+					return newArr.reduce((acc, curr) => {
+						return curr.category === oneCategory.name ? acc + curr.amount : acc
+					}, 0)
+				})
 			)
-			setdailyExpensesTotal(calculateTotal([createdExpense, ...dailyExpensesArr]))
-			setBudgetLeft(budgetTotal - calculateTotal([createdExpense, ...dailyExpensesArr]))
-
 			event.target.name.value = ''
 			event.target.amount.value = ''
-
-			navigate('/budget')
 		} catch (err) {
 			console.log('ERROR WHILE ADDING EXPENSE:', err)
 		}
@@ -225,21 +217,29 @@ function YourExpenses(props) {
 	const handleDeleteDailyExpense = async (index, event) => {
 		event.preventDefault()
 
+		const expenseId = event.target.getAttribute('data-key')
 		const filteredDailyExpensesArr = dailyExpensesArr.filter((elem, i) => {
 			return i !== index ? elem : null
 		})
 		setDailyExpensesArr(filteredDailyExpensesArr)
-		const expenseId = event.target.getAttribute('data-key')
+
 		try {
 			await axios.delete(`${API_URL}/budget/deleteexpense/${expenseId}`, {
 				headers: { authorization: `Bearer ${gotToken}` },
 			})
-			navigate('/budget')
 		} catch (err) {
 			console.log('ERROR WHILE DELETING EXPENSE', err)
 		}
-		setdailyExpensesTotal(calculateTotal(filteredDailyExpensesArr))
+		setDailyExpensesTotal(calculateTotal(filteredDailyExpensesArr))
 		setBudgetLeft(budgetTotal - calculateTotal(filteredDailyExpensesArr))
+		setCategoriesTotalArr(
+			categoriesArr.map((oneCategory) => {
+				return filteredDailyExpensesArr.reduce((acc, curr) => {
+					return curr.category === oneCategory.name ? acc + curr.amount : acc
+				}, 0)
+			})
+		)
+		setEditExpenseId(0)
 	}
 
 	// EDIT EXPENSE
@@ -283,10 +283,9 @@ function YourExpenses(props) {
 			updatedDailyExpenseArr[expenseIndex].date = editExpenseDate
 			updatedDailyExpenseArr[expenseIndex].name = editExpenseName
 			setDailyExpensesArr(updatedDailyExpenseArr)
-			setdailyExpensesTotal(calculateTotal(updatedDailyExpenseArr))
+			setDailyExpensesTotal(calculateTotal(updatedDailyExpenseArr))
 			setBudgetLeft(budgetTotal - calculateTotal(updatedDailyExpenseArr))
 			setEditExpenseId(0)
-			navigate('/budget')
 		} catch (err) {
 			console.log('im in the catch block')
 			console.log('THIS IS THE ERR', err)
@@ -297,7 +296,7 @@ function YourExpenses(props) {
 
 	Chart.register(CategoryScale)
 	const [chartData, setChartData] = useState({
-		labels: categoriesArr,
+		labels: chartCategoriesArr,
 		datasets: [
 			{
 				data: categoriesTotalArr,
@@ -308,15 +307,33 @@ function YourExpenses(props) {
 		],
 	})
 
+	useEffect(() => {
+		setChartData({
+			labels: chartCategoriesArr,
+			datasets: [
+				{
+					data: categoriesTotalArr,
+					backgroundColor: chartColorsArr,
+					borderColor: '#11191f',
+					borderWidth: 2,
+				},
+			],
+		})
+	}, [categoriesArr, categoriesTotalArr, dailyExpensesArr, dailyExpensesTotal])
+
 	return (
 		<>
-			<section style={{ overflow: 'hidden' }}>
+			<section>
 				<div className={`card card-budget ${timePeriod}-active`}>
 					<div className="nav-tabs">
-						<button onClick={() => setTimePeriod('week')} className={`btn-week ${timePeriod === 'week' ? 'active' : ''}`}>
+						<button
+							onClick={() => navigate('?timePeriod=week')}
+							className={`btn-week ${timePeriod === 'week' ? 'active' : ''}`}>
 							week view
 						</button>
-						<button onClick={() => setTimePeriod('month')} className={`btn-month ${timePeriod === 'month' ? 'active' : ''}`}>
+						<button
+							onClick={() => navigate('?timePeriod=month')}
+							className={`btn-month ${timePeriod === 'month' ? 'active' : ''}`}>
 							month view
 						</button>
 					</div>
@@ -409,19 +426,21 @@ function YourExpenses(props) {
 										</tr>
 									</thead>
 									<tbody>
-										{categoriesTotalArr.map((elem, index) => {
-											return (
-												<tr className={elem > 0 ? null : 'greyed-out'} key={index}>
-													<td>
-														<div className="color-indicator" style={{ backgroundColor: chartColorsArr[index] }}></div>{' '}
-														{categoriesArr[index]}
-													</td>
-													<td style={{ textAlign: 'right' }}>
-														{elem.toFixed(2)} {currency}
-													</td>
-												</tr>
-											)
-										})}
+										{categoriesTotalArr
+											? categoriesTotalArr.map((elem, index) => {
+													return (
+														<tr className={elem > 0 ? null : 'greyed-out'} key={index}>
+															<td>
+																<div className="color-indicator" style={{ backgroundColor: chartColorsArr[index] }}></div>{' '}
+																{categoriesArr[index].name}
+															</td>
+															<td style={{ textAlign: 'right' }}>
+																{elem.toFixed(2)} {currency}
+															</td>
+														</tr>
+													)
+											  })
+											: null}
 									</tbody>
 									<tfoot>
 										<tr>
@@ -454,19 +473,21 @@ function YourExpenses(props) {
 						required
 					/>
 					<select name="category">
-						{propBudgetData.spendingCategories.map((elem, index) => {
-							return <option key={elem + '-' + index}>{elem}</option>
-						})}
+						{propBudgetData.categories
+							? propBudgetData.categories.map((elem) => {
+									return <option key={elem._id}>{elem.name}</option>
+							  })
+							: null}
 					</select>
 					<input type="text" name="name" placeholder="name"></input>
 					<div className="input-group">
-						<span className="input-group-text">–</span>
+						<span className="text">–</span>
 						<input type="number" name="amount" placeholder="0,00" step=".01" required></input>
 						<span className="text">€</span>
-						<button className="btn-add-item">
-							<IconCheck />
-						</button>
 					</div>
+					<button className="btn-add-item">
+						<IconCheck />
+					</button>
 				</form>
 				<div className="card">
 					{dailyExpensesArr.length <= 0 ? (
@@ -495,7 +516,7 @@ function YourExpenses(props) {
 												return (
 													<tr
 														key={dailyExpense._id}
-														className={index > 0 && arr[index - 1].date == arr[index].date ? null : 'first-of-date'}>
+														className={index > 0 && arr[index - 1].date === arr[index].date ? null : 'first-of-date'}>
 														<td>
 															<time dateTime={dailyExpense.date}>{writeOutDate(dailyExpense.date)}</time>
 														</td>
@@ -537,23 +558,21 @@ function YourExpenses(props) {
 																	value={editExpenseCategory}
 																	onChange={(event) => setEditExpenseCategory(event.target.value)}
 																	required>
-																	{propBudgetData.spendingCategories.map((elem, index) => {
-																		return <option key={elem + '-' + index}>{elem}</option>
+																	{propBudgetData.categories.map((elem) => {
+																		return <option key={elem._id}>{elem.name}</option>
 																	})}
 																</select>
 																<input
 																	type="text"
-																	//value={dailyExpense.name}
 																	value={editExpenseName}
 																	onChange={(event) => setEditExpenseName(event.target.value)}
 																	name="name"
 																/>
 																<div className="input-group">
-																	<span className="input-group-text">–</span>
+																	<span className="text">–</span>
 																	<input
 																		type="number"
 																		name="amount"
-																		//value={dailyExpense.amount.toFixed(2)}
 																		value={editExpenseAmount}
 																		placeholder="0,00"
 																		step=".01"
@@ -563,7 +582,7 @@ function YourExpenses(props) {
 																	<span className="text">€</span>
 																</div>
 																<div className="btn-group">
-																	<button type="submit" className="btn-add-item" aria-label="save changed">
+																	<button type="submit" className="btn-add-item" aria-label="save changes">
 																		<IconCheck />
 																	</button>
 																	<button
@@ -572,6 +591,17 @@ function YourExpenses(props) {
 																		onClick={(event) => handleDeleteDailyExpense(index, event)}>
 																		<IconMinus />
 																	</button>
+																	{/* <ModalProvider>
+																		<ModalButton className="btn-delete-item" data-key={dailyExpense._id}>
+																			<IconMinus />
+																		</ModalButton>
+																		<Modal
+																			modalClassName="modal-delete"
+																			title="Delete item?"
+																			onConfirm={''}
+																			buttonLabel={'yes'}
+																		/>
+																	</ModalProvider> */}
 
 																	<button
 																		onClick={() => setEditExpenseId(0)}
