@@ -38,7 +38,7 @@ function FormLogin(props) {
 	return (
 		<form onSubmit={handleSubmit} className={props.classes ? 'form-login ' + props.classes : 'form-login'}>
 			<div className="input-group">
-				<span className="input-group-text">
+				<span className="text">
 					<IconEmail />
 				</span>
 				<input
@@ -51,7 +51,7 @@ function FormLogin(props) {
 				/>
 			</div>
 			<div className="input-group">
-				<span className="input-group-text">
+				<span className="text">
 					<IconPassword />
 				</span>
 				<input
