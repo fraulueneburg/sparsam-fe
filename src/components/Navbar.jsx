@@ -12,6 +12,10 @@ function Navbar() {
 
 	return (
 		<>
+			<a className="logo" href={isLoggedIn ? '/budget' : '/'}>
+				<span className="icon">🐽</span>
+				<span className="name">sparsam</span>
+			</a>
 			<button className="btn-toggle-menu" onClick={showNavbar}>
 				<IconMenu />
 			</button>
@@ -19,8 +23,21 @@ function Navbar() {
 				{isLoggedIn ? (
 					<ul>
 						<li>
-							<NavLink onClick={showNavbar} to="/" {...({ isActive }) => (isActive ? 'aria-current="page"' : null)}>
-								Home
+							<NavLink
+								onClick={showNavbar}
+								to="/budget"
+								end
+								{...({ isActive }) => (isActive ? 'aria-current="page"' : null)}>
+								Budget
+							</NavLink>
+						</li>
+						<li>
+							<NavLink
+								onClick={showNavbar}
+								to="/settings"
+								end
+								{...({ isActive }) => (isActive ? 'aria-current="page"' : null)}>
+								Settings
 							</NavLink>
 						</li>
 						<li>
@@ -32,37 +49,9 @@ function Navbar() {
 								My Profile
 							</NavLink>
 						</li>
-						<li>
-							<NavLink
-								onClick={showNavbar}
-								to="/budget/settings"
-								end
-								{...({ isActive }) => (isActive ? 'aria-current="page"' : null)}>
-								Settings
-							</NavLink>
-						</li>
-						<li>
-							<NavLink
-								onClick={showNavbar}
-								to="/budget"
-								end
-								{...({ isActive }) => (isActive ? 'aria-current="page"' : null)}>
-								Budget
-							</NavLink>
-						</li>
-						{isLoggedIn ? (
-							<li className="last">
-								<button onClick={logOutUser}>Logout</button>
-							</li>
-						) : null}
 					</ul>
 				) : (
 					<ul>
-						<li>
-							<NavLink onClick={showNavbar} to="/">
-								Home
-							</NavLink>
-						</li>
 						<li>
 							<NavLink onClick={showNavbar} to="/auth/login">
 								Login
@@ -71,6 +60,7 @@ function Navbar() {
 					</ul>
 				)}
 			</nav>
+			{isLoggedIn ? <button onClick={logOutUser}>Logout</button> : null}
 		</>
 	)
 }
