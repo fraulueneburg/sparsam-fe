@@ -5,7 +5,6 @@ import { ReactComponent as IconMinus } from '../assets/icons/icon-minus.svg'
 import { ReactComponent as IconEdit } from '../assets/icons/icon-edit.svg'
 import { ReactComponent as IconClose } from '../assets/icons/icon-close.svg'
 import { ReactComponent as IconCheck } from '../assets/icons/icon-check.svg'
-import Select from 'react-select'
 import coloursArr from '../data/colours.json'
 import noCategoriesGif from '../assets/img/gif-no-categories.webp'
 
@@ -202,16 +201,6 @@ export default function SettingsCategories(props) {
 																<option key={elem._id || index}>{elem.name}</option>
 															))}
 														</select>
-														{/* <Select
-															id="edit-category-colour"
-															name="inputEditCategoryColour"
-															value={coloursArr.find((colour) => colour.name === editCategoryColour)}
-															onChange={(selectedOption) => handleChange(setEditCategoryColour)(selectedOption.name)}
-															options={colourOptionsArr}
-															placeholder="Select Colour"
-															classNamePrefix="react-select"
-															required
-														/> */}
 													</div>
 													<div>
 														<label htmlFor="edit-category-name" className="hidden">
