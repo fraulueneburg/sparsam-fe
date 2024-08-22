@@ -5,7 +5,7 @@ import Footer from '../components/Footer'
 function Layout() {
 	return (
 		<>
-			<header className="container">
+			<header className="container site-header">
 				<Navbar />
 			</header>
 			<main className="container">
