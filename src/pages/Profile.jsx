@@ -6,7 +6,7 @@ import { API_URL } from '../config'
 import { ReactComponent as IconUser } from '../assets/icons/icon-user.svg'
 import { ReactComponent as IconEmail } from '../assets/icons/icon-email.svg'
 import { ReactComponent as IconPassword } from '../assets/icons/icon-password.svg'
-import { ModalProvider, useModal } from '../context/ModalContext'
+import { ModalProvider } from '../context/ModalContext'
 import ModalButton from '../components/ModalButton'
 import Modal from '../components/Modal'
 import cryingGif from '../assets/img/gif-crying.gif'
@@ -90,7 +90,7 @@ function Profile() {
 			<form onSubmit={handleSubmit} className="edit-profile">
 				<h1>My Profile</h1>
 				<div className="input-group">
-					<span className="input-group-text">
+					<span className="text">
 						<IconUser />
 					</span>
 					<input
@@ -102,7 +102,7 @@ function Profile() {
 					/>
 				</div>
 				<div className="input-group">
-					<span className="input-group-text">
+					<span className="text">
 						<IconEmail />
 					</span>
 					<input
@@ -115,7 +115,7 @@ function Profile() {
 					/>
 				</div>
 				<div className="input-group">
-					<span className="input-group-text">
+					<span className="text">
 						<IconPassword />
 					</span>
 					<input
