@@ -44,7 +44,7 @@ function FormSignup() {
 		<>
 			<form onSubmit={handleSubmit}>
 				<div className="input-group">
-					<span className="input-group-text">
+					<span className="text">
 						<IconUser />
 					</span>
 					<input
@@ -57,7 +57,7 @@ function FormSignup() {
 					/>
 				</div>
 				<div className="input-group">
-					<span className="input-group-text">
+					<span className="text">
 						<IconEmail />
 					</span>
 					<input
@@ -70,7 +70,7 @@ function FormSignup() {
 					/>
 				</div>
 				<div className="input-group">
-					<span className="input-group-text">
+					<span className="text">
 						<IconPassword />
 					</span>
 					<input
@@ -84,6 +84,11 @@ function FormSignup() {
 				</div>
 				<input type="submit" value="Sign up now" />
 			</form>
+			<p>
+				<small>
+					Already have an account? <a href="/auth/login">Login now</a>
+				</small>
+			</p>
 		</>
 	)
 }
