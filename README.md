@@ -68,7 +68,7 @@ git clone https://github.com/fraulueneburg/sparsam-fe.git
 ### Install dependencies:
 
 ```
-npm install react-router-dom mongo-db express axios chartjs
+npm install react-router-dom mongo-db express axios chartjs sass
 ```
 
 ### Set up your backend
