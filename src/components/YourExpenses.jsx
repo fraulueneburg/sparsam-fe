@@ -191,9 +191,6 @@ function YourExpenses(props) {
 			const createdExpense = response.data
 			const newArr = [createdExpense, ...dailyExpensesArr].sort((a, b) => (a.date > b.date ? -1 : b.date > a.date ? 1 : 0))
 
-			console.log('ADD EXPENSE RESPONSE', createdExpense)
-			console.log('NEW ARR', newArr)
-
 			setDailyExpensesArr(newArr)
 			setDailyExpensesTotal(calculateTotal(newArr))
 			setBudgetLeft(budgetTotal - calculateTotal(newArr))
@@ -287,12 +284,21 @@ function YourExpenses(props) {
 			setBudgetLeft(budgetTotal - calculateTotal(updatedDailyExpenseArr))
 			setEditExpenseId(0)
 		} catch (err) {
-			console.log('im in the catch block')
-			console.log('THIS IS THE ERR', err)
+			console.log('ERROR WHILE UPDATING EXPENSE', err)
 		}
 	}
 
 	// CHART
+
+	useEffect(() => {
+		setCategoriesTotalArr(
+			categoriesArr.map((oneCategory) => {
+				return dailyExpensesArr.reduce((acc, curr) => {
+					return curr.category === oneCategory.name ? acc + curr.amount : acc
+				}, 0)
+			})
+		)
+	}, [categoriesArr, dailyExpensesArr, timePeriod])
 
 	Chart.register(CategoryScale)
 	const [chartData, setChartData] = useState({
