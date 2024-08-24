@@ -21,19 +21,20 @@ function Budget() {
 				setDataLoaded(true)
 			} catch (err) {
 				console.log('catch block error:', err)
+				setDataLoaded(true)
 			}
 		}
 		fetchBudgetData()
 	}, [])
 
-	if (!dataLoaded || !existingBudget) {
+	if (dataLoaded && !existingBudget) {
 		return (
 			<>
 				<h1>You don’t have a budget yet</h1>
 				<Link to="/settings">Set up your budget now</Link>
 			</>
 		)
-	} else {
+	} else if (dataLoaded && existingBudget) {
 		return (
 			<>
 				<h1>Your Budget</h1>
