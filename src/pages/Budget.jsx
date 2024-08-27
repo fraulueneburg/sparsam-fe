@@ -20,14 +20,14 @@ function Budget() {
 				setExistingBudget(resp.data.respMonthlyBudget)
 				setDataLoaded(true)
 			} catch (err) {
-				console.log('catch block error:', err)
+				console.log('Error while fetching budget:', err)
 				setDataLoaded(true)
 			}
 		}
 		fetchBudgetData()
 	}, [])
 
-	if (dataLoaded && !existingBudget) {
+	if (dataLoaded && existingBudget.earnings.length === 0) {
 		return (
 			<>
 				<h1>You don’t have a budget yet</h1>
