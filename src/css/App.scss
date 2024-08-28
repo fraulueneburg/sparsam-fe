@@ -671,6 +671,14 @@ select {
 	white-space: nowrap;
 }
 
+.section-settings {
+	gap: 1rem !important;
+}
+
+.section-settings .grid {
+	gap: 0.5rem;
+}
+
 @media (min-width: 501px) {
 	.section-settings .grid {
 		align-items: center;
