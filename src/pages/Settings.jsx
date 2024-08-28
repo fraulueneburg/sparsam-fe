@@ -8,6 +8,7 @@ import { ReactComponent as IconClose } from '../assets/icons/icon-close.svg'
 import { ReactComponent as IconCheck } from '../assets/icons/icon-check.svg'
 import Alert from './../components/Alert'
 import NavAnchor from './../components/NavAnchor'
+import CardEmpty from '../components/CardEmpty'
 import currenciesArr from '../data/currencies.json'
 import noEarningsGif from '../assets/img/gif-no-earnings.gif'
 import noExpensesGif from '../assets/img/gif-no-expenses.gif'
@@ -292,10 +293,6 @@ export default function Settings() {
 
 	// ---------------------------------------------------------------------------------------------------
 
-	// CATEGORIES
-
-	// ---------------------------------------------------------------------------------------------------
-
 	// MONTHLY BUDGET
 
 	const [monthlyBudget, setMonthlyBudget] = useState((earningsTotal - expensesTotal).toFixed(2))
@@ -401,12 +398,13 @@ export default function Settings() {
 								</strong>
 							</h2>
 							<div className="card" aria-live="polite">
-								{!earningsArr || earningsArr.length <= 0 ? (
-									<div className="card-empty-text">
-										<img src={noEarningsGif} alt="" width="300" />
-										<h4>No earnings yet. 😿</h4>
-										<p>Start adding some via the form below.</p>
-									</div>
+								{!earningsArr || earningsArr.length === 0 ? (
+									<CardEmpty
+										headline={'No earnings yet. 😿'}
+										text={<p>Start adding some via the form below.</p>}
+										imgSrc={noEarningsGif}
+										imgAlt={'A baby throws a packet of banknotes out of a window'}
+									/>
 								) : (
 									<ul>
 										{earningsArr.map((elem, index) => {
@@ -542,11 +540,12 @@ export default function Settings() {
 							</h2>
 							<div className="card" aria-live="polite">
 								{!expensesArr || expensesArr.length <= 0 ? (
-									<div className="card-empty-text">
-										<img src={noExpensesGif} alt="" width="300" />
-										<h4>No expenses yet.</h4>
-										<p>Start adding some via the form below.</p>
-									</div>
+									<CardEmpty
+										headline={'No expenses yet'}
+										text={<p>Start adding some via the form below.</p>}
+										imgSrc={noExpensesGif}
+										imgAlt={'A man in a suit and tie is lying on a floor full of banknotes, making snow angel movements'}
+									/>
 								) : (
 									<ul>
 										{expensesArr.map((elem, index) => {

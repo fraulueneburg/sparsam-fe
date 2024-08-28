@@ -7,6 +7,7 @@ import { ReactComponent as IconEdit } from '../assets/icons/icon-edit.svg'
 import { ReactComponent as IconClose } from '../assets/icons/icon-close.svg'
 import { ReactComponent as IconCheck } from '../assets/icons/icon-check.svg'
 import noExpensesGif from '../assets/img/gif-no-expenses.gif'
+import CardEmpty from './CardEmpty'
 
 export default function SettingsExpenses(props) {
 	const existingBudget = props.data
@@ -157,11 +158,12 @@ export default function SettingsExpenses(props) {
 				</h2>
 				<div className="card" aria-live="polite">
 					{!expensesArr || expensesArr.length <= 0 ? (
-						<div className="card-empty-text">
-							<img src={noExpensesGif} alt="" width="300" />
-							<h4>No expenses yet.</h4>
-							<p>Start adding some via the form below.</p>
-						</div>
+						<CardEmpty
+							headline={'No expenses yet'}
+							text={<p>Start adding some via the form below.</p>}
+							imgSrc={noExpensesGif}
+							imgAlt={'A man in a suit and tie is lying on a floor full of banknotes, making snow angel movements'}
+						/>
 					) : (
 						<ul>
 							{expensesArr.map((elem, index) => {

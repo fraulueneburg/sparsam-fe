@@ -8,6 +8,7 @@ import { ReactComponent as IconCheck } from '../assets/icons/icon-check.svg'
 import RadioGroupColour from './RadioGroupColour'
 import coloursArr from '../data/colours_reduced.json'
 import noCategoriesGif from '../assets/img/gif-no-categories.webp'
+import CardEmpty from './CardEmpty'
 
 export default function SettingsCategories(props) {
 	const existingBudget = props.data
@@ -156,11 +157,14 @@ export default function SettingsCategories(props) {
 				<h2>Your categories</h2>
 				<div className="card">
 					{!categoriesArr || categoriesArr.length <= 0 ? (
-						<div className="card-empty-text">
-							<img src={noCategoriesGif} alt="" width="300" />
-							<h4>No categories yet.</h4>
-							<p>Start adding some via the form below.</p>
-						</div>
+						<CardEmpty
+							imgSrc={noCategoriesGif}
+							imgAlt={
+								'Actress Mayim Biyalik points her open palm to the right, in a service gesture, laughing. Subline: “any category you like”'
+							}
+							headline={'No categories yet.'}
+							text={<p>Start adding some via the form below.</p>}
+						/>
 					) : (
 						<ul>
 							{categoriesArr.map((elem, index) => {

@@ -14,6 +14,7 @@ import { ReactComponent as IconMinus } from '../assets/icons/icon-minus.svg'
 import dailyExpensesGif from '../assets/img/gif-no-daily-expenses.gif'
 import noChartGif from '../assets/img/gif-no-chart.gif'
 import coloursArr from '../data/colours_reduced.json'
+import CardEmpty from './CardEmpty'
 
 function YourExpenses(props) {
 	const gotToken = localStorage.getItem('authToken')
@@ -378,14 +379,16 @@ function YourExpenses(props) {
 							<div className="column chart-container">
 								{dailyExpensesTotal <= 0 ? (
 									<div className="card">
-										<div className="card-empty-text">
-											<img src={noChartGif} alt="" />
-											<h4>No chart to display.</h4>
-											<p>
-												Wow. You spent 0,00{currency} this {timePeriod}.<br />
-												Good job. But also: Are you sure? 🤔
-											</p>
-										</div>
+										<CardEmpty
+											imgSrc={noChartGif}
+											headline={'No chart to display.'}
+											text={
+												<p>
+													Wow. You spent 0,00{currency} this {timePeriod}.<br />
+													Good job. But also: Are you sure? 🤔
+												</p>
+											}
+										/>
 									</div>
 								) : (
 									<Pie
@@ -489,11 +492,15 @@ function YourExpenses(props) {
 				</form>
 				<div className="card">
 					{dailyExpensesArr.length <= 0 ? (
-						<div className="card-empty-text">
-							<h4>No expenses yet.</h4>
-							<p>Start adding some via the form above.</p>
-							<img src={dailyExpensesGif} alt="" width="300" />
-						</div>
+						<CardEmpty
+							headline={'No expenses yet.'}
+							text={<p>Start adding some via the form above.</p>}
+							imgSrc={dailyExpensesGif}
+							imgPosition={'bottom'}
+							imgAlt={
+								'A parrot picks up gold coins with its beak and drops them into a small savings box that looks like a treasure chest.'
+							}
+						/>
 					) : (
 						<div className="table-wrapper">
 							<table className="table-daily-expenses">
