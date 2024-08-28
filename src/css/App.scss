@@ -674,7 +674,7 @@ select {
 @media (min-width: 501px) {
 	.section-settings .grid {
 		align-items: center;
-		grid-template-columns: 1fr min-content min-content;
+		grid-template-columns: 1fr min-content;
 	}
 
 	.section-categories .grid {
