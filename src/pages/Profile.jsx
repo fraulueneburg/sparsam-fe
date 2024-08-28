@@ -142,7 +142,7 @@ function Profile() {
 								<br />
 								{`But, no worries. As long as you’re happy, we’re happy.`}
 								<br />
-								{`Click the button below to delete your profile.`}
+								{`Click the button below to delete your profile for good.`}
 							</p>
 						</>
 					}
