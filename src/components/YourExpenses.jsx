@@ -13,6 +13,7 @@ import { ReactComponent as IconClose } from '../assets/icons/icon-close.svg'
 import { ReactComponent as IconMinus } from '../assets/icons/icon-minus.svg'
 import dailyExpensesGif from '../assets/img/gif-no-daily-expenses.gif'
 import noChartGif from '../assets/img/gif-no-chart.gif'
+import coloursArr from '../data/colours_reduced.json'
 
 function YourExpenses(props) {
 	const gotToken = localStorage.getItem('authToken')
@@ -25,19 +26,10 @@ function YourExpenses(props) {
 	const categoriesArr = propBudgetData.categories
 	const chartCategoriesArr = categoriesArr.map((elem) => elem.name)
 
-	const chartColorsArr = [
-		'#00acc1',
-		'#8e24aa',
-		'#7cb342',
-		'#f3ba2f',
-		'#2a71d0',
-		'#546e7a',
-		'#00897b',
-		'#5e35b1',
-		'#d81b60',
-		'#c0ca33',
-		'#f4511e',
-	]
+	const chartColorsArr = categoriesArr.map((catElem) => {
+		const matchingColour = coloursArr.find((colourElem) => colourElem.name === catElem.colour)
+		return matchingColour ? matchingColour.hue : '#2c3d49'
+	})
 
 	// GENERAL FUNCTIONS
 
@@ -526,8 +518,15 @@ function YourExpenses(props) {
 														<td>
 															<time dateTime={dailyExpense.date}>{writeOutDate(dailyExpense.date)}</time>
 														</td>
-														<td>
-															<strong>{dailyExpense.category}</strong>
+														<td className="td-category">
+															<strong
+																style={{
+																	color: `var(--color-${
+																		categoriesArr.find((cat) => cat.name === dailyExpense.category).colour
+																	})`,
+																}}>
+																<span>{dailyExpense.category}</span>
+															</strong>
 														</td>
 														<td>{dailyExpense.name}</td>
 														<td style={{ textAlign: 'right' }}>
