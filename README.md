@@ -52,10 +52,12 @@ Created by leading experts in the industry (read: two formerly broke students), 
 | **Express.js:**            | Backend web application framework for Node.js.                                          |
 | **Axios:**                 | For uncomplicated HTTP requests to interact with the backend                            |
 | **Chart.JS:**              | Creates beautiful customizable charts                                                   |
+| **React Router Hash Link** | For anchor links within the app.                                                        |
 | **Feather Icons:**         | For beautiful icons                                                                     |
 | **Pico CSS:**              | A lightweight style base.                                                               |
-| **Bulma CSS:**             | we just used the columns part. It’s that good.                                          |
+| **Bulma CSS:**             | We just used the columns part.                                                          |
 | **CSS Custom Properties:** | For easy switching between light and dark mode. And because we wanted to brag a little. |
+| **SASS**                   | Though we might switch to CSS nesting soon                                              |
 
 ## 3. Installation
 
@@ -68,7 +70,7 @@ git clone https://github.com/fraulueneburg/sparsam-fe.git
 ### Install dependencies:
 
 ```
-npm install react-router-dom mongo-db express axios chartjs sass
+npm install react-router-dom react-router-hash-link mongo-db express axios chartjs sass
 ```
 
 ### Set up your backend

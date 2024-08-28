@@ -7,6 +7,7 @@ import { ReactComponent as IconEdit } from '../assets/icons/icon-edit.svg'
 import { ReactComponent as IconClose } from '../assets/icons/icon-close.svg'
 import { ReactComponent as IconCheck } from '../assets/icons/icon-check.svg'
 import Alert from './../components/Alert'
+import NavAnchor from './../components/NavAnchor'
 import currenciesArr from '../data/currencies.json'
 import noEarningsGif from '../assets/img/gif-no-earnings.gif'
 import noExpensesGif from '../assets/img/gif-no-expenses.gif'
@@ -15,6 +16,13 @@ import SettingsCategories from '../components/SettingsCategories'
 export default function Settings() {
 	const [existingBudget, setExistingBudget] = useState([])
 	const [dataLoaded, setDataLoaded] = useState(false)
+
+	const navLinksArr = [
+		{ title: 'General', to: '#general', end: true },
+		{ title: 'Earnings', to: '#earnings', end: true },
+		{ title: 'Expenses', to: '#expenses', end: true },
+		{ title: 'Categories', to: '#categories', end: true },
+	]
 
 	// GENERAL
 
@@ -308,7 +316,6 @@ export default function Settings() {
 					setCurrency(budget.currency)
 					setEarningsArr(budget.earnings)
 					setExpensesArr(budget.expenses)
-					//setCategoriesArr(budget.categories)
 
 					setEarningsTotal(calculateTotal(budget.earnings))
 					setExpensesTotal(calculateTotal(budget.expenses))
@@ -337,323 +344,346 @@ export default function Settings() {
 	if (dataLoaded) {
 		return (
 			<>
-				<h1>Settings</h1>
-				<p>Add your monthly earnings, expenses and spending categories here:</p>
+				<div className="columns">
+					<aside className="column is-3">
+						<NavAnchor links={navLinksArr} />
+					</aside>
+					<div className="column is-9">
+						<h1>Settings</h1>
+						<p>Add your monthly earnings, expenses and spending categories here:</p>
 
-				<section className="section-settings">
-					<h2>General</h2>
-					<div className="grid">
-						<label htmlFor="currency">Your currency</label>
-						<select id="currency" value={currency.code} onChange={handleUpdateCurrency}>
-							{currenciesArr.map((elem) => {
-								return (
-									<option key={elem.code} value={elem.code}>
-										{elem.name} ({elem.code})
-									</option>
-								)
-							})}
-						</select>
-					</div>
-					<div className="grid">
-						<label htmlFor="startday" className="disabled">
-							budget week starts on
-						</label>
-						<select id="startday" defaultValue="5" disabled>
-							<option value="5">Friday (default)</option>
-							<option value="6">Saturday</option>
-							<option value="0">Sunday</option>
-							<option value="1">Monday</option>
-							<option value="2">Tuesday</option>
-							<option value="3">Wednesday</option>
-							<option value="4">Thursday</option>
-						</select>
-					</div>
-					<Alert
-						type="primary"
-						content={
-							<>
-								<p>
-									<strong>Tipp:</strong> Weekends are usually when we spend the most money. So we recommend starting your
-									budget week on friday. You’ll be able to adapt this soon.
-								</p>
-							</>
-						}
-					/>
-				</section>
-				{/* EARNINGS ---------------------------------------------------------------------------------------------------*/}
-				<section className="section-settings">
-					<h2>
-						Your monthly earnings:{' '}
-						<strong style={{ float: 'right' }}>
-							{earningsTotal} {currency.symbol}
-						</strong>
-					</h2>
-					<div className="card" aria-live="polite">
-						{!earningsArr || earningsArr.length <= 0 ? (
-							<div className="card-empty-text">
-								<img src={noEarningsGif} alt="" width="300" />
-								<h4>No earnings yet. 😿</h4>
-								<p>Start adding some via the form below.</p>
-							</div>
-						) : (
-							<ul>
-								{earningsArr.map((elem, index) => {
-									const elemId = elem._id || index
-									if (elemId !== editEarningId) {
-										return (
-											<li key={elemId}>
-												<div className="name">{elem.name}</div>
-												<div className="amount">
-													{elem.amount} {currency.symbol}
-												</div>
-												<button className="btn-edit-item" onClick={() => handleEditEarning(elemId, elem.name, elem.amount)}>
-													<IconEdit />
-												</button>
-											</li>
-										)
-									} else {
-										return (
-											<li key={elemId}>
-												<form className="form-budget" onSubmit={handleUpdateEarning}>
-													<div className="grid">
-														<div>
-															<label htmlFor="edit-earning-name" className="hidden">
-																Earning Name
-															</label>
-															<input
-																type="text"
-																id="edit-earning-name"
-																name="inputEditEarningName"
-																placeholder="Name (for example »salary«)"
-																value={editEarningName}
-																onChange={handleChange(setEditEarningName)}
-																required
-															/>
-														</div>
-														<div>
-															<label htmlFor="edit-earning-amount" className="hidden">
-																Amount
-															</label>
-															<div className="input-group">
-																<span className="text">+</span>
-																<input
-																	type="number"
-																	id="edit-earning-amount"
-																	min="0"
-																	placeholder="0,00"
-																	step=".01"
-																	name="inputEditEarningAmount"
-																	value={editEarningAmount}
-																	onChange={handleChange(setEditEarningAmount)}
-																	required
-																/>
-																<span className="text">{currency.symbol}</span>
-															</div>
-														</div>
-														<div className="btn-group">
-															<button type="submit" className="btn-add-item" aria-label="save changes">
-																<IconCheck />
-															</button>
-															<button className="btn-delete-item" aria-label="delete earning" onClick={handleDeleteEarning}>
-																<IconMinus />
-															</button>
-															<button className="btn-close" aria-label="cancel editing" onClick={handleCancelEditEarning}>
-																<IconClose />
-															</button>
-														</div>
-													</div>
-												</form>
-											</li>
-										)
-									}
-								})}
-							</ul>
-						)}
-						<form className="form-budget" onSubmit={handleAddNewEarning}>
-							<strong className="sr-only">Add new Earning</strong>
+						<section id="general" className="section-settings">
+							<h2>General</h2>
 							<div className="grid">
-								<div>
-									<label htmlFor="new-earning-name" className="hidden">
-										Earning Name
-									</label>
-									<input
-										type="text"
-										id="new-earning-name"
-										name="inputNewEarningName"
-										placeholder="Name (for example »salary«)"
-										value={newEarningName}
-										onChange={handleChange(setNewEarningName)}
-										required
-									/>
-								</div>
-								<div>
-									<label htmlFor="new-earning-amount" className="hidden">
-										Amount
-									</label>
-									<div className="input-group">
-										<span className="text">+</span>
-										<input
-											type="number"
-											id="new-earning-amount"
-											min="0"
-											placeholder="0,00"
-											step=".01"
-											value={newEarningAmount}
-											onChange={handleChange(setNewEarningAmount)}
-											required
-										/>
-										<span className="text">{currency.symbol}</span>
-									</div>
-								</div>
-								<button type="submit" className="btn-add-item" aria-label="add new earning">
-									<IconCheck />
-								</button>
-							</div>
-						</form>
-					</div>
-				</section>
-				{/* EXPENSES ---------------------------------------------------------------------------------------------------*/}
-				<section className="section-settings">
-					<h2>
-						Your monthly expenses:
-						<strong style={{ float: 'right' }}>
-							{expensesTotal} {currency.symbol}
-						</strong>
-					</h2>
-					<div className="card" aria-live="polite">
-						{!expensesArr || expensesArr.length <= 0 ? (
-							<div className="card-empty-text">
-								<img src={noExpensesGif} alt="" width="300" />
-								<h4>No expenses yet.</h4>
-								<p>Start adding some via the form below.</p>
-							</div>
-						) : (
-							<ul>
-								{expensesArr.map((elem, index) => {
-									const elemId = elem._id || index
-									if (elemId !== editExpenseId) {
+								<label htmlFor="currency">Your currency</label>
+								<select id="currency" value={currency.code} onChange={handleUpdateCurrency}>
+									{currenciesArr.map((elem) => {
 										return (
-											<li key={elemId}>
-												<div className="name">{elem.name}</div>
-												<div className="amount">
-													{elem.amount} {currency.symbol}
-												</div>
-												<button className="btn-edit-item" onClick={() => handleEditExpense(elemId, elem.name, elem.amount)}>
-													<IconEdit />
-												</button>
-											</li>
+											<option key={elem.code} value={elem.code}>
+												{elem.name} ({elem.code})
+											</option>
 										)
-									} else {
-										return (
-											<li key={elemId}>
-												<form className="form-budget" onSubmit={handleUpdateExpense}>
-													<div className="grid">
-														<div>
-															<label htmlFor="edit-expense-name" className="hidden">
-																Expense Name
-															</label>
-															<input
-																type="text"
-																id="edit-expense-name"
-																name="inputEditExpenseName"
-																placeholder="Name (for example »salary«)"
-																value={editExpenseName}
-																onChange={handleChange(setEditExpenseName)}
-																required
-															/>
-														</div>
-														<div>
-															<label htmlFor="edit-expense-amount" className="hidden">
-																Amount
-															</label>
-															<div className="input-group">
-																<span className="text">+</span>
-																<input
-																	type="number"
-																	id="edit-expense-amount"
-																	min="0"
-																	placeholder="0,00"
-																	step=".01"
-																	name="inputEditExpenseAmount"
-																	value={editExpenseAmount}
-																	onChange={handleChange(setEditExpenseAmount)}
-																	required
-																/>
-																<span className="text">{currency.symbol}</span>
-															</div>
-														</div>
-														<div className="btn-group">
-															<button type="submit" className="btn-add-item" aria-label="save changes">
-																<IconCheck />
-															</button>
-															<button className="btn-delete-item" aria-label="delete expense" onClick={handleDeleteExpense}>
-																<IconMinus />
-															</button>
-															<button className="btn-close" aria-label="cancel editing" onClick={handleCancelEditExpense}>
-																<IconClose />
-															</button>
-														</div>
-													</div>
-												</form>
-											</li>
-										)
-									}
-								})}
-							</ul>
-						)}
-						<form className="form-budget" onSubmit={handleAddNewExpense}>
-							<strong className="sr-only">Add new Expense</strong>
+									})}
+								</select>
+							</div>
 							<div className="grid">
-								<div>
-									<label htmlFor="new-expense-name" className="sr-only">
-										Expense Name
-									</label>
-									<input
-										type="text"
-										id="new-expense-name"
-										placeholder="Name (for example »rent«)"
-										value={newExpenseName}
-										onChange={handleChange(setNewExpenseName)}
-										required
-									/>
-								</div>
-								<div>
-									<label htmlFor="new-expense-amount" className="sr-only">
-										Amount
-									</label>
-									<div className="input-group">
-										<span className="text">–</span>
-										<input
-											type="number"
-											id="new-expense-amount"
-											min="0"
-											placeholder="0,00"
-											step=".01"
-											name="newExpenseAmount"
-											value={newExpenseAmount}
-											onChange={handleChange(setNewExpenseAmount)}
-											required
-										/>
-										<span className="text">{currency.symbol}</span>
-									</div>
-								</div>
-								<button type="submit" className="btn-add-item" aria-label="add new expense">
-									<IconCheck />
-								</button>
+								<label htmlFor="startday" className="disabled">
+									budget week starts on
+								</label>
+								<select id="startday" defaultValue="5" disabled>
+									<option value="5">Friday (default)</option>
+									<option value="6">Saturday</option>
+									<option value="0">Sunday</option>
+									<option value="1">Monday</option>
+									<option value="2">Tuesday</option>
+									<option value="3">Wednesday</option>
+									<option value="4">Thursday</option>
+								</select>
 							</div>
-						</form>
-					</div>
-				</section>
-				{/* BUDGET ---------------------------------------------------------------------------------------------------*/}
-				<section className="section-settings">
-					<h2>Your monthly Budget:</h2>
+							<Alert
+								type="primary"
+								content={
+									<>
+										<p>
+											<strong>Tipp:</strong> Weekends are usually when we spend the most money. So we recommend starting your
+											budget week on friday. You’ll be able to adapt this soon.
+										</p>
+									</>
+								}
+							/>
+						</section>
+						{/* EARNINGS ---------------------------------------------------------------------------------------------------*/}
+						<section id="earnings" className="section-settings">
+							<h2>
+								Your monthly earnings:{' '}
+								<strong style={{ float: 'right' }}>
+									{earningsTotal} {currency.symbol}
+								</strong>
+							</h2>
+							<div className="card" aria-live="polite">
+								{!earningsArr || earningsArr.length <= 0 ? (
+									<div className="card-empty-text">
+										<img src={noEarningsGif} alt="" width="300" />
+										<h4>No earnings yet. 😿</h4>
+										<p>Start adding some via the form below.</p>
+									</div>
+								) : (
+									<ul>
+										{earningsArr.map((elem, index) => {
+											const elemId = elem._id || index
+											if (elemId !== editEarningId) {
+												return (
+													<li key={elemId}>
+														<div className="name">{elem.name}</div>
+														<div className="amount">
+															{elem.amount} {currency.symbol}
+														</div>
+														<button
+															className="btn-edit-item"
+															onClick={() => handleEditEarning(elemId, elem.name, elem.amount)}>
+															<IconEdit />
+														</button>
+													</li>
+												)
+											} else {
+												return (
+													<li key={elemId}>
+														<form className="form-budget" onSubmit={handleUpdateEarning}>
+															<div className="grid">
+																<div>
+																	<label htmlFor="edit-earning-name" className="hidden">
+																		Earning Name
+																	</label>
+																	<input
+																		type="text"
+																		id="edit-earning-name"
+																		name="inputEditEarningName"
+																		placeholder="Name (i.e. »salary«)"
+																		value={editEarningName}
+																		onChange={handleChange(setEditEarningName)}
+																		required
+																	/>
+																</div>
+																<div>
+																	<label htmlFor="edit-earning-amount" className="hidden">
+																		Amount
+																	</label>
+																	<div className="input-group">
+																		<span className="text">+</span>
+																		<input
+																			type="number"
+																			id="edit-earning-amount"
+																			min="0"
+																			placeholder="0,00"
+																			step=".01"
+																			name="inputEditEarningAmount"
+																			value={editEarningAmount}
+																			onChange={handleChange(setEditEarningAmount)}
+																			required
+																		/>
+																		<span className="text">{currency.symbol}</span>
+																	</div>
+																</div>
+																<div className="btn-group">
+																	<button type="submit" className="btn-add-item" aria-label="save changes">
+																		<IconCheck />
+																	</button>
+																	<button
+																		className="btn-delete-item"
+																		aria-label="delete earning"
+																		onClick={handleDeleteEarning}>
+																		<IconMinus />
+																	</button>
+																	<button
+																		className="btn-close"
+																		aria-label="cancel editing"
+																		onClick={handleCancelEditEarning}>
+																		<IconClose />
+																	</button>
+																</div>
+															</div>
+														</form>
+													</li>
+												)
+											}
+										})}
+									</ul>
+								)}
+								<form className="form-budget" onSubmit={handleAddNewEarning}>
+									<strong className="sr-only">Add new Earning</strong>
+									<div className="grid">
+										<div>
+											<label htmlFor="new-earning-name" className="hidden">
+												Earning Name
+											</label>
+											<input
+												type="text"
+												id="new-earning-name"
+												name="inputNewEarningName"
+												placeholder="Name (i.e. »salary«)"
+												value={newEarningName}
+												onChange={handleChange(setNewEarningName)}
+												required
+											/>
+										</div>
+										<div>
+											<label htmlFor="new-earning-amount" className="hidden">
+												Amount
+											</label>
+											<div className="input-group">
+												<span className="text">+</span>
+												<input
+													type="number"
+													id="new-earning-amount"
+													min="0"
+													placeholder="0,00"
+													step=".01"
+													value={newEarningAmount}
+													onChange={handleChange(setNewEarningAmount)}
+													required
+												/>
+												<span className="text">{currency.symbol}</span>
+											</div>
+										</div>
+										<button type="submit" className="btn-add-item" aria-label="add new earning">
+											<IconCheck />
+										</button>
+									</div>
+								</form>
+							</div>
+						</section>
+						{/* EXPENSES ---------------------------------------------------------------------------------------------------*/}
+						<section id="expenses" className="section-settings">
+							<h2>
+								Your monthly expenses:
+								<strong style={{ float: 'right' }}>
+									-{expensesTotal} {currency.symbol}
+								</strong>
+							</h2>
+							<div className="card" aria-live="polite">
+								{!expensesArr || expensesArr.length <= 0 ? (
+									<div className="card-empty-text">
+										<img src={noExpensesGif} alt="" width="300" />
+										<h4>No expenses yet.</h4>
+										<p>Start adding some via the form below.</p>
+									</div>
+								) : (
+									<ul>
+										{expensesArr.map((elem, index) => {
+											const elemId = elem._id || index
+											if (elemId !== editExpenseId) {
+												return (
+													<li key={elemId}>
+														<div className="name">{elem.name}</div>
+														<div className="amount">
+															-{elem.amount} {currency.symbol}
+														</div>
+														<button
+															className="btn-edit-item"
+															onClick={() => handleEditExpense(elemId, elem.name, elem.amount)}>
+															<IconEdit />
+														</button>
+													</li>
+												)
+											} else {
+												return (
+													<li key={elemId}>
+														<form className="form-budget" onSubmit={handleUpdateExpense}>
+															<div className="grid">
+																<div>
+																	<label htmlFor="edit-expense-name" className="hidden">
+																		Expense Name
+																	</label>
+																	<input
+																		type="text"
+																		id="edit-expense-name"
+																		name="inputEditExpenseName"
+																		placeholder="Name (i.e. »salary«)"
+																		value={editExpenseName}
+																		onChange={handleChange(setEditExpenseName)}
+																		required
+																	/>
+																</div>
+																<div>
+																	<label htmlFor="edit-expense-amount" className="hidden">
+																		Amount
+																	</label>
+																	<div className="input-group">
+																		<span className="text">+</span>
+																		<input
+																			type="number"
+																			id="edit-expense-amount"
+																			min="0"
+																			placeholder="0,00"
+																			step=".01"
+																			name="inputEditExpenseAmount"
+																			value={editExpenseAmount}
+																			onChange={handleChange(setEditExpenseAmount)}
+																			required
+																		/>
+																		<span className="text">{currency.symbol}</span>
+																	</div>
+																</div>
+																<div className="btn-group">
+																	<button type="submit" className="btn-add-item" aria-label="save changes">
+																		<IconCheck />
+																	</button>
+																	<button
+																		className="btn-delete-item"
+																		aria-label="delete expense"
+																		onClick={handleDeleteExpense}>
+																		<IconMinus />
+																	</button>
+																	<button
+																		className="btn-close"
+																		aria-label="cancel editing"
+																		onClick={handleCancelEditExpense}>
+																		<IconClose />
+																	</button>
+																</div>
+															</div>
+														</form>
+													</li>
+												)
+											}
+										})}
+									</ul>
+								)}
+								<form className="form-budget" onSubmit={handleAddNewExpense}>
+									<strong className="sr-only">Add new Expense</strong>
+									<div className="grid">
+										<div>
+											<label htmlFor="new-expense-name" className="sr-only">
+												Expense Name
+											</label>
+											<input
+												type="text"
+												id="new-expense-name"
+												placeholder="Name (i.e. »rent«)"
+												value={newExpenseName}
+												onChange={handleChange(setNewExpenseName)}
+												required
+											/>
+										</div>
+										<div>
+											<label htmlFor="new-expense-amount" className="sr-only">
+												Amount
+											</label>
+											<div className="input-group">
+												<span className="text">–</span>
+												<input
+													type="number"
+													id="new-expense-amount"
+													min="0"
+													placeholder="0,00"
+													step=".01"
+													name="newExpenseAmount"
+													value={newExpenseAmount}
+													onChange={handleChange(setNewExpenseAmount)}
+													required
+												/>
+												<span className="text">{currency.symbol}</span>
+											</div>
+										</div>
+										<button type="submit" className="btn-add-item" aria-label="add new expense">
+											<IconCheck />
+										</button>
+									</div>
+								</form>
+							</div>
+						</section>
+						{/* BUDGET ---------------------------------------------------------------------------------------------------*/}
+						<section className="section-settings">
+							<h2>Your monthly Budget:</h2>
 
-					<big>
-						{monthlyBudget} <span className="currency">{currency.symbol}</span>
-					</big>
-				</section>
-				{/* CATEGORIES ---------------------------------------------------------------------------------------------------*/}
-				<SettingsCategories data={existingBudget} />
+							<big>
+								{monthlyBudget} <span className="currency">{currency.symbol}</span>
+							</big>
+						</section>
+						{/* CATEGORIES ---------------------------------------------------------------------------------------------------*/}
+						<SettingsCategories data={existingBudget} />
+					</div>
+				</div>
 			</>
 		)
 	} else {

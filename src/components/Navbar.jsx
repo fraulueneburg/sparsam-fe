@@ -16,10 +16,10 @@ function Navbar() {
 				<span className="icon">🐽</span>
 				<span className="name">sparsam</span>
 			</a>
-			<button className="btn-toggle-menu" onClick={showNavbar}>
+			<button className="btn-toggle-menu" onClick={showNavbar} aria-controls="nav-main">
 				<IconMenu />
 			</button>
-			<nav className="nav_main" ref={navRef}>
+			<nav className="nav-main" id="nav-main" ref={navRef}>
 				{isLoggedIn ? (
 					<ul>
 						<li>

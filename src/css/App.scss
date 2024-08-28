@@ -33,6 +33,16 @@
 	--color-green-hover: #66bb6a;
 }
 
+* {
+	@media (prefers-reduced-motion: no-preference) {
+		scroll-behavior: smooth;
+	}
+}
+
+html {
+	scroll-padding-top: calc(var(--header-height) + 2.25rem);
+}
+
 /* subtle animations */
 
 @keyframes zoom-in {
@@ -133,11 +143,20 @@ main {
 
 main,
 main.container {
-	max-width: 920px;
 	padding: 3rem calc(var(--spacing) * 3) 5rem calc(var(--spacing) * 3);
+	max-width: 920px;
+
+	&:has(.columns) {
+		max-width: 1200px;
+	}
 }
 
-.nav_main [aria-current='page'] {
+nav a,
+main nav a {
+	text-decoration: none;
+}
+
+.nav-main [aria-current='page'] {
 	--background-color: var(--primary-focus);
 }
 
@@ -162,57 +181,56 @@ svg {
 /*----- HEADER/NAV MAIN -----*/
 
 @media (max-width: 767px) {
-	header + main {
-		margin-top: 2.5rem;
-	}
-
 	header.container {
 		padding: var(--spacing);
 	}
 
 	header nav {
-		align-items: center;
-		background-color: var(--primary);
+		background-color: var(--background-color);
 		gap: 1.5rem;
+		height: 100%;
 		justify-content: center;
 		left: 0;
 		position: fixed;
 		top: -100vh;
-		transition: 1s;
+		overflow: hidden;
 		width: 100%;
+		z-index: -1;
+
+		@media (prefers-reduced-motion: no-preference) {
+			transition: 0.5s;
+		}
 	}
 
 	header nav.active {
 		transform: translateY(100vh);
-		height: 100%;
+		height: calc(100vh - var(--header-height));
+		top: calc(-100vh + var(--header-height));
 	}
 
-	.nav_main > ul {
+	nav > ul {
 		display: block;
 		width: 100%;
 	}
 
-	.nav_main li {
+	nav li {
 		display: block;
 		margin: 0;
 		padding: 0;
 	}
 
-	.nav_main a {
-		border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+	nav a {
 		border-radius: 0;
-		color: white;
 		display: block;
-		font-weight: bold;
 		margin: 0;
 		padding: 1rem 0;
 	}
 
-	.nav_main a.active {
+	nav a.active {
 		background-color: rgba(255, 255, 255, 0.2);
 	}
 
-	.nav_main button {
+	nav button {
 		background-color: #fff;
 		color: #000;
 		margin: 1rem auto;
@@ -233,11 +251,11 @@ svg {
 		display: block;
 	}
 
-	.nav_main li + li {
+	.nav-main li + li {
 		margin-left: 0.5rem;
 	}
 
-	.nav_main li.last {
+	.nav-main li.last {
 		position: absolute;
 		right: 0;
 	}
@@ -278,6 +296,7 @@ h1 {
 	font-size: 2.75rem;
 	line-height: 1.2;
 	margin-bottom: 2rem;
+	text-align: center;
 }
 
 h2 {
@@ -315,15 +334,19 @@ button,
 input[type='submit'] {
 	font-weight: bold;
 	margin-bottom: 0;
-}
 
-button.btn-centered {
-	margin: 0 auto;
-	width: auto;
-}
+	.btn-centered {
+		margin: 0 auto;
+		width: auto;
+	}
 
-button:disabled {
-	cursor: normal;
+	.btn-inline {
+		width: auto;
+	}
+
+	&:disabled {
+		cursor: normal;
+	}
 }
 
 .btn-close {
@@ -541,6 +564,12 @@ select {
 	margin: 0;
 }
 
+.form-categories .grid {
+	grid-template-columns: min-content 1fr min-content;
+	position: relative;
+	align-items: center;
+}
+
 ul + .form-budget,
 ul + .form-categories {
 	border-top: 1px dashed var(--form-element-border-color);
@@ -548,7 +577,8 @@ ul + .form-categories {
 	margin-top: 0.5rem;
 }
 
-main > section {
+main > section,
+main > .columns > .column > section {
 	display: flex;
 	flex-direction: column;
 	gap: 0.5rem;
@@ -721,8 +751,47 @@ table.table-daily-expenses tbody td[colspan] {
 }
 
 table.table-daily-expenses tbody td:not(:last-child) {
-	padding-bottom: 1rem;
-	padding-top: 1rem;
+	padding-bottom: 0.5rem;
+	padding-top: 0.65rem;
+}
+
+.table-daily-expenses .td-category {
+	strong {
+		align-items: center;
+		display: inline-flex;
+		flex-wrap: nowrap;
+		padding: 0 0.5rem;
+		position: relative;
+		margin-bottom: 0;
+
+		&:before {
+			background-color: currentColor;
+			border-radius: 50%;
+			content: '';
+			display: inline-block;
+			height: 8px;
+			margin-right: 8px;
+			width: 8px;
+			margin-bottom: 1px;
+		}
+
+		&:after {
+			background-color: currentColor;
+			content: '';
+			display: inline-block;
+			opacity: 0.2;
+			width: 100%;
+			height: 1.1lh;
+			border-radius: 0.6lh;
+			position: absolute;
+			left: 0;
+		}
+
+		span {
+			color: var(--color);
+			line-height: 1.6;
+		}
+	}
 }
 
 tr.greyed-out {
@@ -850,6 +919,10 @@ form.form-edit-expense .input-group {
 
 form.form-edit-expense input[type='text'] {
 	flex: 1 1;
+}
+
+form.edit-profile {
+	margin-bottom: 0.75rem;
 }
 
 /*----- NAV TABS -----*/

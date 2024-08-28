@@ -1,6 +1,5 @@
 import './css/pico.min.css'
-import './css/grid.css'
-import './css/App.scss'
+import './css/styles.scss'
 import { Routes, Route } from 'react-router-dom'
 import Layout from './pages/Layout'
 import PrivatePage from './pages/PrivatePage'

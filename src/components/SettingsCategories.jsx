@@ -5,17 +5,12 @@ import { ReactComponent as IconMinus } from '../assets/icons/icon-minus.svg'
 import { ReactComponent as IconEdit } from '../assets/icons/icon-edit.svg'
 import { ReactComponent as IconClose } from '../assets/icons/icon-close.svg'
 import { ReactComponent as IconCheck } from '../assets/icons/icon-check.svg'
-import coloursArr from '../data/colours.json'
+import RadioGroupColour from './RadioGroupColour'
+import coloursArr from '../data/colours_reduced.json'
 import noCategoriesGif from '../assets/img/gif-no-categories.webp'
 
 export default function SettingsCategories(props) {
 	const existingBudget = props.data
-	const colourOptionsArr = coloursArr.map((elem) => {
-		return {
-			value: elem.name,
-			label: elem.name,
-		}
-	})
 	const [categoriesArr, setCategoriesArr] = useState([])
 
 	useEffect(() => {
@@ -32,7 +27,7 @@ export default function SettingsCategories(props) {
 		if (document.startViewTransition) {
 			document.startViewTransition(callback)
 		} else {
-			callback() // Fallback for unsupported browsers
+			callback()
 		}
 	}
 
@@ -41,6 +36,7 @@ export default function SettingsCategories(props) {
 	const [editCategoryId, setEditCategoryId] = useState('')
 	const [editCategoryName, setEditCategoryName] = useState('')
 	const [editCategoryColour, setEditCategoryColour] = useState('')
+	const [editCategoryColourListIsOpen, setEditCategoryColourListIsOpen] = useState(false)
 
 	const handleEditCategory = (id, name, colour) => {
 		startTransition(() => {
@@ -50,20 +46,22 @@ export default function SettingsCategories(props) {
 		})
 	}
 
-	const handleCancelEditCategory = () => {
+	const handleCancelEditCategory = (event) => {
+		event.preventDefault()
 		startTransition(() => {
 			setEditCategoryId('')
 			setEditCategoryName('')
 			setEditCategoryColour('')
+			setEditCategoryColourListIsOpen(false)
 		})
 	}
 
-	// CHANGE CATEGORY COLOUR
-
-	const handleChangeCategoryColour = async (event) => {
-		event.preventDefault()
-		setNewCategoryColour(event.target.value)
-	}
+	useEffect(() => {
+		const nextColourIndex = categoriesArr?.length % coloursArr.length || 0
+		setNewCategoryColour(coloursArr[nextColourIndex].name)
+		setEditCategoryColourListIsOpen(false)
+		setNewCategoryColourListIsOpen(false)
+	}, [categoriesArr])
 
 	// UPDATE CATEGORY
 
@@ -99,6 +97,7 @@ export default function SettingsCategories(props) {
 
 	const [newCategoryName, setNewCategoryName] = useState('')
 	const [newCategoryColour, setNewCategoryColour] = useState(coloursArr[0].name)
+	const [newCategoryColourListIsOpen, setNewCategoryColourListIsOpen] = useState(false)
 
 	const handleAddNewCategory = async (event) => {
 		event.preventDefault()
@@ -107,6 +106,7 @@ export default function SettingsCategories(props) {
 		setCategoriesArr(newArr)
 		setNewCategoryName('')
 		setNewCategoryColour('')
+
 		try {
 			const response = await axios.post(
 				`${API_URL}/budget/categories/add`,
@@ -135,6 +135,7 @@ export default function SettingsCategories(props) {
 		setEditCategoryId('')
 		setEditCategoryName('')
 		setEditCategoryColour('')
+
 		try {
 			const response = await axios.delete(`${API_URL}/budget/categories/delete/${categoryId}`, {
 				headers: { authorization: `Bearer ${gotToken}` },
@@ -148,9 +149,10 @@ export default function SettingsCategories(props) {
 			setCategoriesArr(categoriesArr)
 		}
 	}
+
 	return (
 		<>
-			<section className="section-categories">
+			<section id="categories" className="section-categories">
 				<h2>Your categories</h2>
 				<div className="card">
 					{!categoriesArr || categoriesArr.length <= 0 ? (
@@ -171,8 +173,8 @@ export default function SettingsCategories(props) {
 													style={{
 														backgroundColor: `var(--color-${elem.colour})`,
 														display: 'inline-block',
-														width: '30px',
-														height: '30px',
+														width: '2rem',
+														height: '2rem',
 														borderRadius: '50%',
 													}}></div>
 												{elem.name}
@@ -191,16 +193,13 @@ export default function SettingsCategories(props) {
 														<label htmlFor="edit-category-colour" className="hidden">
 															Colour
 														</label>
-														<select
-															id="edit-category-colour"
-															name="inputEditCategoryColour"
-															value={editCategoryColour}
-															onChange={handleChange(setEditCategoryColour)}
-															required>
-															{coloursArr.map((elem, index) => (
-																<option key={elem._id || index}>{elem.name}</option>
-															))}
-														</select>
+														<RadioGroupColour
+															selectedValue={editCategoryColour}
+															setNewSelectedValue={setEditCategoryColour}
+															coloursArr={coloursArr}
+															dropdownState={editCategoryColourListIsOpen}
+															setDropdownState={setEditCategoryColourListIsOpen}
+														/>
 													</div>
 													<div>
 														<label htmlFor="edit-category-name" className="hidden">
@@ -236,23 +235,16 @@ export default function SettingsCategories(props) {
 						</ul>
 					)}
 					<form className="form-categories" onSubmit={handleAddNewCategory}>
-						<strong className="sr-only">Add new category</strong>
+						<h3 className="sr-only">Add new category</h3>
 						<div className="grid">
-							<div>
-								<label htmlFor="new-category-colour" className="sr-only">
-									Colour
-								</label>
-								<select
-									id="new-category-colour"
-									name="newCategoryColour"
-									value={newCategoryColour}
-									onChange={handleChangeCategoryColour}>
-									{coloursArr.map((elem, index) => (
-										<option key={elem._id || index}>{elem.name}</option>
-									))}
-								</select>
-							</div>
-							<div>
+							<RadioGroupColour
+								selectedValue={newCategoryColour}
+								setNewSelectedValue={setNewCategoryColour}
+								coloursArr={coloursArr}
+								dropdownState={newCategoryColourListIsOpen}
+								setDropdownState={setNewCategoryColourListIsOpen}
+							/>
+							<fieldset>
 								<label htmlFor="new-category-name" className="sr-only">
 									Category Name
 								</label>
@@ -265,7 +257,7 @@ export default function SettingsCategories(props) {
 									onChange={handleChange(setNewCategoryName)}
 									required
 								/>
-							</div>
+							</fieldset>
 							<button type="submit" className="btn-add-item" aria-label="add new category">
 								<IconCheck />
 							</button>
