@@ -9,10 +9,13 @@ import RadioGroupColour from './RadioGroupColour'
 import coloursArr from '../data/colours_reduced.json'
 import noCategoriesGif from '../assets/img/gif-no-categories.webp'
 import CardEmpty from './CardEmpty'
+import Alert from './Alert'
 
-export default function SettingsCategories(props) {
+export default function Categories(props) {
 	const existingBudget = props.data
+	const currency = props.data.currency?.symbol
 	const [categoriesArr, setCategoriesArr] = useState([])
+	const maxNumOfCategories = 24
 
 	useEffect(() => {
 		setCategoriesArr(existingBudget.categories)
@@ -241,35 +244,52 @@ export default function SettingsCategories(props) {
 							})}
 						</ul>
 					)}
-					<form className="form-categories" onSubmit={handleAddNewCategory}>
-						<h3 className="sr-only">Add new category</h3>
-						<div className="grid">
-							<RadioGroupColour
-								selectedValue={newCategoryColour}
-								setNewSelectedValue={setNewCategoryColour}
-								coloursArr={coloursArr}
-								dropdownState={newCategoryColourListIsOpen}
-								setDropdownState={setNewCategoryColourListIsOpen}
-							/>
-							<fieldset>
-								<label htmlFor="new-category-name" className="sr-only">
-									Category Name
-								</label>
-								<input
-									type="text"
-									id="new-category-name"
-									name="newCategoryName"
-									placeholder="Category Name (i.e. »food«)"
-									value={newCategoryName}
-									onChange={handleChange(setNewCategoryName)}
-									required
+					{categoriesArr?.length >= maxNumOfCategories ? (
+						<Alert
+							type="primary"
+							content={
+								<>
+									<h5>You created the maximum number of categories.</h5>
+									<p>
+										Need more? Get in touch with us about our{' '}
+										<strong className="rainbow-text">whopping bargain 999{currency}</strong> premium subscription plan! 🤗
+										<br />
+									</p>
+									<small>(No, seriously, just delete a few.)</small>
+								</>
+							}
+						/>
+					) : (
+						<form className="form-categories" onSubmit={handleAddNewCategory}>
+							<h3 className="sr-only">Add new category</h3>
+							<div className="grid">
+								<RadioGroupColour
+									selectedValue={newCategoryColour}
+									setNewSelectedValue={setNewCategoryColour}
+									coloursArr={coloursArr}
+									dropdownState={newCategoryColourListIsOpen}
+									setDropdownState={setNewCategoryColourListIsOpen}
 								/>
-							</fieldset>
-							<button type="submit" className="btn-add-item" aria-label="add new category">
-								<IconCheck />
-							</button>
-						</div>
-					</form>
+								<fieldset>
+									<label htmlFor="new-category-name" className="sr-only">
+										Category Name
+									</label>
+									<input
+										type="text"
+										id="new-category-name"
+										name="newCategoryName"
+										placeholder="Category Name (i.e. »food«)"
+										value={newCategoryName}
+										onChange={handleChange(setNewCategoryName)}
+										required
+									/>
+								</fieldset>
+								<button type="submit" className="btn-add-item" aria-label="add new category">
+									<IconCheck />
+								</button>
+							</div>
+						</form>
+					)}
 				</div>
 			</section>
 		</>

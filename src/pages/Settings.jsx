@@ -12,7 +12,7 @@ import CardEmpty from '../components/CardEmpty'
 import currenciesArr from '../data/currencies.json'
 import noEarningsGif from '../assets/img/gif-no-earnings.gif'
 import noExpensesGif from '../assets/img/gif-no-expenses.gif'
-import SettingsCategories from '../components/SettingsCategories'
+import Categories from '../components/Categories'
 
 export default function Settings() {
 	const [existingBudget, setExistingBudget] = useState([])
@@ -378,7 +378,7 @@ export default function Settings() {
 								</select>
 							</div>
 							<Alert
-								type="primary"
+								type="success"
 								content={
 									<>
 										<p>
@@ -680,7 +680,7 @@ export default function Settings() {
 							</big>
 						</section>
 						{/* CATEGORIES ---------------------------------------------------------------------------------------------------*/}
-						<SettingsCategories data={existingBudget} />
+						<Categories data={existingBudget} />
 					</div>
 				</div>
 			</>
