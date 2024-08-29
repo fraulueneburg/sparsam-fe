@@ -282,6 +282,10 @@ main a {
 	text-decoration: underline;
 }
 
+small {
+	--font-size: 0.875em;
+}
+
 @media (prefers-contrast: no-preference) {
 	.rainbow-text {
 		background: linear-gradient(to right, var(--color-pink), var(--color-blue), var(--color-lime));
@@ -365,7 +369,8 @@ input[type='submit'] {
 	flex: 0 0 2rem;
 	height: 2rem;
 	line-height: 0;
-	margin-bottom: 0;
+	margin-bottom: 4px;
+	margin-top: 4px;
 	padding: 0;
 	text-align: center;
 	width: 2rem;
@@ -549,6 +554,10 @@ select {
 	margin: 0;
 }
 
+.form-categories fieldset:not(.radio-group) {
+	position: relative;
+}
+
 .form-categories .grid {
 	grid-template-columns: min-content 1fr min-content;
 	position: relative;
@@ -675,7 +684,7 @@ select {
 	}
 
 	.section-categories .grid {
-		align-items: center;
+		align-items: start;
 		grid-template-columns: 1fr min-content;
 	}
 

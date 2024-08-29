@@ -15,6 +15,7 @@ label {
 
 .radio-group-colour {
 	height: auto;
+	padding: 4px 0;
 
 	label {
 		position: relative;
@@ -127,5 +128,42 @@ label {
 			top: 0;
 			width: 70%;
 		}
+	}
+}
+
+.error-text {
+	background-color: var(--card-background-color);
+	border-radius: var(--border-radius);
+	color: var(--color);
+	display: grid;
+	filter: drop-shadow(0 0 0.5rem rgba(0, 0, 0, 0.8));
+	gap: 0.5rem;
+	grid-template-columns: min-content 1fr;
+	font-size: 0.75rem;
+	left: 0;
+	margin: 0.5rem 0 0;
+	min-width: 195px;
+	padding: 0.5rem;
+	position: absolute;
+	top: 2.5rem;
+	width: auto;
+	z-index: 1;
+
+	svg {
+		margin: 0;
+		color: var(--color-danger);
+	}
+
+	&:after {
+		background-color: var(--card-background-color);
+		content: '';
+		display: block;
+		height: 16px;
+		margin-left: 12px;
+		position: absolute;
+		top: -4px;
+		transform: rotate(45deg);
+		width: 16px;
+		z-index: -10;
 	}
 }

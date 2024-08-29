@@ -4,7 +4,6 @@ import axios from 'axios'
 import { Link } from 'react-router-dom'
 import { API_URL } from '../config'
 import gifGone from '../assets/img/gif-gone.gif'
-import CardEmpty from '../components/CardEmpty'
 
 function Budget() {
 	const [existingBudget, setExistingBudget] = useState([])

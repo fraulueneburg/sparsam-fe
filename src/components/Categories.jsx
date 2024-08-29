@@ -5,6 +5,7 @@ import { ReactComponent as IconMinus } from '../assets/icons/icon-minus.svg'
 import { ReactComponent as IconEdit } from '../assets/icons/icon-edit.svg'
 import { ReactComponent as IconClose } from '../assets/icons/icon-close.svg'
 import { ReactComponent as IconCheck } from '../assets/icons/icon-check.svg'
+import { ReactComponent as IconXCircle } from '../assets/icons/icon-x-circle.svg'
 import RadioGroupColour from './RadioGroupColour'
 import coloursArr from '../data/colours_reduced.json'
 import noCategoriesGif from '../assets/img/gif-no-categories.webp'
@@ -23,10 +24,6 @@ export default function Categories(props) {
 
 	// GENERAL
 
-	const handleChange = (changeFunction) => (event) => {
-		changeFunction(event.target.value)
-	}
-
 	const startTransition = (callback) => {
 		if (document.startViewTransition) {
 			document.startViewTransition(callback)
@@ -41,6 +38,17 @@ export default function Categories(props) {
 	const [editCategoryName, setEditCategoryName] = useState('')
 	const [editCategoryColour, setEditCategoryColour] = useState('')
 	const [editCategoryColourListIsOpen, setEditCategoryColourListIsOpen] = useState(false)
+	const [editCategoryNameError, setEditCategoryNameError] = useState('')
+
+	const handleChangeEditCategoryName = (event, index) => {
+		const newValue = event.target.value
+		setEditCategoryName(newValue)
+
+		// check if name already exists
+		const checkDuplicatesArray = categoriesArr.toSpliced(index, 1)
+		const isDuplicate = checkDuplicatesArray.some((category) => category.name.toLowerCase() === newValue.toLowerCase())
+		isDuplicate ? setEditCategoryNameError(true) : setEditCategoryNameError('')
+	}
 
 	const handleEditCategory = (id, name, colour) => {
 		startTransition(() => {
@@ -102,6 +110,18 @@ export default function Categories(props) {
 	const [newCategoryName, setNewCategoryName] = useState('')
 	const [newCategoryColour, setNewCategoryColour] = useState(coloursArr[0].name)
 	const [newCategoryColourListIsOpen, setNewCategoryColourListIsOpen] = useState(false)
+	const [newCategoryNameError, setNewCategoryNameError] = useState('')
+
+	const handleChangeNewCategoryName = (event) => {
+		const newValue = event.target.value
+		setNewCategoryName(newValue)
+
+		if (categoriesArr.some((category) => category.name.toLowerCase() === newValue.toLowerCase())) {
+			setNewCategoryNameError(true)
+		} else {
+			setNewCategoryNameError('')
+		}
+	}
 
 	const handleAddNewCategory = async (event) => {
 		event.preventDefault()
@@ -213,12 +233,23 @@ export default function Categories(props) {
 															name="inputEditCategoryName"
 															placeholder="Category Name (i.e. »food«)"
 															value={editCategoryName}
-															onChange={handleChange(setEditCategoryName)}
+															onChange={(event) => handleChangeEditCategoryName(event, index)}
+															aria-invalid={editCategoryNameError ? true : null}
+															aria-errormessage="edit-category-name-error"
 															required
 														/>
+														{editCategoryNameError ? (
+															<small className="error-text" id="edit-category-name-error">
+																<IconXCircle /> This category already exists. Please choose a unique name.
+															</small>
+														) : null}
 													</fieldset>
 													<div className="btn-group">
-														<button type="submit" className="btn-add-item" aria-label="save changes">
+														<button
+															type="submit"
+															className="btn-add-item"
+															aria-label="save changes"
+															disabled={!!editCategoryNameError}>
 															<IconCheck />
 														</button>
 														<button
@@ -280,11 +311,22 @@ export default function Categories(props) {
 										name="newCategoryName"
 										placeholder="Category Name (i.e. »food«)"
 										value={newCategoryName}
-										onChange={handleChange(setNewCategoryName)}
+										onChange={handleChangeNewCategoryName}
+										aria-invalid={newCategoryNameError ? true : null}
+										aria-errormessage="new-category-name-error"
 										required
 									/>
+									{newCategoryNameError ? (
+										<small className="error-text" id="new-category-name-error">
+											<IconXCircle /> This category already exists. Please choose a unique name.
+										</small>
+									) : null}
 								</fieldset>
-								<button type="submit" className="btn-add-item" aria-label="add new category">
+								<button
+									type="submit"
+									className="btn-add-item"
+									aria-label="add new category"
+									disabled={!!newCategoryNameError}>
 									<IconCheck />
 								</button>
 							</div>
