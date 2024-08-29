@@ -282,6 +282,15 @@ main a {
 	text-decoration: underline;
 }
 
+@media (prefers-contrast: no-preference) {
+	.rainbow-text {
+		background: linear-gradient(to right, var(--color-pink), var(--color-blue), var(--color-lime));
+		background-clip: text;
+		color: transparent;
+		-webkit-text-fill-color: transparent;
+	}
+}
+
 /*----- BUTTONS -----*/
 
 .btn-primary {
