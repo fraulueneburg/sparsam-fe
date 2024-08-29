@@ -6,7 +6,7 @@ import PrivatePage from './pages/PrivatePage'
 import HomePage from './pages/HomePage'
 import Signup from './pages/Signup'
 import Login from './pages/Login'
-import Profile from './pages/Profile'
+import UserSettings from './pages/UserSettings'
 import ProfileDeleted from './pages/ProfileDeleted'
 import Budget from './pages/Budget'
 import Settings from './pages/Settings'
@@ -23,7 +23,7 @@ function App() {
 						path="/auth/profile"
 						element={
 							<PrivatePage>
-								<Profile />
+								<UserSettings />
 							</PrivatePage>
 						}
 					/>

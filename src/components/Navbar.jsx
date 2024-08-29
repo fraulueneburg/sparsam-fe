@@ -1,14 +1,11 @@
 import { AuthContext } from '../context/auth.context'
 import { useContext, useRef } from 'react'
 import { NavLink } from 'react-router-dom'
-import { ReactComponent as IconMenu } from '../assets/icons/icon-menu.svg'
+import { ReactComponent as IconUser } from '../assets/icons/icon-user.svg'
+import { ReactComponent as IconSettings } from '../assets/icons/icon-settings.svg'
 
 function Navbar() {
 	const { logOutUser, isLoggedIn } = useContext(AuthContext)
-	const navRef = useRef()
-	const showNavbar = () => {
-		navRef.current.classList.toggle('active')
-	}
 
 	return (
 		<>
@@ -16,51 +13,47 @@ function Navbar() {
 				<span className="icon">🐽</span>
 				<span className="name">sparsam</span>
 			</a>
-			<button className="btn-toggle-menu" onClick={showNavbar} aria-controls="nav-main">
-				<IconMenu />
-			</button>
-			<nav className="nav-main" id="nav-main" ref={navRef}>
+			<nav className="nav-main" id="nav-main">
 				{isLoggedIn ? (
 					<ul>
 						<li>
-							<NavLink
-								onClick={showNavbar}
-								to="/budget"
-								end
-								{...({ isActive }) => (isActive ? 'aria-current="page"' : null)}>
+							<NavLink to="/budget" end {...({ isActive }) => (isActive ? 'aria-current="page"' : null)}>
 								Budget
-							</NavLink>
-						</li>
-						<li>
-							<NavLink
-								onClick={showNavbar}
-								to="/settings"
-								end
-								{...({ isActive }) => (isActive ? 'aria-current="page"' : null)}>
-								Settings
-							</NavLink>
-						</li>
-						<li>
-							<NavLink
-								onClick={showNavbar}
-								to="/auth/profile"
-								end
-								{...({ isActive }) => (isActive ? 'aria-current="page"' : null)}>
-								My Profile
 							</NavLink>
 						</li>
 					</ul>
 				) : (
 					<ul>
 						<li>
-							<NavLink onClick={showNavbar} to="/auth/login">
+							<NavLink to="/auth/login" end {...({ isActive }) => (isActive ? 'aria-current="page"' : null)}>
 								Login
 							</NavLink>
 						</li>
 					</ul>
 				)}
 			</nav>
-			{isLoggedIn ? <button onClick={logOutUser}>Logout</button> : null}
+
+			{isLoggedIn ? (
+				<nav className="nav-secondary">
+					<ul>
+						<li>
+							<NavLink to="/settings" end {...({ isActive }) => (isActive ? 'aria-current="page"' : null)}>
+								<IconSettings />
+								<span className="hidden">Settings</span>
+							</NavLink>
+						</li>
+						<li>
+							<NavLink to="/auth/profile" end {...({ isActive }) => (isActive ? 'aria-current="page"' : null)}>
+								<IconUser />
+								<span className="hidden">User Settings</span>
+							</NavLink>
+						</li>
+						<li>
+							<button onClick={logOutUser}>Logout</button>
+						</li>
+					</ul>
+				</nav>
+			) : null}
 		</>
 	)
 }

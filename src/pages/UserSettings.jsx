@@ -11,7 +11,7 @@ import ModalButton from '../components/ModalButton'
 import Modal from '../components/Modal'
 import cryingGif from '../assets/img/gif-crying.gif'
 
-function Profile() {
+export default function UserSettings() {
 	const [nameInput, setNameInput] = useState('')
 	const [emailInput, setEmailInput] = useState('')
 	const [passwordInput, setPasswordInput] = useState('')
@@ -88,7 +88,7 @@ function Profile() {
 	return (
 		<>
 			<form onSubmit={handleSubmit} className="edit-profile">
-				<h1>My Profile</h1>
+				<h1>User Settings</h1>
 				<div className="input-group">
 					<span className="text">
 						<IconUser />
@@ -155,5 +155,3 @@ function Profile() {
 		</>
 	)
 }
-
-export default Profile
