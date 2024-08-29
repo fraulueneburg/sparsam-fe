@@ -193,19 +193,14 @@ export default function SettingsCategories(props) {
 										<li key={elemId}>
 											<form className="form-categories" onSubmit={handleUpdateCategory}>
 												<div className="grid">
-													<div>
-														<label htmlFor="edit-category-colour" className="hidden">
-															Colour
-														</label>
-														<RadioGroupColour
-															selectedValue={editCategoryColour}
-															setNewSelectedValue={setEditCategoryColour}
-															coloursArr={coloursArr}
-															dropdownState={editCategoryColourListIsOpen}
-															setDropdownState={setEditCategoryColourListIsOpen}
-														/>
-													</div>
-													<div>
+													<RadioGroupColour
+														selectedValue={editCategoryColour}
+														setNewSelectedValue={setEditCategoryColour}
+														coloursArr={coloursArr}
+														dropdownState={editCategoryColourListIsOpen}
+														setDropdownState={setEditCategoryColourListIsOpen}
+													/>
+													<fieldset>
 														<label htmlFor="edit-category-name" className="hidden">
 															Category Name
 														</label>
@@ -218,7 +213,7 @@ export default function SettingsCategories(props) {
 															onChange={handleChange(setEditCategoryName)}
 															required
 														/>
-													</div>
+													</fieldset>
 													<div className="btn-group">
 														<button type="submit" className="btn-add-item" aria-label="save changes">
 															<IconCheck />
