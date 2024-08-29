@@ -2,6 +2,7 @@ import axios from 'axios'
 import { API_URL } from '../config'
 import { useEffect, useState } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
+import { HashLink } from 'react-router-hash-link'
 import Chart from 'chart.js/auto'
 import { CategoryScale } from 'chart.js'
 import { Pie } from 'react-chartjs-2'
@@ -12,9 +13,10 @@ import { ReactComponent as IconChevronRight } from '../assets/icons/icon-chevron
 import { ReactComponent as IconClose } from '../assets/icons/icon-close.svg'
 import { ReactComponent as IconMinus } from '../assets/icons/icon-minus.svg'
 import dailyExpensesGif from '../assets/img/gif-no-daily-expenses.gif'
-import noChartGif from '../assets/img/gif-no-chart.gif'
+import noChartGif from '../assets/img/gif-gone.gif'
 import coloursArr from '../data/colours_reduced.json'
 import CardEmpty from './CardEmpty'
+import Alert from './Alert'
 
 function YourExpenses(props) {
 	const gotToken = localStorage.getItem('authToken')
@@ -425,192 +427,207 @@ function YourExpenses(props) {
 									/>
 								)}
 							</div>
-							<div className="column">
-								<table>
-									<thead>
-										<tr>
-											<th>Category</th>
-											<th style={{ textAlign: 'right' }}>Total</th>
-										</tr>
-									</thead>
-									<tbody>
-										{categoriesTotalArr
-											? categoriesTotalArr.map((elem, index) => {
-													return (
-														<tr className={elem > 0 ? null : 'greyed-out'} key={index}>
-															<td>
-																<div className="color-indicator" style={{ backgroundColor: chartColorsArr[index] }}></div>{' '}
-																{categoriesArr[index].name}
-															</td>
-															<td style={{ textAlign: 'right' }}>
-																{elem.toFixed(2)} {currency}
-															</td>
-														</tr>
-													)
-											  })
-											: null}
-									</tbody>
-									<tfoot>
-										<tr>
-											<td></td>
-											<td>
-												{categoriesTotalArr
-													.reduce((acc, curr) => {
-														return acc + curr
-													})
-													.toFixed(2)}
-												{` ${currency}`}
-											</td>
-										</tr>
-									</tfoot>
-								</table>
-							</div>
+							{categoriesTotalArr?.length > 0 ? (
+								<div className="column">
+									<table>
+										<thead>
+											<tr>
+												<th>Category</th>
+												<th style={{ textAlign: 'right' }}>Total</th>
+											</tr>
+										</thead>
+										<tbody>
+											{categoriesTotalArr
+												? categoriesTotalArr.map((elem, index) => {
+														return (
+															<tr className={elem > 0 ? null : 'greyed-out'} key={index}>
+																<td>
+																	<div className="color-indicator" style={{ backgroundColor: chartColorsArr[index] }}></div>{' '}
+																	{categoriesArr[index].name}
+																</td>
+																<td style={{ textAlign: 'right' }}>
+																	{elem.toFixed(2)} {currency}
+																</td>
+															</tr>
+														)
+												  })
+												: null}
+										</tbody>
+										<tfoot>
+											<tr>
+												<td></td>
+												<td>
+													{categoriesTotalArr
+														.reduce((acc, curr) => {
+															return acc + curr
+														})
+														.toFixed(2)}
+													{` ${currency}`}
+												</td>
+											</tr>
+										</tfoot>
+									</table>
+								</div>
+							) : null}
 						</div>
 					</section>
 				</>
 			) : null}
-			<section className="expenses">
-				<h2>Your Expenses</h2>
-				<form onSubmit={handleAddDailyExpense} className="form-inline form-add-expense" style={{ marginBottom: '1.5rem' }}>
-					<input
-						type="date"
-						name="date"
-						min={firstDayISO}
-						max={lastDayISO}
-						placeholder={`${isCurrentTime ? dateTodayISO : firstDayISO}`}
-						required
-					/>
-					<select name="category">
-						{propBudgetData.categories
-							? propBudgetData.categories.map((elem) => {
-									return <option key={elem._id}>{elem.name}</option>
-							  })
-							: null}
-					</select>
-					<input type="text" name="name" placeholder="name"></input>
-					<div className="input-group">
-						<span className="text">–</span>
-						<input type="number" name="amount" placeholder="0,00" step=".01" required></input>
-						<span className="text">€</span>
-					</div>
-					<button className="btn-add-item">
-						<IconCheck />
-					</button>
-				</form>
-				<div className="card">
-					{dailyExpensesArr.length <= 0 ? (
-						<CardEmpty
-							headline={'No expenses yet.'}
-							text={<p>Start adding some via the form above.</p>}
-							imgSrc={dailyExpensesGif}
-							imgPosition={'bottom'}
-							imgAlt={
-								'A parrot picks up gold coins with its beak and drops them into a small savings box that looks like a treasure chest.'
-							}
+			{categoriesArr?.length <= 0 ? (
+				<Alert
+					content={
+						<>
+							<h4>No categories defined</h4>
+							<p>You need to add at least one category to start your budget planning</p>
+							<HashLink to="/settings#categories" className="btn-primary">
+								add categories in Settings
+							</HashLink>
+						</>
+					}
+				/>
+			) : (
+				<section className="expenses">
+					<h2>Your Expenses</h2>
+					<form onSubmit={handleAddDailyExpense} className="form-inline form-add-expense" style={{ marginBottom: '1.5rem' }}>
+						<input
+							type="date"
+							name="date"
+							min={firstDayISO}
+							max={lastDayISO}
+							placeholder={`${isCurrentTime ? dateTodayISO : firstDayISO}`}
+							required
 						/>
-					) : (
-						<div className="table-wrapper">
-							<table className="table-daily-expenses">
-								<thead>
-									<tr>
-										<th style={{ width: '110px' }}>Date</th>
-										<th>Category</th>
-										<th>Name</th>
-										<th style={{ textAlign: 'right' }}>Amount</th>
-										<th style={{ textAlign: 'right' }}></th>
-									</tr>
-								</thead>
-								<tbody>
-									{dailyExpensesArr
-										.sort((a, b) => (a.date > b.date ? -1 : b.date > a.date ? 1 : 0))
-										.map((dailyExpense, index, arr) => {
-											if (dailyExpense._id !== editExpenseId) {
-												return (
-													<tr
-														key={dailyExpense._id}
-														className={index > 0 && arr[index - 1].date === arr[index].date ? null : 'first-of-date'}>
-														<td>
-															<time dateTime={dailyExpense.date}>{writeOutDate(dailyExpense.date)}</time>
-														</td>
-														<td className="td-category">
-															<strong
-																style={{
-																	color: `var(--color-${
-																		categoriesArr.find((cat) => cat.name === dailyExpense.category).colour
-																	})`,
-																}}>
-																<span>{dailyExpense.category}</span>
-															</strong>
-														</td>
-														<td>{dailyExpense.name}</td>
-														<td style={{ textAlign: 'right' }}>
-															-{dailyExpense.amount.toFixed(2)} {currency}
-														</td>
-														<td>
-															<button
-																data-key={dailyExpense._id}
-																className="btn-edit-item"
-																onClick={(event) => handleEditDailyExpense(event)}>
-																<IconEdit />
-															</button>
-														</td>
-													</tr>
-												)
-											} else {
-												return (
-													<tr key={dailyExpense._id}>
-														<td colSpan="5">
-															<form
-																className="form-inline form-edit-expense"
-																onSubmit={handleUpdateDailyExpense}
-																data-key={dailyExpense._id}>
-																<input
-																	type="date"
-																	name="date"
-																	max={lastDayFromTodayISO}
-																	value={editExpenseDate}
-																	onChange={(event) => setEditExpenseDate(event.target.value)}
-																	required
-																/>
-																<select
-																	name="category"
-																	value={editExpenseCategory}
-																	onChange={(event) => setEditExpenseCategory(event.target.value)}
-																	required>
-																	{propBudgetData.categories.map((elem) => {
-																		return <option key={elem._id}>{elem.name}</option>
-																	})}
-																</select>
-																<input
-																	type="text"
-																	value={editExpenseName}
-																	onChange={(event) => setEditExpenseName(event.target.value)}
-																	name="name"
-																/>
-																<div className="input-group">
-																	<span className="text">–</span>
+						<select name="category">
+							{propBudgetData.categories
+								? propBudgetData.categories.map((elem) => {
+										return <option key={elem._id}>{elem.name}</option>
+								  })
+								: null}
+						</select>
+						<input type="text" name="name" placeholder="name"></input>
+						<div className="input-group">
+							<span className="text">–</span>
+							<input type="number" name="amount" placeholder="0,00" step=".01" required></input>
+							<span className="text">€</span>
+						</div>
+						<button className="btn-add-item">
+							<IconCheck />
+						</button>
+					</form>
+					<div className="card">
+						{dailyExpensesArr.length <= 0 ? (
+							<CardEmpty
+								headline={'No expenses yet.'}
+								text={<p>Start adding some via the form above.</p>}
+								imgSrc={dailyExpensesGif}
+								imgPosition={'bottom'}
+								imgAlt={
+									'A parrot picks up gold coins with its beak and drops them into a small savings box that looks like a treasure chest.'
+								}
+							/>
+						) : (
+							<div className="table-wrapper">
+								<table className="table-daily-expenses">
+									<thead>
+										<tr>
+											<th style={{ width: '110px' }}>Date</th>
+											<th>Category</th>
+											<th>Name</th>
+											<th style={{ textAlign: 'right' }}>Amount</th>
+											<th style={{ textAlign: 'right' }}></th>
+										</tr>
+									</thead>
+									<tbody>
+										{dailyExpensesArr
+											.sort((a, b) => (a.date > b.date ? -1 : b.date > a.date ? 1 : 0))
+											.map((dailyExpense, index, arr) => {
+												if (dailyExpense._id !== editExpenseId) {
+													return (
+														<tr
+															key={dailyExpense._id}
+															className={index > 0 && arr[index - 1].date === arr[index].date ? null : 'first-of-date'}>
+															<td>
+																<time dateTime={dailyExpense.date}>{writeOutDate(dailyExpense.date)}</time>
+															</td>
+															<td className="td-category">
+																<strong
+																	style={{
+																		color: `var(--color-${
+																			categoriesArr.find((cat) => cat.name === dailyExpense.category).colour
+																		})`,
+																	}}>
+																	<span>{dailyExpense.category}</span>
+																</strong>
+															</td>
+															<td>{dailyExpense.name}</td>
+															<td style={{ textAlign: 'right' }}>
+																-{dailyExpense.amount.toFixed(2)} {currency}
+															</td>
+															<td>
+																<button
+																	data-key={dailyExpense._id}
+																	className="btn-edit-item"
+																	onClick={(event) => handleEditDailyExpense(event)}>
+																	<IconEdit />
+																</button>
+															</td>
+														</tr>
+													)
+												} else {
+													return (
+														<tr key={dailyExpense._id}>
+															<td colSpan="5">
+																<form
+																	className="form-inline form-edit-expense"
+																	onSubmit={handleUpdateDailyExpense}
+																	data-key={dailyExpense._id}>
 																	<input
-																		type="number"
-																		name="amount"
-																		value={editExpenseAmount}
-																		placeholder="0,00"
-																		step=".01"
-																		onChange={(event) => setEditExpenseAmount(event.target.value)}
+																		type="date"
+																		name="date"
+																		max={lastDayFromTodayISO}
+																		value={editExpenseDate}
+																		onChange={(event) => setEditExpenseDate(event.target.value)}
 																		required
 																	/>
-																	<span className="text">€</span>
-																</div>
-																<div className="btn-group">
-																	<button type="submit" className="btn-add-item" aria-label="save changes">
-																		<IconCheck />
-																	</button>
-																	<button
-																		data-key={dailyExpense._id}
-																		className="btn-delete-item"
-																		onClick={(event) => handleDeleteDailyExpense(index, event)}>
-																		<IconMinus />
-																	</button>
-																	{/* <ModalProvider>
+																	<select
+																		name="category"
+																		value={editExpenseCategory}
+																		onChange={(event) => setEditExpenseCategory(event.target.value)}
+																		required>
+																		{propBudgetData.categories.map((elem) => {
+																			return <option key={elem._id}>{elem.name}</option>
+																		})}
+																	</select>
+																	<input
+																		type="text"
+																		value={editExpenseName}
+																		onChange={(event) => setEditExpenseName(event.target.value)}
+																		name="name"
+																	/>
+																	<div className="input-group">
+																		<span className="text">–</span>
+																		<input
+																			type="number"
+																			name="amount"
+																			value={editExpenseAmount}
+																			placeholder="0,00"
+																			step=".01"
+																			onChange={(event) => setEditExpenseAmount(event.target.value)}
+																			required
+																		/>
+																		<span className="text">€</span>
+																	</div>
+																	<div className="btn-group">
+																		<button type="submit" className="btn-add-item" aria-label="save changes">
+																			<IconCheck />
+																		</button>
+																		<button
+																			data-key={dailyExpense._id}
+																			className="btn-delete-item"
+																			onClick={(event) => handleDeleteDailyExpense(index, event)}>
+																			<IconMinus />
+																		</button>
+																		{/* <ModalProvider>
 																		<ModalButton className="btn-delete-item" data-key={dailyExpense._id}>
 																			<IconMinus />
 																		</ModalButton>
@@ -622,49 +639,50 @@ function YourExpenses(props) {
 																		/>
 																	</ModalProvider> */}
 
-																	<button
-																		onClick={() => setEditExpenseId(0)}
-																		className="btn-close"
-																		aria-label="cancel editing">
-																		<IconClose />
-																	</button>
-																</div>
-															</form>
-														</td>
-													</tr>
-												)
-											}
-										})}
-								</tbody>
-								<tfoot>
-									<tr>
-										<td></td>
-										<td></td>
-										<td></td>
-										<td>
-											<strong>
-												{((budgetTotal - budgetLeft) * -1).toFixed(2)} {currency}
-											</strong>
-										</td>
-										<td>spent</td>
-									</tr>
-									<tr className={`${budgetLeft < 0 ? 'is-negative' : null}`}>
-										<td></td>
-										<td></td>
-										<td></td>
-										<td>
-											<strong>
-												{budgetLeft.toFixed(2)} {currency}
-											</strong>
-										</td>
-										<td>left</td>
-									</tr>
-								</tfoot>
-							</table>
-						</div>
-					)}
-				</div>
-			</section>
+																		<button
+																			onClick={() => setEditExpenseId(0)}
+																			className="btn-close"
+																			aria-label="cancel editing">
+																			<IconClose />
+																		</button>
+																	</div>
+																</form>
+															</td>
+														</tr>
+													)
+												}
+											})}
+									</tbody>
+									<tfoot>
+										<tr>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td>
+												<strong>
+													{((budgetTotal - budgetLeft) * -1).toFixed(2)} {currency}
+												</strong>
+											</td>
+											<td>spent</td>
+										</tr>
+										<tr className={`${budgetLeft < 0 ? 'is-negative' : null}`}>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td>
+												<strong>
+													{budgetLeft.toFixed(2)} {currency}
+												</strong>
+											</td>
+											<td>left</td>
+										</tr>
+									</tfoot>
+								</table>
+							</div>
+						)}
+					</div>
+				</section>
+			)}
 		</>
 	)
 }

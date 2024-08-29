@@ -3,6 +3,8 @@ import YourExpenses from '../components/YourExpenses'
 import axios from 'axios'
 import { Link } from 'react-router-dom'
 import { API_URL } from '../config'
+import gifGone from '../assets/img/gif-gone.gif'
+import CardEmpty from '../components/CardEmpty'
 
 function Budget() {
 	const [existingBudget, setExistingBudget] = useState([])
@@ -30,8 +32,17 @@ function Budget() {
 	if (dataLoaded && existingBudget.earnings.length === 0) {
 		return (
 			<>
-				<h1>You don’t have a budget yet</h1>
-				<Link to="/settings">Set up your budget now</Link>
+				<div className="card">
+					<img
+						src={gifGone}
+						alt={`Movie Scene from Pulp Fiction: Vincent Vega turns around in confusion and makes a hand gesture, reacting to Mia Wallace's sudden disappearance.`}
+					/>
+					<h1>You don’t have a budget yet</h1>
+					<p>You need to define some monthly earnings, expenses and categories first.</p>
+					<Link to="/settings" className="btn-primary">
+						Set up your budget now
+					</Link>
+				</div>
 			</>
 		)
 	} else if (dataLoaded && existingBudget) {

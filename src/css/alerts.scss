@@ -1,0 +1,66 @@
+h2 + .alert {
+	margin-top: -1.5rem;
+	margin-bottom: 2rem;
+}
+
+.alert {
+	border-radius: var(--border-radius);
+	color: var(--color-primary);
+	border: 3px solid currentColor;
+	display: block;
+	font-size: 0.875em;
+	margin-bottom: 1rem;
+	margin-top: 0;
+	padding: 1rem 0.5rem;
+	position: relative;
+	text-align: center;
+
+	h1,
+	h2,
+	h3,
+	h4,
+	h5,
+	h6 {
+		margin-bottom: 0.5rem;
+	}
+
+	p:last-child {
+		margin-bottom: 0;
+	}
+
+	button {
+		width: auto;
+		display: inline-block;
+	}
+
+	&:after {
+		display: block;
+		content: '';
+		background-color: currentColor;
+		opacity: 0.1;
+		position: absolute;
+		left: 0;
+		right: 0;
+		top: 0;
+		bottom: 0;
+		z-index: -1;
+	}
+}
+
+@media (max-width: 600px) {
+	.alert br {
+		display: none;
+	}
+}
+
+.alert-success {
+	color: var(--color-success);
+}
+
+.alert-danger {
+	color: var(--color-danger);
+}
+
+.alert-warning {
+	color: var(--color-warning);
+}

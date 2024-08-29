@@ -31,6 +31,11 @@
 
 	--color-red-hover: #ef5350;
 	--color-green-hover: #66bb6a;
+
+	--color-primary: var(--color-cyan);
+	--color-success: var(--color-teal);
+	--color-warning: var(--color-amber);
+	--color-danger: var(--color-red);
 }
 
 * {
@@ -278,6 +283,28 @@ main a {
 }
 
 /*----- BUTTONS -----*/
+
+.btn-primary {
+	background-color: var(--primary);
+	color: var(--primary-inverse);
+	cursor: pointer;
+	display: inline-block;
+	padding: calc(var(--form-element-spacing-vertical) * 1.2) calc(var(--form-element-spacing-horizontal) * 2);
+	border-radius: var(--border-radius);
+	outline: 0;
+	box-shadow: var(--box-shadow);
+	font-weight: bold;
+	font-size: 1rem;
+	line-height: var(--line-height);
+	text-align: center;
+	text-decoration: none;
+	transition: background-color var(--transition), border-color var(--transition), color var(--transition),
+		box-shadow var(--transition);
+}
+
+.btn-danger {
+	background-color: var(--);
+}
 
 button,
 input[type='submit'] {
@@ -947,34 +974,47 @@ form.edit-profile {
 	box-shadow: var(--card-box-shadow);
 	margin: 0;
 	padding: 1.5rem 1rem;
-}
 
-.card h2 {
-	border: none;
-	font-size: 2rem;
-	margin-bottom: 0;
-	text-align: center;
+	h2 {
+		border: none;
+		font-size: 2rem;
+		margin-bottom: 0;
+		text-align: center;
+	}
+
+	img {
+		display: block;
+		margin: 0 auto;
+
+		&:not(:first-child) {
+			margin-top: 2rem;
+		}
+
+		&:not(:last-child) {
+			margin-bottom: 2rem;
+		}
+	}
 }
 
 .card-empty-text {
 	text-align: center;
-}
 
-.card-empty-text h4,
-strong {
-	margin-bottom: 0.25rem;
-}
+	h4,
+	strong {
+		margin-bottom: 0.25rem;
+	}
 
-.card-empty-text * {
-	margin-bottom: 0;
-}
+	* {
+		margin-bottom: 0;
+	}
 
-.card-empty-text img:first-child {
-	margin-bottom: 1rem;
-}
+	img:first-child {
+		margin-bottom: 1rem;
+	}
 
-.card-empty-text img:last-child {
-	margin-top: 1rem;
+	img:last-child {
+		margin-top: 1rem;
+	}
 }
 
 form .card + .grid {
@@ -1180,38 +1220,6 @@ dialog footer {
 	flex-direction: column;
 	align-items: center;
 	gap: 0.5rem;
-}
-
-/*---- ALERTS -----*/
-
-h2 + .alert {
-	margin-top: -1.5rem;
-	margin-bottom: 2rem;
-}
-
-.alert {
-	border-radius: var(--border-radius);
-	border: 3px solid var(--primary);
-	display: block;
-	font-size: 0.875em;
-	margin-bottom: 1rem;
-	margin-top: 0;
-	padding: 1rem 0.5rem;
-	text-align: center;
-}
-
-.alert p:last-child {
-	margin-bottom: 0;
-}
-
-@media (max-width: 600px) {
-	.alert br {
-		display: none;
-	}
-}
-
-.alert-primary {
-	border-color: #00895a;
 }
 
 /*---- LISTS -----*/
