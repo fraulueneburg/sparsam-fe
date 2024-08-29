@@ -38,7 +38,7 @@ function Budget() {
 						alt={`Movie Scene from Pulp Fiction: Vincent Vega turns around in confusion and makes a hand gesture, reacting to Mia Wallace's sudden disappearance.`}
 					/>
 					<h1>You don’t have a budget yet</h1>
-					<p>You need to define some monthly earnings, expenses and categories first.</p>
+					<p>Start by defining some monthly earnings, expenses and categories.</p>
 					<Link to="/settings" className="btn-primary">
 						Set up your budget now
 					</Link>
