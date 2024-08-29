@@ -17,41 +17,33 @@ export default function RadioGroupColour(props) {
 
 	const handleToggleColourOptions = (event) => {
 		event.preventDefault()
-		setIsColourListOpen(!isColourListOpen)
-
-		if (!isColourListOpen) {
-			buttonRef.current.focus()
-		}
+		setIsColourListOpen((prevState) => !prevState)
 	}
 
 	// Close colour list when focus moves outside
+	// Close colour list on esc
+
+	const handleClickOutside = (event) => {
+		if (fieldsetRef.current && !fieldsetRef.current.contains(event.target)) {
+			setIsColourListOpen(false)
+		}
+	}
+
+	const handleKeyDown = (event) => {
+		if (event.key === 'Escape' && isColourListOpen) {
+			setIsColourListOpen(false)
+			if (buttonRef.current) buttonRef.current.focus()
+		}
+	}
 
 	useEffect(() => {
-		const handleClickOutside = (event) => {
-			if (fieldsetRef.current && !fieldsetRef.current.contains(event.target)) {
-				setIsColourListOpen(false)
-			}
-		}
 		document.addEventListener('mousedown', handleClickOutside)
 		document.addEventListener('focusin', handleClickOutside)
+		document.addEventListener('keydown', handleKeyDown)
 
 		return () => {
 			document.removeEventListener('mousedown', handleClickOutside)
 			document.removeEventListener('focusin', handleClickOutside)
-		}
-	}, [setIsColourListOpen])
-
-	// Close colour list on esc
-
-	useEffect(() => {
-		const handleKeyDown = (event) => {
-			if (event.key === 'Escape' && isColourListOpen) {
-				setIsColourListOpen(false)
-				buttonRef.current.focus()
-			}
-		}
-		document.addEventListener('keydown', handleKeyDown)
-		return () => {
 			document.removeEventListener('keydown', handleKeyDown)
 		}
 	}, [isColourListOpen, setIsColourListOpen])
