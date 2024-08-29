@@ -210,21 +210,31 @@ header nav li + li {
 /*----- TYPOGRAPHY -----*/
 
 big {
+	color: var(--h2-color);
 	display: block;
 	font-size: 3rem;
 	font-weight: bold;
 	text-align: center;
-}
 
-big.is-negative {
-	color: var(--color-red) !important;
-}
+	&:after {
+		display: inline-block;
+		padding-left: 1rem;
+		animation: var(--animation-zoom-in);
+	}
 
-big.is-negative:after {
-	content: ' 😬';
-	display: inline-block;
-	padding-left: 1rem;
-	animation: var(--animation-zoom-in);
+	&.is-negative {
+		color: var(--color-red) !important;
+
+		&:after {
+			content: ' 😬';
+		}
+	}
+
+	&.is-zero {
+		&:after {
+			content: ' 🫣';
+		}
+	}
 }
 
 time {

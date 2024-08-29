@@ -346,8 +346,15 @@ function YourExpenses(props) {
 					</small>
 					<h2>Budget left this {timePeriod}:</h2>
 					<p>
-						<big className={`${budgetLeft < 0 ? 'is-negative' : null}`}>
-							{budgetLeft.toFixed(2)} {currency}
+						<big
+							className={
+								budgetLeft === 0 || budgetLeft.toFixed(2) === '-0.00'
+									? 'is-zero'
+									: budgetLeft < 0 && budgetLeft.toFixed(2) !== '-0.00'
+									? 'is-negative'
+									: ''
+							}>
+							{budgetLeft.toFixed(2) === '-0.00' ? '0.00' : budgetLeft.toFixed(2)} {currency}
 						</big>
 						of {budgetTotal.toFixed(2)} {currency}
 					</p>
