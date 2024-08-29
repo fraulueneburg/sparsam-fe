@@ -1,5 +1,5 @@
 import { AuthContext } from '../context/auth.context'
-import { useContext, useRef } from 'react'
+import { useContext } from 'react'
 import { NavLink } from 'react-router-dom'
 import { ReactComponent as IconUser } from '../assets/icons/icon-user.svg'
 import { ReactComponent as IconSettings } from '../assets/icons/icon-settings.svg'
