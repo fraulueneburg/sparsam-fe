@@ -218,10 +218,18 @@ export default function SettingsCategories(props) {
 														<button type="submit" className="btn-add-item" aria-label="save changes">
 															<IconCheck />
 														</button>
-														<button className="btn-delete-item" aria-label="delete category" onClick={handleDeleteCategory}>
+														<button
+															type="button"
+															className="btn-delete-item"
+															aria-label="delete category"
+															onClick={handleDeleteCategory}>
 															<IconMinus />
 														</button>
-														<button className="btn-close" aria-label="cancel editing" onClick={handleCancelEditCategory}>
+														<button
+															type="button"
+															className="btn-close"
+															aria-label="cancel editing"
+															onClick={handleCancelEditCategory}>
 															<IconClose />
 														</button>
 													</div>
