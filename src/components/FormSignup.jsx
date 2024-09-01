@@ -6,13 +6,15 @@ import { API_URL } from '../config'
 import { ReactComponent as IconUser } from '../assets/icons/icon-user.svg'
 import { ReactComponent as IconEmail } from '../assets/icons/icon-email.svg'
 import { ReactComponent as IconPassword } from '../assets/icons/icon-password.svg'
+import currenciesArr from '../data/currencies.json'
 
 function FormSignup() {
 	const [nameInput, setNameInput] = useState('')
 	const [emailInput, setEmailInput] = useState('')
 	const [passwordInput, setPasswordInput] = useState('')
-	const navigate = useNavigate()
 	const { setToken, setIsLoggedIn } = useContext(AuthContext)
+	const navigate = useNavigate()
+	const indexDefaultCurrency = currenciesArr.findIndex((elem) => elem.symbol === '₾')
 
 	const handleSubmit = async (e) => {
 		e.preventDefault()
@@ -21,6 +23,7 @@ function FormSignup() {
 				name: nameInput,
 				email: emailInput,
 				password: passwordInput,
+				currency: currenciesArr[indexDefaultCurrency],
 			})
 
 			const actualToken = data.authToken
