@@ -14,7 +14,7 @@ function FormSignup() {
 	const [passwordInput, setPasswordInput] = useState('')
 	const { setToken, setIsLoggedIn } = useContext(AuthContext)
 	const navigate = useNavigate()
-	const indexDefaultCurrency = currenciesArr.findIndex((elem) => elem.symbol === '₾')
+	const indexDefaultCurrency = currenciesArr.findIndex((elem) => elem.symbol === '€')
 
 	const handleSubmit = async (e) => {
 		e.preventDefault()
