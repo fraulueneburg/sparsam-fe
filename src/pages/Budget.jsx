@@ -28,7 +28,7 @@ function Budget() {
 		fetchBudgetData()
 	}, [])
 
-	if (dataLoaded && existingBudget.earnings.length === 0) {
+	if (dataLoaded && (!existingBudget || existingBudget.earnings.length === 0)) {
 		return (
 			<>
 				<div className="card">
