@@ -600,7 +600,11 @@ function YourExpenses(props) {
 																		onChange={(event) => setEditExpenseCategory(event.target.value)}
 																		required>
 																		{propBudgetData.categories.map((elem) => {
-																			return <option key={elem._id}>{elem.name}</option>
+																			return (
+																				<option key={elem._id} value={elem._id}>
+																					{elem.name}
+																				</option>
+																			)
 																		})}
 																	</select>
 																	<input
