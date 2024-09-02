@@ -37,6 +37,10 @@ h2 + .alert {
 		display: inline-block;
 	}
 
+	[class*='btn-'] {
+		color: var(--primary-inverse);
+	}
+
 	&:after {
 		display: block;
 		content: '';
@@ -47,7 +51,7 @@ h2 + .alert {
 		right: 0;
 		top: 0;
 		bottom: 0;
-		z-index: 0;
+		z-index: -1;
 	}
 
 	p + small {

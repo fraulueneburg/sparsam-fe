@@ -112,7 +112,7 @@ function YourExpenses(props) {
 	const [categoriesTotalArr, setCategoriesTotalArr] = useState(
 		categoriesArr.map((oneCategory) => {
 			return dailyExpensesArr.reduce((acc, curr) => {
-				return curr.category === oneCategory.name ? acc + curr.amount : acc
+				return curr.category === oneCategory._id ? acc + curr.amount : acc
 			}, 0)
 		})
 	)
@@ -227,7 +227,7 @@ function YourExpenses(props) {
 		setCategoriesTotalArr(
 			categoriesArr.map((oneCategory) => {
 				return filteredDailyExpensesArr.reduce((acc, curr) => {
-					return curr.category === oneCategory.name ? acc + curr.amount : acc
+					return curr.category === oneCategory._id ? acc + curr.amount : acc
 				}, 0)
 			})
 		)
@@ -285,11 +285,13 @@ function YourExpenses(props) {
 
 	// CHART
 
+	console.log('categoriesArr', categoriesArr)
+
 	useEffect(() => {
 		setCategoriesTotalArr(
 			categoriesArr.map((oneCategory) => {
 				return dailyExpensesArr.reduce((acc, curr) => {
-					return curr.category === oneCategory.name ? acc + curr.amount : acc
+					return curr.category === oneCategory._id ? acc + curr.amount : acc
 				}, 0)
 			})
 		)
@@ -320,7 +322,7 @@ function YourExpenses(props) {
 				},
 			],
 		})
-	}, [categoriesArr, categoriesTotalArr, dailyExpensesArr, dailyExpensesTotal])
+	}, [categoriesArr, categoriesTotalArr, dailyExpensesTotal, budgetLeft])
 
 	return (
 		<>
@@ -500,7 +502,11 @@ function YourExpenses(props) {
 						<select name="category">
 							{propBudgetData.categories
 								? propBudgetData.categories.map((elem) => {
-										return <option key={elem._id}>{elem.name}</option>
+										return (
+											<option key={elem._id} value={elem._id}>
+												{elem.name}
+											</option>
+										)
 								  })
 								: null}
 						</select>
@@ -508,7 +514,7 @@ function YourExpenses(props) {
 						<div className="input-group">
 							<span className="text">–</span>
 							<input type="number" name="amount" placeholder="0,00" step=".01" required></input>
-							<span className="text">€</span>
+							<span className="text">{currency}</span>
 						</div>
 						<button className="btn-add-item">
 							<IconCheck />
@@ -542,6 +548,7 @@ function YourExpenses(props) {
 											.sort((a, b) => (a.date > b.date ? -1 : b.date > a.date ? 1 : 0))
 											.map((dailyExpense, index, arr) => {
 												if (dailyExpense._id !== editExpenseId) {
+													const categoryData = categoriesArr.find((category) => category._id === dailyExpense.category)
 													return (
 														<tr
 															key={dailyExpense._id}
@@ -552,11 +559,9 @@ function YourExpenses(props) {
 															<td className="td-category">
 																<strong
 																	style={{
-																		color: `var(--color-${
-																			categoriesArr.find((cat) => cat.name === dailyExpense.category).colour
-																		})`,
+																		color: `var(--color-${categoryData.colour})`,
 																	}}>
-																	<span>{dailyExpense.category}</span>
+																	<span>{categoryData.name}</span>
 																</strong>
 															</td>
 															<td>{dailyExpense.name}</td>
@@ -615,7 +620,7 @@ function YourExpenses(props) {
 																			onChange={(event) => setEditExpenseAmount(event.target.value)}
 																			required
 																		/>
-																		<span className="text">€</span>
+																		<span className="text">{currency}</span>
 																	</div>
 																	<div className="btn-group">
 																		<button type="submit" className="btn-add-item" aria-label="save changes">

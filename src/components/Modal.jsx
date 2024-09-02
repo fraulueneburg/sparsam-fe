@@ -1,21 +1,30 @@
 import { useModal } from '../context/ModalContext'
 import { ReactComponent as IconClose } from '../assets/icons/icon-close.svg'
 
-function Modal(props) {
+export default function Modal(props) {
 	const { modalIsOpen, handleClose } = useModal()
 
 	const handleClickOverlay = (event) => {
 		if (event.target === event.currentTarget) {
+			console.log('props.onCancel', props.onCancel)
 			handleClose(event)
+			props.onCancel && props.onCancel(event)
 		}
 	}
 
 	return (
-		<dialog onClick={handleClickOverlay} open={modalIsOpen} className={props.modalClassName}>
+		<dialog onClick={handleClickOverlay} open={props.modalIsOpen || modalIsOpen} className={props.modalClassName}>
 			<article>
 				<header>
 					{props.title && <h3>{props.title}</h3>}
-					<button aria-label="Close" rel="prev" className="btn-close" onClick={handleClose}>
+					<button
+						aria-label="Close"
+						rel="prev"
+						className="btn-close"
+						onClick={(e) => {
+							props.onCancel && props.onCancel(e)
+							handleClose(e)
+						}}>
 						<IconClose />
 					</button>
 				</header>
@@ -25,21 +34,18 @@ function Modal(props) {
 						{props.description}
 					</section>
 				)}
-				<footer>
-					<button
-						onClick={(e) => {
-							props.onConfirm(e)
-							handleClose(e)
-						}}>
-						{props.buttonLabel}
-					</button>
-					<button className="secondary" onClick={handleClose}>
-						cancel
-					</button>
-				</footer>
+				{props.buttonLabel ? (
+					<footer>
+						<button
+							onClick={(e) => {
+								props.onConfirm(e)
+								handleClose(e)
+							}}>
+							{props.buttonLabel}
+						</button>
+					</footer>
+				) : null}
 			</article>
 		</dialog>
 	)
 }
-
-export default Modal

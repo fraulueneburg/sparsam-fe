@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react'
 import { API_URL } from '../config'
 import axios from 'axios'
+import { ModalProvider } from '../context/ModalContext'
+import Modal from './Modal'
 import { ReactComponent as IconMinus } from '../assets/icons/icon-minus.svg'
 import { ReactComponent as IconEdit } from '../assets/icons/icon-edit.svg'
 import { ReactComponent as IconClose } from '../assets/icons/icon-close.svg'
@@ -44,7 +46,7 @@ export default function Categories(props) {
 		const newValue = event.target.value
 		setEditCategoryName(newValue)
 
-		// check if name already exists
+		// ERROR IF NAME ALREADY EXISTS
 		const checkDuplicatesArray = categoriesArr.toSpliced(index, 1)
 		const isDuplicate = checkDuplicatesArray.some((category) => category.name.toLowerCase() === newValue.toLowerCase())
 		isDuplicate ? setEditCategoryNameError(true) : setEditCategoryNameError('')
@@ -148,13 +150,102 @@ export default function Categories(props) {
 
 	// DELETE CATEGORY
 
+	const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
+	const [foundExpensesArr, setFoundExpensesArr] = useState([])
+	const [remainingCategoriesArr, setRemainingCategoriesArr] = useState(categoriesArr)
+	const [newCategoryToAssignId, setNewCategoryToAssignId] = useState('')
+
+	const handleCloseDeleteModal = (event) => {
+		event.preventDefault()
+		setIsDeleteModalOpen(false)
+		setNewCategoryToAssignId('')
+		setRemainingCategoriesArr([])
+	}
+
+	// prepare delete, check if expenses exist
+
+	const handlePrepareDeleteCategory = async (event) => {
+		event.preventDefault()
+		const gotToken = localStorage.getItem('authToken')
+		const categoryId = editCategoryId
+
+		try {
+			const { data } = await axios.get(`${API_URL}/budget/${categoryId}/expenses`, {
+				headers: { authorization: `Bearer ${gotToken}` },
+			})
+			setFoundExpensesArr(data.foundExpensesArr)
+
+			if (data.foundExpensesArr?.length > 0) {
+				setIsDeleteModalOpen(true)
+				setRemainingCategoriesArr(
+					categoriesArr.filter((elem) => {
+						return elem._id !== categoryId ? elem : null
+					})
+				)
+			} else {
+				handleDeleteCategory(event)
+			}
+		} catch (err) {
+			console.log('error while fetching category expenses ', err)
+		}
+	}
+
+	// move expenses to new category
+
+	const handleMoveExpenses = async (event) => {
+		event.preventDefault()
+		const gotToken = localStorage.getItem('authToken')
+		const oldCategoryId = editCategoryId
+		const newCategoryId = newCategoryToAssignId
+
+		try {
+			const response = await axios.post(
+				`${API_URL}/budget/${oldCategoryId}/expenses/move/${newCategoryId}`,
+				{},
+				{
+					headers: { authorization: `Bearer ${gotToken}` },
+				}
+			)
+			if (response.status === 200) {
+				handleDeleteCategory(event)
+				handleCloseDeleteModal(event)
+			}
+		} catch (err) {
+			console.log('error while deleting expenses in category: ', err)
+			return
+		}
+	}
+
+	// delete expenses in category
+
+	const handleDeleteExpenses = async (event) => {
+		event.preventDefault()
+		const gotToken = localStorage.getItem('authToken')
+		const categoryId = editCategoryId
+
+		try {
+			const response = await axios.delete(`${API_URL}/budget/${categoryId}/expenses/delete`, {
+				headers: { authorization: `Bearer ${gotToken}` },
+			})
+		} catch (err) {
+			console.log('error while deleting expenses in category: ', err)
+		}
+
+		handleDeleteCategory(event)
+		handleCloseDeleteModal(event)
+	}
+
+	// delete category
+
 	const handleDeleteCategory = async (event) => {
 		event.preventDefault()
+
 		const gotToken = localStorage.getItem('authToken')
 		const categoryId = editCategoryId
 		const newArr = categoriesArr.filter((elem) => {
 			return elem._id !== editCategoryId ? elem : null
 		})
+
 		setCategoriesArr(newArr)
 		setEditCategoryId('')
 		setEditCategoryName('')
@@ -183,7 +274,7 @@ export default function Categories(props) {
 						<CardEmpty
 							imgSrc={noCategoriesGif}
 							imgAlt={
-								'Actress Mayim Biyalik points her open palm to the right, in a service gesture, laughing. Subline: “any category you like”'
+								'Actress Mayim Bialik points her open palm to the right, in a service gesture, laughing. Subline: “any category you like”'
 							}
 							headline={'No categories yet.'}
 							text={<p>Start adding some via the form below.</p>}
@@ -206,7 +297,10 @@ export default function Categories(props) {
 													}}></div>
 												{elem.name}
 											</div>
-											<button className="btn-edit-item" onClick={() => handleEditCategory(elemId, elem.name, elem.colour)}>
+											<button
+												aria-label={`edit ${elem.name} category`}
+												className="btn-edit-item"
+												onClick={() => handleEditCategory(elemId, elem.name, elem.colour)}>
 												<IconEdit />
 											</button>
 										</li>
@@ -256,7 +350,7 @@ export default function Categories(props) {
 															type="button"
 															className="btn-delete-item"
 															aria-label="delete category"
-															onClick={handleDeleteCategory}>
+															onClick={handlePrepareDeleteCategory}>
 															<IconMinus />
 														</button>
 														<button
@@ -269,6 +363,79 @@ export default function Categories(props) {
 													</div>
 												</div>
 											</form>
+											{isDeleteModalOpen ? (
+												<ModalProvider>
+													<Modal
+														modalClassName=""
+														title={`Deleting “${editCategoryName}”`}
+														modalIsOpen={isDeleteModalOpen}
+														onCancel={handleCloseDeleteModal}
+														description={
+															remainingCategoriesArr.length === 0 ? (
+																<>
+																	<p>
+																		You have <strong>{foundExpensesArr.length}</strong> expenses in “{editCategoryName}
+																		”.
+																		<br />
+																		Deleting the category, will also delete these expenses. <br />
+																		Do you want to proceed?
+																	</p>
+																	<button
+																		className="btn-centered btn-inline btn-delete"
+																		onClick={(event) => handleDeleteExpenses(event)}>
+																		Yes, delete “{editCategoryName}” and its expenses
+																	</button>
+																	<a onClick={() => handleCloseDeleteModal()}>Oh no. Cancel!</a>
+																</>
+															) : (
+																<>
+																	<p>
+																		You have <strong>{foundExpensesArr.length}</strong> expenses in “{editCategoryName}
+																		”.
+																		<br />
+																		Do you want assign them to a new category?
+																	</p>
+																	<select
+																		aria-label="new category"
+																		value={newCategoryToAssignId}
+																		onChange={(event) => {
+																			setNewCategoryToAssignId(event.target.value)
+																		}}>
+																		<option key="0" value=""></option>
+																		{remainingCategoriesArr.map((elem) => (
+																			<option key={elem._id} value={elem._id}>
+																				{elem.name}
+																			</option>
+																		))}
+																	</select>
+																	<button
+																		disabled={newCategoryToAssignId === '' ? true : false}
+																		className="btn-centered btn-inline"
+																		onClick={(event) => {
+																			event.preventDefault()
+																			handleMoveExpenses(event)
+																		}}>
+																		assign new category, <br />
+																		then delete “{elem.name}”
+																	</button>
+
+																	<small className="text-delete">
+																		<a
+																			href="#"
+																			onClick={(event) => {
+																				handleDeleteExpenses(event)
+																			}}>
+																			No, thanks,
+																			<br />
+																			delete “{editCategoryName}” and its expenses.
+																		</a>
+																	</small>
+																</>
+															)
+														}
+													/>
+												</ModalProvider>
+											) : null}
 										</li>
 									)
 								}
