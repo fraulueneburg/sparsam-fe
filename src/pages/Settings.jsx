@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import axios from 'axios'
 import { API_URL } from '../config'
 
@@ -13,6 +13,8 @@ import currenciesArr from '../data/currencies.json'
 import noEarningsGif from '../assets/img/gif-no-earnings.gif'
 import noExpensesGif from '../assets/img/gif-no-expenses.gif'
 import Categories from '../components/Categories'
+
+import DropdownListCurrency from '../components/DropdownListCurrency'
 
 export default function Settings() {
 	const [existingBudget, setExistingBudget] = useState([])
@@ -51,6 +53,7 @@ export default function Settings() {
 
 	const indexDefaultCurrency = currenciesArr.findIndex((elem) => elem.symbol === '€')
 	const [currency, setCurrency] = useState(() => existingBudget.currency || currenciesArr[indexDefaultCurrency])
+	const [currencyListIsOpen, setCurrencyListIsOpen] = useState(false)
 
 	const handleUpdateCurrency = async (event) => {
 		event.preventDefault()
@@ -348,20 +351,18 @@ export default function Settings() {
 					<div className="column is-9">
 						<h1>Settings</h1>
 						<p>Add your monthly earnings, expenses and spending categories here:</p>
-
 						<section id="general" className="section-settings">
 							<h2>General</h2>
 							<div className="grid">
 								<label htmlFor="currency">Your currency</label>
-								<select id="currency" value={currency.code} onChange={handleUpdateCurrency}>
-									{currenciesArr.map((elem) => {
-										return (
-											<option key={elem.code} value={elem.code}>
-												{elem.name} ({elem.code})
-											</option>
-										)
-									})}
-								</select>
+								<DropdownListCurrency
+									legend={'Currency'}
+									listArr={currenciesArr}
+									selectedValue={currency}
+									setNewSelectedValue={handleUpdateCurrency}
+									dropdownState={currencyListIsOpen}
+									setDropdownState={setCurrencyListIsOpen}
+								/>
 							</div>
 							<div className="grid">
 								<label htmlFor="startday" className="disabled">
@@ -588,7 +589,7 @@ export default function Settings() {
 																		Amount
 																	</label>
 																	<div className="input-group">
-																		<span className="text">+</span>
+																		<span className="text">–</span>
 																		<input
 																			type="number"
 																			id="edit-expense-amount"

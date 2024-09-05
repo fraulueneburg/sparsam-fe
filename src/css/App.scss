@@ -681,7 +681,7 @@ select {
 
 @media (min-width: 501px) {
 	#general.section-settings .grid {
-		grid-template-columns: 1fr min-content;
+		grid-template-columns: 1fr 1fr;
 	}
 
 	.section-settings .grid {
@@ -769,7 +769,7 @@ table.table-daily-expenses tbody td:not(:last-child) {
 
 .table-daily-expenses .td-category {
 	strong {
-		align-items: start;
+		align-items: flex-start;
 		display: inline-flex;
 		flex-wrap: nowrap;
 		flex: 0 0 8px;
@@ -785,7 +785,7 @@ table.table-daily-expenses tbody td:not(:last-child) {
 			flex: 0 0 8px;
 			height: 8px;
 			margin-right: 8px;
-			margin-top: 7px;
+			margin-top: 0.34lh;
 			width: 8px;
 			margin-bottom: 1px;
 		}

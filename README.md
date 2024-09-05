@@ -42,22 +42,23 @@ Created by leading experts in the industry (read: two formerly broke students), 
 
 ## 2. Technologies
 
-| Name                       | Description                                                                             |
-| :------------------------- | :-------------------------------------------------------------------------------------- |
-| **Create React App**       | Bootstrap code                                                                          |
-| **React.js**               | Javascript library for building awesome and fast user interfaces                        |
-| **React Router DOM**       | For managing navigation and routing within the app.                                     |
-| **MongoDB:**               | Non-relational database                                                                 |
-| **Node.js:**               | JavaScript runtime environment for server-side development                              |
-| **Express.js:**            | Backend web application framework for Node.js.                                          |
-| **Axios:**                 | For uncomplicated HTTP requests to interact with the backend                            |
-| **Chart.JS:**              | Creates beautiful customizable charts                                                   |
-| **React Router Hash Link** | For anchor links within the app.                                                        |
-| **Feather Icons:**         | For beautiful icons                                                                     |
-| **Pico CSS:**              | A lightweight style base.                                                               |
-| **Bulma CSS:**             | We just used the columns part.                                                          |
-| **CSS Custom Properties:** | For easy switching between light and dark mode. And because we wanted to brag a little. |
-| **SASS**                   | Though we might switch to CSS nesting soon                                              |
+| Name                                                        | Description                                                                             |
+| :---------------------------------------------------------- | :-------------------------------------------------------------------------------------- |
+| **Create React App**                                        | Bootstrap code                                                                          |
+| **React.js**                                                | Javascript library for building awesome and fast user interfaces                        |
+| **MongoDB:**                                                | Non-relational database                                                                 |
+| **Express.js:**                                             | Backend web application framework for Node.js.                                          |
+| **Node.js:**                                                | JavaScript runtime environment for server-side development                              |
+| **Axios**                                                   | For uncomplicated HTTP requests to interact with the backend                            |
+| **React Router DOM**                                        | For managing navigation and routing within the app.                                     |
+| **React Router Hash Link**                                  | For anchor links within the app.                                                        |
+| **Chart.JS:**                                               | Creates beautiful customizable charts                                                   |
+| **CSS Custom Properties**                                   | For easy switching between light and dark mode. And because we wanted to brag a little. |
+| **SASS**                                                    | Though we might switch to CSS nesting soon                                              |
+| **Pico CSS**                                                | A lightweight style base.                                                               |
+| **Bulma CSS**                                               | We just used the columns part.                                                          |
+| **Feather Icons**                                           | For beautiful icons                                                                     |
+| **[Lipis Flag Icons](https://github.com/lipis/flag-icons)** | … which make those fancy selector fields even more fancy                                |
 
 ## 3. Installation
 
@@ -70,7 +71,7 @@ git clone https://github.com/fraulueneburg/sparsam-fe.git
 ### Install dependencies:
 
 ```
-npm install react-router-dom react-router-hash-link mongo-db express axios chartjs sass
+npm install mongo-db express axios react-router-dom react-router-hash-link chartjs sass flag-icons
 ```
 
 ### Set up your backend
