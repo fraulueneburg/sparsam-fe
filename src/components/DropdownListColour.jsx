@@ -2,12 +2,13 @@ import { useId, useEffect, useRef } from 'react'
 import { ReactComponent as IconChevronDown } from '../assets/icons/icon-chevron-down.svg'
 import { ReactComponent as IconCheck } from '../assets/icons/icon-check.svg'
 
-export default function RadioGroupColour(props) {
+export default function DropdownListColour(props) {
+	const label = props.label
 	const selectedColour = props.selectedValue
 	const setSelectedColour = props.setNewSelectedValue
 	const coloursArr = props.coloursArr
-	const isColourListOpen = props.dropdownState
-	const setIsColourListOpen = props.setDropdownState
+	const isListOpen = props.dropdownState
+	const setIsListOpen = props.setDropdownState
 
 	const idPrefix = useId()
 	const listId = `${idPrefix}-colour-list`
@@ -17,21 +18,21 @@ export default function RadioGroupColour(props) {
 
 	const handleToggleColourOptions = (event) => {
 		event.preventDefault()
-		setIsColourListOpen((prevState) => !prevState)
+		setIsListOpen((prevState) => !prevState)
 	}
 
-	// Close colour list when focus moves outside
-	// Close colour list on esc
+	// Close list when focus moves outside
+	// Close list on esc
 
 	const handleClickOutside = (event) => {
 		if (fieldsetRef.current && !fieldsetRef.current.contains(event.target)) {
-			setIsColourListOpen(false)
+			setIsListOpen(false)
 		}
 	}
 
 	const handleKeyDown = (event) => {
-		if (event.key === 'Escape' && isColourListOpen) {
-			setIsColourListOpen(false)
+		if (event.key === 'Escape' && isListOpen) {
+			setIsListOpen(false)
 			if (buttonRef.current) buttonRef.current.focus()
 		}
 	}
@@ -46,11 +47,11 @@ export default function RadioGroupColour(props) {
 			document.removeEventListener('focusin', handleClickOutside)
 			document.removeEventListener('keydown', handleKeyDown)
 		}
-	}, [isColourListOpen, setIsColourListOpen])
+	}, [isListOpen, setIsListOpen])
 
 	return (
 		<fieldset className="radio-group radio-group-colour" ref={fieldsetRef}>
-			<legend>Colour</legend>
+			<legend className="hidden">{label}</legend>
 			<strong className="sr-only" aria-live="polite">
 				selected colour: {selectedColour}
 			</strong>
@@ -60,12 +61,12 @@ export default function RadioGroupColour(props) {
 				onClick={handleToggleColourOptions}
 				aria-label="toggle colour options"
 				aria-controls={listId}
-				aria-expanded={isColourListOpen}
+				aria-expanded={isListOpen}
 				ref={buttonRef}>
 				<div className="colour-option" style={{ color: `var(--color-${selectedColour})` }}></div>
 				<IconChevronDown aria-hidden="true" />
 			</button>
-			<div className="colour-list" id={listId}>
+			<div className="dropdown-list colour-list" id={listId}>
 				{coloursArr.map((elem) => {
 					const uniqueId = `${idPrefix}-${elem.hue.slice(1)}`
 					const isChecked = selectedColour === elem.name

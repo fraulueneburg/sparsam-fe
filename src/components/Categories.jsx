@@ -8,7 +8,7 @@ import { ReactComponent as IconEdit } from '../assets/icons/icon-edit.svg'
 import { ReactComponent as IconClose } from '../assets/icons/icon-close.svg'
 import { ReactComponent as IconCheck } from '../assets/icons/icon-check.svg'
 import { ReactComponent as IconXCircle } from '../assets/icons/icon-x-circle.svg'
-import RadioGroupColour from './RadioGroupColour'
+import DropdownListColour from './DropdownListColour'
 import coloursArr from '../data/colours_reduced.json'
 import noCategoriesGif from '../assets/img/gif-no-categories.webp'
 import CardEmpty from './CardEmpty'
@@ -310,7 +310,8 @@ export default function Categories(props) {
 										<li key={elemId}>
 											<form className="form-categories" onSubmit={handleUpdateCategory}>
 												<div className="grid">
-													<RadioGroupColour
+													<DropdownListColour
+														label={'Colour'}
 														selectedValue={editCategoryColour}
 														setNewSelectedValue={setEditCategoryColour}
 														coloursArr={coloursArr}
@@ -461,7 +462,7 @@ export default function Categories(props) {
 						<form className="form-categories" onSubmit={handleAddNewCategory}>
 							<h3 className="sr-only">Add new category</h3>
 							<div className="grid">
-								<RadioGroupColour
+								<DropdownListColour
 									selectedValue={newCategoryColour}
 									setNewSelectedValue={setNewCategoryColour}
 									coloursArr={coloursArr}
