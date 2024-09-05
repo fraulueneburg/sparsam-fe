@@ -16,7 +16,7 @@ function ProfileDeleted() {
 				Hope to see you again soon.
 			</h2>
 			<img src={highFiveGif} alt="A smiling woman giving herself a high five" style={{ marginBottom: '2rem' }} />
-			<button onClick={handleBackToHome} className="btn-centered">
+			<button onClick={handleBackToHome} className="btn-centered btn-inline">
 				back to homepage
 			</button>
 		</>
