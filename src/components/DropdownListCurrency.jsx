@@ -107,7 +107,6 @@ export default function DropdownListCurrency({
 				</div>
 				<div className="dropdown-list-option-list">
 					{filteredList.map((elem, index) => {
-						console.log('selectedValue', selectedValue)
 						const uniqueId = `${idPrefix}-${index}`
 						const isChecked = selectedValue.code === elem.code
 
