@@ -13,7 +13,7 @@ import Settings from './pages/Settings'
 import { BudgetContextWrapper } from './context/budget.context'
 import { SettingsContextWrapper } from './context/settings.context'
 
-function App() {
+export default function App() {
 	return (
 		<>
 			<Routes>
@@ -55,5 +55,3 @@ function App() {
 		</>
 	)
 }
-
-export default App

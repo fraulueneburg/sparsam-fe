@@ -1,7 +1,7 @@
 import highFiveGif from '../assets/img/gif-high-five.gif'
 import { useNavigate } from 'react-router-dom'
 
-function ProfileDeleted() {
+export default function ProfileDeleted() {
 	const navigate = useNavigate()
 	const handleBackToHome = () => {
 		navigate('/')
@@ -22,5 +22,3 @@ function ProfileDeleted() {
 		</>
 	)
 }
-
-export default ProfileDeleted

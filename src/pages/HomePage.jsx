@@ -1,7 +1,7 @@
 import Alert from '../components/Alert'
 import FormSignup from '../components/FormSignup'
 
-function HomePage() {
+export default function HomePage() {
 	return (
 		<>
 			<h1>Welcome to Sparsam</h1>
@@ -45,5 +45,3 @@ function HomePage() {
 		</>
 	)
 }
-
-export default HomePage

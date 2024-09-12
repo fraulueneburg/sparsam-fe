@@ -1,7 +1,7 @@
 import Alert from '../components/Alert'
 import FormSignup from '../components/FormSignup'
 
-function Signup() {
+export default function Signup() {
 	return (
 		<>
 			<h1>Sign up</h1>
@@ -21,5 +21,3 @@ function Signup() {
 		</>
 	)
 }
-
-export default Signup

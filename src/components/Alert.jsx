@@ -1,4 +1,4 @@
-function Alert(props) {
+export default function Alert(props) {
 	const type = props.type
 	const content = props.content
 
@@ -8,5 +8,3 @@ function Alert(props) {
 		</>
 	)
 }
-
-export default Alert

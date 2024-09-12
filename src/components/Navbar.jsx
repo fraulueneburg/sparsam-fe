@@ -4,7 +4,7 @@ import { NavLink } from 'react-router-dom'
 import { ReactComponent as IconUser } from '../assets/icons/icon-user.svg'
 import { ReactComponent as IconSettings } from '../assets/icons/icon-settings.svg'
 
-function Navbar() {
+export default function Navbar() {
 	const { logOutUser, isLoggedIn } = useContext(AuthContext)
 
 	return (
@@ -57,5 +57,3 @@ function Navbar() {
 		</>
 	)
 }
-
-export default Navbar

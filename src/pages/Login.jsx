@@ -1,7 +1,7 @@
 import Alert from '../components/Alert'
 import FormLogin from '../components/FormLogin'
 
-function Login() {
+export default function Login() {
 	return (
 		<>
 			<h1>Login</h1>
@@ -21,5 +21,3 @@ function Login() {
 		</>
 	)
 }
-
-export default Login

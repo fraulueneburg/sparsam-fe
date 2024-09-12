@@ -1,6 +1,6 @@
 import { useModal } from '../context/modal.context'
 
-function ModalButton({ children, ...props }) {
+export default function ModalButton({ children, ...props }) {
 	const { handleOpen } = useModal()
 
 	return (
@@ -9,5 +9,3 @@ function ModalButton({ children, ...props }) {
 		</button>
 	)
 }
-
-export default ModalButton

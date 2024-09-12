@@ -6,7 +6,7 @@ import { API_URL } from '../config'
 import { ReactComponent as IconEmail } from '../assets/icons/icon-email.svg'
 import { ReactComponent as IconPassword } from '../assets/icons/icon-password.svg'
 
-function FormLogin(props) {
+export default function FormLogin(props) {
 	const [emailInput, setEmailInput] = useState('')
 	const [passwordInput, setPasswordInput] = useState('')
 	const navigate = useNavigate()
@@ -72,5 +72,3 @@ function FormLogin(props) {
 		</form>
 	)
 }
-
-export default FormLogin

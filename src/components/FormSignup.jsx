@@ -8,7 +8,7 @@ import { ReactComponent as IconEmail } from '../assets/icons/icon-email.svg'
 import { ReactComponent as IconPassword } from '../assets/icons/icon-password.svg'
 import currenciesArr from '../data/currencies.json'
 
-function FormSignup() {
+export default function FormSignup() {
 	const [nameInput, setNameInput] = useState('')
 	const [emailInput, setEmailInput] = useState('')
 	const [passwordInput, setPasswordInput] = useState('')
@@ -95,5 +95,3 @@ function FormSignup() {
 		</>
 	)
 }
-
-export default FormSignup
