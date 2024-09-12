@@ -1,4 +1,4 @@
-import { useModal } from '../context/ModalContext'
+import { useModal } from '../context/modal.context'
 import { ReactComponent as IconClose } from '../assets/icons/icon-close.svg'
 
 export default function Modal(props) {
