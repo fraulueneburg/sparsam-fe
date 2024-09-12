@@ -10,6 +10,7 @@ import UserSettings from './pages/UserSettings'
 import ProfileDeleted from './pages/ProfileDeleted'
 import Budget from './pages/Budget'
 import Settings from './pages/Settings'
+import { BudgetContextWrapper } from './context/budget.context'
 
 function App() {
 	return (
@@ -32,7 +33,9 @@ function App() {
 						path="/budget"
 						element={
 							<PrivatePage>
-								<Budget />
+								<BudgetContextWrapper>
+									<Budget />
+								</BudgetContextWrapper>
 							</PrivatePage>
 						}
 					/>

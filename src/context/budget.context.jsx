@@ -118,6 +118,7 @@ const BudgetContextWrapper = ({ children }) => {
 	return (
 		<BudgetContext.Provider
 			value={{
+				dataLoaded,
 				timePeriod,
 				currency,
 				existingBudget,
