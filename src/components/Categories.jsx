@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { API_URL } from '../config'
 import axios from 'axios'
-import { ModalProvider } from '../context/ModalContext'
+import { ModalProvider } from '../context/modal.context'
 import Modal from './Modal'
 import { ReactComponent as IconMinus } from '../assets/icons/icon-minus.svg'
 import { ReactComponent as IconEdit } from '../assets/icons/icon-edit.svg'
