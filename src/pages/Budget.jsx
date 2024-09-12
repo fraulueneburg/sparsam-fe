@@ -10,10 +10,6 @@ import gifGone from '../assets/img/gif-gone.gif'
 export default function Budget() {
 	const { dataLoaded, existingBudget, existingDailyExpenses } = useContext(BudgetContext)
 
-	console.log('dataLoaded', dataLoaded)
-	console.log('existingBudget', existingBudget)
-	console.log('existingDailyExpenses', existingDailyExpenses)
-
 	if (dataLoaded && (!existingBudget || (existingBudget.earnings?.length === 0 && existingDailyExpenses?.length === 0))) {
 		return (
 			<div className="card">
