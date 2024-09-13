@@ -9,6 +9,7 @@ export default function ProfileDeleted() {
 
 	return (
 		<>
+			<title>Profile Deleted | sparsam</title>
 			<h1>High Five!</h1>
 			<h2 style={{ marginBottom: '1rem' }}>
 				Your profile was successfully deleted.

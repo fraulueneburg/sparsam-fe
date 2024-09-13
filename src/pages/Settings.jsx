@@ -20,6 +20,7 @@ export default function Settings() {
 	if (dataLoaded) {
 		return (
 			<>
+				<title>Settings | sparsam</title>
 				<div className="columns">
 					<aside className="column is-3">
 						<NavAnchor links={navLinksArr} />

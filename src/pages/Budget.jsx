@@ -12,21 +12,25 @@ export default function Budget() {
 
 	if (dataLoaded && (!existingBudget || (existingBudget.earnings?.length === 0 && existingDailyExpenses?.length === 0))) {
 		return (
-			<div className="card">
-				<img
-					src={gifGone}
-					alt={`Movie Scene from Pulp Fiction: Vincent Vega turns around in confusion and makes a hand gesture, reacting to Mia Wallace's sudden disappearance.`}
-				/>
-				<h1>You don’t have a budget yet</h1>
-				<p>Start by defining some monthly earnings, expenses and categories.</p>
-				<Link to="/settings" className="btn-primary">
-					Set up your budget now
-				</Link>
-			</div>
+			<>
+				<title>Budget | sparsam</title>
+				<div className="card">
+					<img
+						src={gifGone}
+						alt={`Movie Scene from Pulp Fiction: Vincent Vega turns around in confusion and makes a hand gesture, reacting to Mia Wallace's sudden disappearance.`}
+					/>
+					<h1>You don’t have a budget yet</h1>
+					<p>Start by defining some monthly earnings, expenses and categories.</p>
+					<Link to="/settings" className="btn-primary">
+						Set up your budget now
+					</Link>
+				</div>
+			</>
 		)
 	} else if (dataLoaded && existingBudget) {
 		return (
 			<>
+				<title>Budget | sparsam</title>
 				<h1>Your Budget</h1>
 				<TabsTimePeriod />
 				<PieChart />

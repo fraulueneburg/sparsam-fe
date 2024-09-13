@@ -4,7 +4,8 @@ import FormSignup from '../components/FormSignup'
 export default function Signup() {
 	return (
 		<>
-			<h1>Sign up</h1>
+			<title>Signup | sparsam</title>
+			<h1>Signup</h1>
 			<Alert
 				type="primary"
 				content={

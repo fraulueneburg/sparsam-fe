@@ -4,6 +4,7 @@ import FormSignup from '../components/FormSignup'
 export default function HomePage() {
 	return (
 		<>
+			<title>Welcome | sparsam</title>
 			<h1>Welcome to Sparsam</h1>
 			<h2>An awesome budgeting app</h2>
 			<Alert
