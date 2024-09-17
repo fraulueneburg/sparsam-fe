@@ -38,29 +38,33 @@ export default function TableDailyExpenses() {
 	const handleAddDailyExpense = async (event) => {
 		event.preventDefault()
 
+		const { date, category, name, amount } = event.target
+		const expenseDate = new Date(date.value)
 		const gotToken = localStorage.getItem('authToken')
+
 		const newDailyExpense = {
-			date: event.target.date.value,
-			category: event.target.category.value,
-			name: event.target.name.value,
-			amount: +event.target.amount.value,
+			date: expenseDate.toISOString(),
+			category: category.value,
+			name: name.value,
+			amount: +amount.value,
 		}
+
 		try {
-			event.target.name.value = ''
-			event.target.amount.value = ''
+			name.value = ''
+			amount.value = ''
 
 			const response = await axios.post(`${API_URL}/budget/addexpense`, newDailyExpense, {
 				headers: { authorization: `Bearer ${gotToken}` },
 			})
 			const createdExpense = response.data
-			const newArr = [createdExpense, ...dailyExpensesArr].sort((a, b) => (a.date > b.date ? -1 : b.date > a.date ? 1 : 0))
+			const newArr = [...dailyExpensesArr, createdExpense].sort((a, b) => (a.date > b.date ? -1 : b.date > a.date ? 1 : 0))
 
 			setDailyExpensesArr(newArr)
 			setDailyExpensesTotal(calculateTotalAmount(newArr))
 			setBudgetLeft(budgetTotal - calculateTotalAmount(newArr))
 		} catch (err) {
-			event.target.name.value = newDailyExpense.name
-			event.target.amount.value = newDailyExpense.amount
+			name.value = newDailyExpense.name
+			amount.value = newDailyExpense.amount
 			console.log('ERROR WHILE ADDING EXPENSE:', err)
 		}
 	}
@@ -108,14 +112,18 @@ export default function TableDailyExpenses() {
 		setEditExpenseAmount(expenseData.amount.toFixed(2))
 	}
 
+	// UPDATE EXPENSE
+
 	const handleUpdateDailyExpense = async (event) => {
 		event.preventDefault()
 		const expenseId = event.target.getAttribute('data-key')
+		const expenseDate = new Date(editExpenseDate)
 		const gotToken = localStorage.getItem('authToken')
+
 		const updatedExpense = {
 			amount: +editExpenseAmount,
 			category: editExpenseCategory,
-			date: new Date(editExpenseDate),
+			date: expenseDate.toISOString(),
 			name: editExpenseName,
 		}
 
@@ -123,38 +131,26 @@ export default function TableDailyExpenses() {
 			await axios.post(`${API_URL}/budget/updateexpense/${expenseId}`, updatedExpense, {
 				headers: { authorization: `Bearer ${gotToken}` },
 			})
+
 			const expenseIndex = dailyExpensesArr.findIndex((elem) => elem._id === expenseId)
 			const isInDateRange = firstDayISO <= editExpenseDate && editExpenseDate <= lastDayISO
 
-			console.log('firstDayISO', firstDayISO)
-			console.log('lastDayISO', lastDayISO)
-			console.log('editExpenseDate', editExpenseDate)
-			console.log('isInDateRange', isInDateRange)
-
-			let updatedDailyExpenseArr = [...dailyExpensesArr]
-
-			console.log('BEFORE CHECK', updatedDailyExpenseArr)
+			let updatedDailyExpensesArr = [...dailyExpensesArr]
 
 			if (isInDateRange) {
-				updatedDailyExpenseArr[expenseIndex].amount = +editExpenseAmount
-				updatedDailyExpenseArr[expenseIndex].category = editExpenseCategory
-				updatedDailyExpenseArr[expenseIndex].date = editExpenseDate
-				updatedDailyExpenseArr[expenseIndex].name = editExpenseName
-
-				console.log('is in range, ARR:', updatedDailyExpenseArr)
-
-				setDailyExpensesArr(updatedDailyExpenseArr)
-				setDailyExpensesTotal(calculateTotalAmount(updatedDailyExpenseArr))
-				setBudgetLeft(budgetTotal - calculateTotalAmount(updatedDailyExpenseArr))
+				updatedDailyExpensesArr[expenseIndex] = {
+					...updatedDailyExpensesArr[expenseIndex],
+					...updatedExpense,
+					//date: expenseDate.toISOString(),
+				}
 			} else {
-				updatedDailyExpenseArr.splice(expenseIndex, 1)
-
-				console.log('is NOT IN RANGE, ARR:', updatedDailyExpenseArr)
-
-				setDailyExpensesArr(updatedDailyExpenseArr)
-				setDailyExpensesTotal(calculateTotalAmount(updatedDailyExpenseArr))
-				setBudgetLeft(budgetTotal - calculateTotalAmount(updatedDailyExpenseArr))
+				updatedDailyExpensesArr.splice(expenseIndex, 1)
 			}
+
+			const newDailyExpensesTotal = calculateTotalAmount(updatedDailyExpensesArr)
+			setDailyExpensesArr(updatedDailyExpensesArr)
+			setDailyExpensesTotal(newDailyExpensesTotal)
+			setBudgetLeft(budgetTotal - newDailyExpensesTotal)
 			setEditExpenseId(0)
 		} catch (err) {
 			console.log('ERROR WHILE UPDATING EXPENSE', err)
