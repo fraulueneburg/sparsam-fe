@@ -840,7 +840,7 @@ tfoot td {
 /*----- TABLE DAILY EXPENSES -----*/
 
 .table-daily-expenses .first-of-date td {
-	border-top: 3px solid #1f2d38;
+	border-top: 3px solid var(--table-border-color);
 }
 
 .table-daily-expenses .first-of-date time {
