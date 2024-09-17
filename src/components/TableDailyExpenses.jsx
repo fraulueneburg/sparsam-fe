@@ -124,14 +124,37 @@ export default function TableDailyExpenses() {
 				headers: { authorization: `Bearer ${gotToken}` },
 			})
 			const expenseIndex = dailyExpensesArr.findIndex((elem) => elem._id === expenseId)
+			const isInDateRange = firstDayISO <= editExpenseDate && editExpenseDate <= lastDayISO
+
+			console.log('firstDayISO', firstDayISO)
+			console.log('lastDayISO', lastDayISO)
+			console.log('editExpenseDate', editExpenseDate)
+			console.log('isInDateRange', isInDateRange)
+
 			let updatedDailyExpenseArr = [...dailyExpensesArr]
-			updatedDailyExpenseArr[expenseIndex].amount = +editExpenseAmount
-			updatedDailyExpenseArr[expenseIndex].category = editExpenseCategory
-			updatedDailyExpenseArr[expenseIndex].date = editExpenseDate
-			updatedDailyExpenseArr[expenseIndex].name = editExpenseName
-			setDailyExpensesArr(updatedDailyExpenseArr)
-			setDailyExpensesTotal(calculateTotalAmount(updatedDailyExpenseArr))
-			setBudgetLeft(budgetTotal - calculateTotalAmount(updatedDailyExpenseArr))
+
+			console.log('BEFORE CHECK', updatedDailyExpenseArr)
+
+			if (isInDateRange) {
+				updatedDailyExpenseArr[expenseIndex].amount = +editExpenseAmount
+				updatedDailyExpenseArr[expenseIndex].category = editExpenseCategory
+				updatedDailyExpenseArr[expenseIndex].date = editExpenseDate
+				updatedDailyExpenseArr[expenseIndex].name = editExpenseName
+
+				console.log('is in range, ARR:', updatedDailyExpenseArr)
+
+				setDailyExpensesArr(updatedDailyExpenseArr)
+				setDailyExpensesTotal(calculateTotalAmount(updatedDailyExpenseArr))
+				setBudgetLeft(budgetTotal - calculateTotalAmount(updatedDailyExpenseArr))
+			} else {
+				updatedDailyExpenseArr.splice(expenseIndex, 1)
+
+				console.log('is NOT IN RANGE, ARR:', updatedDailyExpenseArr)
+
+				setDailyExpensesArr(updatedDailyExpenseArr)
+				setDailyExpensesTotal(calculateTotalAmount(updatedDailyExpenseArr))
+				setBudgetLeft(budgetTotal - calculateTotalAmount(updatedDailyExpenseArr))
+			}
 			setEditExpenseId(0)
 		} catch (err) {
 			console.log('ERROR WHILE UPDATING EXPENSE', err)
@@ -215,7 +238,7 @@ export default function TableDailyExpenses() {
 											return (
 												<tr
 													key={dailyExpense._id}
-													className={index > 0 && arr[index - 1].date === arr[index].date ? null : 'first-of-date'}>
+													className={index > 0 && arr[index - 1].date.slice === arr[index].date ? null : 'first-of-date'}>
 													<td>
 														<time dateTime={dailyExpense.date}>{writeOutDate(dailyExpense.date)}</time>
 													</td>
