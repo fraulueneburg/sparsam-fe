@@ -238,7 +238,11 @@ export default function TableDailyExpenses() {
 											return (
 												<tr
 													key={dailyExpense._id}
-													className={index > 0 && arr[index - 1].date.slice === arr[index].date ? null : 'first-of-date'}>
+													className={
+														index > 0 && arr[index - 1].date.slice(0, 10) === arr[index].date.slice(0, 10)
+															? null
+															: 'first-of-date'
+													}>
 													<td>
 														<time dateTime={dailyExpense.date}>{writeOutDate(dailyExpense.date)}</time>
 													</td>
