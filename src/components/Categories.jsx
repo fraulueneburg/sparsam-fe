@@ -288,6 +288,7 @@ export default function Categories(props) {
 										<li key={elemId}>
 											<div className="name">
 												<div
+													className="colour-option"
 													style={{
 														backgroundColor: `var(--color-${elem.colour})`,
 														display: 'inline-block',
@@ -295,7 +296,7 @@ export default function Categories(props) {
 														height: '2rem',
 														borderRadius: '50%',
 													}}></div>
-												{elem.name}
+												<div className="text">{elem.name}</div>
 											</div>
 											<button
 												aria-label={`edit ${elem.name} category`}
@@ -327,6 +328,7 @@ export default function Categories(props) {
 															id="edit-category-name"
 															name="inputEditCategoryName"
 															placeholder="Category Name (i.e. »food«)"
+															maxLength={70}
 															value={editCategoryName}
 															onChange={(event) => handleChangeEditCategoryName(event, index)}
 															aria-invalid={editCategoryNameError ? true : null}
@@ -451,10 +453,9 @@ export default function Categories(props) {
 									<h5>You created the maximum number of categories.</h5>
 									<p>
 										Need more? Get in touch with us about our{' '}
-										<strong className="rainbow-text">whopping bargain 999{currency}</strong> premium subscription plan! 🤗
-										<br />
+										<strong className="rainbow-text">whopping bargain 999{currency}</strong> premium subscription pla… — no,
+										seriously: just delete a few.
 									</p>
-									<small>(No, seriously, just delete a few.)</small>
 								</>
 							}
 						/>
@@ -478,6 +479,7 @@ export default function Categories(props) {
 										id="new-category-name"
 										name="newCategoryName"
 										placeholder="Category Name (i.e. »food«)"
+										maxLength={70}
 										value={newCategoryName}
 										onChange={handleChangeNewCategoryName}
 										aria-invalid={newCategoryNameError ? true : null}

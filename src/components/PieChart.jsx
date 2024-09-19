@@ -104,7 +104,7 @@ export default function PieChart() {
 													<tr className={elem > 0 ? null : 'greyed-out'} key={index}>
 														<td>
 															<div className="color-indicator" style={{ backgroundColor: chartColorsArr[index] }}></div>{' '}
-															{categoriesArr[index].name}
+															<div className="text">{categoriesArr[index].name}</div>
 														</td>
 														<td style={{ textAlign: 'right' }}>
 															{elem.toFixed(2)} {currency}

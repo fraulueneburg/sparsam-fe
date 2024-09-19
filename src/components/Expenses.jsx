@@ -11,7 +11,8 @@ import { ReactComponent as IconCheck } from '../assets/icons/icon-check.svg'
 import noExpensesGif from '../assets/img/gif-no-expenses.gif'
 
 export default function Expenses() {
-	const { currency, handleChange, expensesArr, setExpensesArr, expensesTotal } = useContext(SettingsContext)
+	const { currency, handleChange, expensesArr, setExpensesArr, expensesTotal, maxLengthTextInput } =
+		useContext(SettingsContext)
 
 	// EDIT EXPENSE
 
@@ -22,7 +23,7 @@ export default function Expenses() {
 	const handleEditExpense = (id, name, amount) => {
 		setEditExpenseId(id)
 		setEditExpenseName(name)
-		setEditExpenseAmount(amount)
+		setEditExpenseAmount(+amount)
 	}
 
 	const handleCancelEditExpense = () => {
@@ -36,7 +37,7 @@ export default function Expenses() {
 	const handleUpdateExpense = async (event) => {
 		event.preventDefault()
 		const gotToken = localStorage.getItem('authToken')
-		const updatedExpense = { _id: editExpenseId, name: editExpenseName, amount: editExpenseAmount }
+		const updatedExpense = { _id: editExpenseId, name: editExpenseName, amount: +editExpenseAmount }
 		const itemIndex = expensesArr.findIndex((elem) => elem._id === updatedExpense._id)
 		const newArr = [...expensesArr]
 		newArr[itemIndex] = updatedExpense
@@ -57,7 +58,7 @@ export default function Expenses() {
 			console.log('Error while updating expense:', err)
 			setEditExpenseId(editExpenseId)
 			setEditExpenseName(editExpenseName)
-			setEditExpenseAmount(editExpenseAmount)
+			setEditExpenseAmount(+editExpenseAmount.toFixed(2))
 			setExpensesArr(expensesArr)
 		}
 	}
@@ -84,7 +85,7 @@ export default function Expenses() {
 			console.log('error while deleting expense: ', err)
 			setEditExpenseId(editExpenseId)
 			setEditExpenseName(editExpenseName)
-			setEditExpenseAmount(editExpenseAmount)
+			setEditExpenseAmount(+editExpenseAmount)
 			setExpensesArr(expensesArr)
 		}
 	}
@@ -97,7 +98,7 @@ export default function Expenses() {
 	const handleAddNewExpense = async (event) => {
 		event.preventDefault()
 		const gotToken = localStorage.getItem('authToken')
-		const newArr = [...expensesArr, { name: newExpenseName, amount: newExpenseAmount }]
+		const newArr = [...expensesArr, { name: newExpenseName, amount: +newExpenseAmount }]
 		setExpensesArr(newArr)
 		setNewExpenseName('')
 		setNewExpenseAmount('')
@@ -112,18 +113,13 @@ export default function Expenses() {
 			console.log('Error while adding new expense', err)
 			setExpensesArr(expensesArr)
 			setNewExpenseName(newExpenseName)
-			setNewExpenseAmount(newExpenseAmount)
+			setNewExpenseAmount(+newExpenseAmount)
 		}
 	}
 
 	return (
 		<>
-			<h2>
-				Your monthly expenses:
-				<strong style={{ float: 'right' }}>
-					-{expensesTotal} {currency.symbol}
-				</strong>
-			</h2>
+			<h2>Monthly Expenses</h2>
 			<div className="card" aria-live="polite">
 				{!expensesArr || expensesArr.length <= 0 ? (
 					<CardEmpty
@@ -133,78 +129,87 @@ export default function Expenses() {
 						imgAlt={'A man in a suit and tie is lying on a floor full of banknotes, making snow angel movements'}
 					/>
 				) : (
-					<ul>
-						{expensesArr.map((elem, index) => {
-							const elemId = elem._id || index
-							if (elemId !== editExpenseId) {
-								return (
-									<li key={elemId}>
-										<div className="name">{elem.name}</div>
-										<div className="amount">
-											-{elem.amount} {currency.symbol}
-										</div>
-										<button className="btn-edit-item" onClick={() => handleEditExpense(elemId, elem.name, elem.amount)}>
-											<IconEdit />
-										</button>
-									</li>
-								)
-							} else {
-								return (
-									<li key={elemId}>
-										<form className="form-budget" onSubmit={handleUpdateExpense}>
-											<div className="grid">
-												<div>
-													<label htmlFor="edit-expense-name" className="hidden">
-														Expense Name
-													</label>
-													<input
-														type="text"
-														id="edit-expense-name"
-														name="inputEditExpenseName"
-														placeholder="Name (i.e. »salary«)"
-														value={editExpenseName}
-														onChange={handleChange(setEditExpenseName)}
-														required
-													/>
-												</div>
-												<div>
-													<label htmlFor="edit-expense-amount" className="hidden">
-														Amount
-													</label>
-													<div className="input-group">
-														<span className="text">–</span>
+					<>
+						<ul>
+							{expensesArr.map((elem, index) => {
+								const elemId = elem._id || index
+								if (elemId !== editExpenseId) {
+									return (
+										<li key={elemId}>
+											<div className="name">{elem.name}</div>
+											<div className="amount">
+												-{elem.amount.toFixed(2)} {currency.symbol}
+											</div>
+											<button className="btn-edit-item" onClick={() => handleEditExpense(elemId, elem.name, elem.amount)}>
+												<IconEdit />
+											</button>
+										</li>
+									)
+								} else {
+									return (
+										<li key={elemId}>
+											<form className="form-budget" onSubmit={handleUpdateExpense}>
+												<div className="grid">
+													<div>
+														<label htmlFor="edit-expense-name" className="hidden">
+															Expense Name
+														</label>
 														<input
-															type="number"
-															id="edit-expense-amount"
-															min="0"
-															placeholder="0,00"
-															step=".01"
-															name="inputEditExpenseAmount"
-															value={editExpenseAmount}
-															onChange={handleChange(setEditExpenseAmount)}
+															type="text"
+															id="edit-expense-name"
+															name="inputEditExpenseName"
+															placeholder="Name (i.e. »salary«)"
+															maxLength={maxLengthTextInput}
+															value={editExpenseName}
+															onChange={handleChange(setEditExpenseName)}
 															required
 														/>
-														<span className="text">{currency.symbol}</span>
+													</div>
+													<div>
+														<label htmlFor="edit-expense-amount" className="hidden">
+															Amount
+														</label>
+														<div className="input-group">
+															<span className="text">–</span>
+															<input
+																type="number"
+																id="edit-expense-amount"
+																min="0"
+																placeholder="0,00"
+																step=".01"
+																name="inputEditExpenseAmount"
+																value={+editExpenseAmount}
+																onChange={handleChange(setEditExpenseAmount)}
+																required
+															/>
+															<span className="text">{currency.symbol}</span>
+														</div>
+													</div>
+													<div className="btn-group">
+														<button type="submit" className="btn-add-item" aria-label="save changes">
+															<IconCheck />
+														</button>
+														<button className="btn-delete-item" aria-label="delete expense" onClick={handleDeleteExpense}>
+															<IconMinus />
+														</button>
+														<button className="btn-close" aria-label="cancel editing" onClick={handleCancelEditExpense}>
+															<IconClose />
+														</button>
 													</div>
 												</div>
-												<div className="btn-group">
-													<button type="submit" className="btn-add-item" aria-label="save changes">
-														<IconCheck />
-													</button>
-													<button className="btn-delete-item" aria-label="delete expense" onClick={handleDeleteExpense}>
-														<IconMinus />
-													</button>
-													<button className="btn-close" aria-label="cancel editing" onClick={handleCancelEditExpense}>
-														<IconClose />
-													</button>
-												</div>
-											</div>
-										</form>
-									</li>
-								)
-							}
-						})}
-					</ul>
+											</form>
+										</li>
+									)
+								}
+							})}
+						</ul>
+						<p className="total">
+							<strong className="amount">
+								-{expensesTotal} {currency.symbol}
+							</strong>
+							<span className="name">total </span>
+						</p>
+					</>
 				)}
 				<form className="form-budget" onSubmit={handleAddNewExpense}>
 					<strong className="sr-only">Add new Expense</strong>
@@ -217,6 +222,7 @@ export default function Expenses() {
 								type="text"
 								id="new-expense-name"
 								placeholder="Name (i.e. »rent«)"
+								maxLength={maxLengthTextInput}
 								value={newExpenseName}
 								onChange={handleChange(setNewExpenseName)}
 								required

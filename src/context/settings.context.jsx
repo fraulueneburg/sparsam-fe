@@ -20,9 +20,9 @@ const SettingsContextWrapper = ({ children }) => {
 
 	const [earningsArr, setEarningsArr] = useState(existingBudget.earnings || [])
 	const [earningsTotal, setEarningsTotal] = useState(calculateTotalAmount(earningsArr))
-
 	const [expensesArr, setExpensesArr] = useState(existingBudget.expenses || [])
 	const [expensesTotal, setExpensesTotal] = useState(calculateTotalAmount(expensesArr))
+	const maxLengthTextInput = 70
 
 	// FETCH BUDGET DATA
 
@@ -80,10 +80,10 @@ const SettingsContextWrapper = ({ children }) => {
 				earningsArr,
 				setEarningsArr,
 				earningsTotal,
-
 				expensesArr,
 				setExpensesArr,
 				expensesTotal,
+				maxLengthTextInput,
 			}}>
 			{children}
 		</SettingsContext.Provider>

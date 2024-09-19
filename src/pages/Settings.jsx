@@ -38,7 +38,7 @@ export default function Settings() {
 							<Expenses />
 						</section>
 						<section className="section-settings">
-							<h2>Your monthly Budget:</h2>
+							<h2>Monthly Budget</h2>
 							<big>
 								{monthlyBudget} <span className="currency">{currency.symbol}</span>
 							</big>
