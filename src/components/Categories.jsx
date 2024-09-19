@@ -377,8 +377,7 @@ export default function Categories(props) {
 															remainingCategoriesArr.length === 0 ? (
 																<>
 																	<p>
-																		You have <strong>{foundExpensesArr.length}</strong> expenses in “{editCategoryName}
-																		”.
+																		There are <strong>{foundExpensesArr.length}</strong> expenses in this category.
 																		<br />
 																		Deleting the category, will also delete these expenses. <br />
 																		Do you want to proceed?
@@ -388,7 +387,11 @@ export default function Categories(props) {
 																		onClick={(event) => handleDeleteExpenses(event)}>
 																		Yes, delete “{editCategoryName}” and its expenses
 																	</button>
-																	<a onClick={() => handleCloseDeleteModal()}>Oh no. Cancel!</a>
+																	<small className="text-delete">
+																		<button className="btn-as-text" onClick={handleCloseDeleteModal}>
+																			Oh no. Cancel!
+																		</button>
+																	</small>
 																</>
 															) : (
 																<>
@@ -414,24 +417,16 @@ export default function Categories(props) {
 																	<button
 																		disabled={newCategoryToAssignId === '' ? true : false}
 																		className="btn-centered btn-inline"
-																		onClick={(event) => {
-																			event.preventDefault()
-																			handleMoveExpenses(event)
-																		}}>
+																		onClick={handleMoveExpenses}>
 																		assign new category, <br />
 																		then delete “{elem.name}”
 																	</button>
-
 																	<small className="text-delete">
-																		<a
-																			href="#"
-																			onClick={(event) => {
-																				handleDeleteExpenses(event)
-																			}}>
+																		<button className="btn-as-text" onClick={handleDeleteExpenses}>
 																			No, thanks,
 																			<br />
 																			delete “{editCategoryName}” and its expenses.
-																		</a>
+																		</button>
 																	</small>
 																</>
 															)

@@ -431,6 +431,23 @@ input[type='submit'] {
 	gap: 0.5rem;
 }
 
+.btn-as-text {
+	background-color: transparent;
+	border: 1px solid transparent;
+	color: inherit;
+	display: inline;
+	font-size: inherit;
+	font-weight: normal;
+	margin: 0;
+	padding: 0 0.5rem;
+	text-decoration: underline;
+	width: auto;
+
+	&:focus {
+		border-color: var(--primary);
+	}
+}
+
 /*----- FORMS -----*/
 
 form {
@@ -704,9 +721,11 @@ select {
 }
 
 .section-categories {
-	ul {
-		margin-bottom: 1rem;
+	.card {
+		gap: 1rem;
+	}
 
+	ul {
 		li {
 			padding: 0.1rem 0;
 
