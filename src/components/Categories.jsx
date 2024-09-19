@@ -382,9 +382,7 @@ export default function Categories(props) {
 																		Deleting the category, will also delete these expenses. <br />
 																		Do you want to proceed?
 																	</p>
-																	<button
-																		className="btn-centered btn-inline btn-delete"
-																		onClick={(event) => handleDeleteExpenses(event)}>
+																	<button className="btn-centered btn-inline btn-delete" onClick={handleDeleteExpenses}>
 																		Yes, delete “{editCategoryName}” and its expenses
 																	</button>
 																	<small className="text-delete">
