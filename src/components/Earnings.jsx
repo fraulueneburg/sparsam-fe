@@ -4,7 +4,6 @@ import { API_URL } from '../config'
 import axios from 'axios'
 
 import CardEmpty from '../components/CardEmpty'
-import Alert from './Alert'
 import { ReactComponent as IconMinus } from '../assets/icons/icon-minus.svg'
 import { ReactComponent as IconEdit } from '../assets/icons/icon-edit.svg'
 import { ReactComponent as IconClose } from '../assets/icons/icon-close.svg'
