@@ -214,6 +214,18 @@ header nav li + li {
 
 /*----- TYPOGRAPHY -----*/
 
+.is-positive,
+.is-positive td,
+.is-positive th {
+	color: var(--color-green);
+}
+
+.is-negative,
+.is-negative td,
+.is-negative th {
+	color: var(--color-red);
+}
+
 big {
 	color: var(--h2-color);
 	display: block;
@@ -228,8 +240,6 @@ big {
 	}
 
 	&.is-negative {
-		color: var(--color-red) !important;
-
 		&:after {
 			content: ' 😬';
 		}
@@ -761,149 +771,10 @@ select {
 	text-align: left;
 }
 
-/*----- TABLES -----*/
-
-.table-wrapper {
-	overflow-x: auto;
-	padding: 0.75rem 1rem;
-}
-
-table {
-	margin: 0;
-}
-
-table td {
-	vertical-align: top;
-}
-
-table td,
-table th {
-	padding-left: 0;
-	padding-right: 0.8rem;
-}
-
-table.table-daily-expenses th:first-child,
-table.table-daily-expenses td:first-child {
-	padding-left: 0;
-}
-
-table.table-daily-expenses th:last-child,
-table.table-daily-expenses td:last-child {
-	padding-right: 0;
-}
-
-table.table-daily-expenses tbody td:last-child {
-	text-align: right;
-}
-
-table.table-daily-expenses tbody td:nth-last-child(2) {
-	min-width: 110px;
-	text-align: right;
-}
-
-table.table-daily-expenses tbody td[colspan] {
-	padding-bottom: 0.5rem;
-	padding-top: 0.5rem;
-}
-
-table.table-daily-expenses tbody td:not(:last-child) {
-	padding-bottom: 0.5rem;
-	padding-top: 0.65rem;
-}
-
-.table-daily-expenses .td-category {
-	padding-top: 0.75rem !important;
-
-	strong {
-		display: inline-block;
-		margin-bottom: 0;
-		max-width: 8rem;
-		padding: 0 0.5rem 0 1.3rem;
-		position: relative;
-
-		&:before {
-			background-color: currentColor;
-			border-radius: 50%;
-			content: '';
-			display: block;
-			height: 8px;
-			position: absolute;
-			top: 0.45rem;
-			left: 0.5rem;
-			width: 8px;
-		}
-
-		&:after {
-			background-color: currentColor;
-			content: '';
-			display: inline-block;
-			opacity: 0.2;
-			width: 100%;
-			height: 100%;
-			min-height: 1.05lh;
-			border-radius: 0.6lh;
-			position: absolute;
-			top: 0;
-			left: 0;
-		}
-
-		span {
-			color: var(--color);
-			line-height: 1.4;
-		}
-	}
-}
-
-tr.greyed-out {
-	opacity: 0.3;
-}
-
-tr.greyed-out .color-indicator {
-	background-color: currentColor !important;
-}
-
-th {
-	font-weight: bold;
-}
-
-thead > * > th,
-tfoot > * > td {
-	--font-size: 0.875em;
-}
-
-tfoot tr:not(:first-child) td {
-	border: none;
-	padding-top: 0;
-}
-
-tfoot td {
-	white-space: nowrap;
-	text-align: right;
-}
-
-/*----- TABLE DAILY EXPENSES -----*/
-
-.table-daily-expenses .first-of-date td {
-	border-top: 3px solid var(--table-border-color);
-}
-
-.table-daily-expenses .first-of-date time {
-	display: block;
-}
-
-.table-daily-expenses time {
-	font-weight: bold;
-	display: none;
-}
-
-.table-daily-expenses th:last-child,
-.table-daily-expenses tr:last-child {
-	text-align: right;
-	width: 40px;
-}
-
-.table-daily-expenses .btn-delete-item,
 .btn-edit-item {
+	background-color: var(--primary);
+	border: 4px solid var(--primary);
+	border-radius: 50%;
 	display: inline-block;
 	font-size: 1rem;
 	font-weight: bold;
@@ -911,18 +782,8 @@ tfoot td {
 	line-height: 0;
 	margin: 0.2rem;
 	padding: 0;
-	width: 2rem;
-}
-
-.table-daily-expenses .btn-delete-item + .btn-edit-item {
-	margin-left: 0.5rem;
-}
-
-.btn-edit-item {
-	background-color: var(--primary);
-	border: 4px solid var(--primary);
-	border-radius: 50%;
 	transition: transform 0.2s ease;
+	width: 2rem;
 }
 
 .btn-edit-item:hover,
@@ -940,18 +801,6 @@ tfoot td {
 .btn-edit-item svg {
 	height: 18px;
 	width: 18px;
-}
-
-.table-daily-expenses tfoot td:last-child {
-	text-align: left;
-}
-
-.table-daily-expenses tfoot tr:last-child td {
-	color: var(--color-green) !important;
-}
-
-.table-daily-expenses tfoot tr:last-child.is-negative td {
-	color: var(--color-red) !important;
 }
 
 /*----- EDIT DAILY EXPENSE -----*/

@@ -192,7 +192,7 @@ export default function TableDailyExpenses() {
 						  })
 						: null}
 				</select>
-				<input type="text" name="name" placeholder="name"></input>
+				<input type="text" name="name" placeholder="name" required></input>
 				<div className="input-group">
 					<span className="text">–</span>
 					<input type="number" name="amount" placeholder="0,00" step=".01" required></input>
@@ -218,11 +218,11 @@ export default function TableDailyExpenses() {
 						<table className="table-daily-expenses">
 							<thead>
 								<tr>
-									<th style={{ width: '110px' }}>Date</th>
+									<th>Date</th>
 									<th>Category</th>
 									<th>Name</th>
-									<th style={{ textAlign: 'right' }}>Amount</th>
-									<th style={{ textAlign: 'right' }}></th>
+									<th>Amount</th>
+									<th></th>
 								</tr>
 							</thead>
 							<tbody>
@@ -230,6 +230,7 @@ export default function TableDailyExpenses() {
 									.sort((a, b) => (a.date > b.date ? -1 : b.date > a.date ? 1 : 0))
 									.map((dailyExpense, index, arr) => {
 										if (dailyExpense._id !== editExpenseId) {
+											const isPositiveAmount = dailyExpense.amount.toFixed(2) < 0
 											const categoryData = categoriesArr.find((category) => category._id === dailyExpense.category)
 											return (
 												<tr
@@ -251,8 +252,8 @@ export default function TableDailyExpenses() {
 														</strong>
 													</td>
 													<td>{dailyExpense.name}</td>
-													<td style={{ textAlign: 'right' }}>
-														-{dailyExpense.amount.toFixed(2)} {currency}
+													<td style={{ textAlign: 'right' }} className={isPositiveAmount ? 'is-positive' : null}>
+														{(dailyExpense.amount * -1).toFixed(2)} {currency}
 													</td>
 													<td>
 														<button
@@ -298,6 +299,7 @@ export default function TableDailyExpenses() {
 																value={editExpenseName}
 																onChange={(event) => setEditExpenseName(event.target.value)}
 																name="name"
+																required
 															/>
 															<div className="input-group">
 																<span className="text">–</span>
@@ -348,13 +350,20 @@ export default function TableDailyExpenses() {
 									</td>
 									<td>spent</td>
 								</tr>
-								<tr className={`${budgetLeft < 0 ? 'is-negative' : null}`}>
+								<tr
+									className={
+										budgetLeft === 0 || budgetLeft?.toFixed(2) === '-0.00'
+											? 'is-zero'
+											: budgetLeft < 0 && budgetLeft?.toFixed(2) !== '-0.00'
+											? 'is-negative'
+											: 'is-positive'
+									}>
 									<td></td>
 									<td></td>
 									<td></td>
 									<td>
 										<strong>
-											{budgetLeft.toFixed(2)} {currency}
+											{budgetLeft?.toFixed(2) === '-0.00' ? '0.00' : budgetLeft?.toFixed(2)} {currency}
 										</strong>
 									</td>
 									<td>left</td>
