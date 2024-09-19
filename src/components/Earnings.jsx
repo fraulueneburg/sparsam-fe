@@ -204,7 +204,7 @@ export default function Earnings() {
 								}
 							})}
 						</ul>
-						<p className="total">
+						<p className="total is-positive">
 							<strong className="amount">
 								{earningsTotal} {currency.symbol}
 							</strong>

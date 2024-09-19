@@ -203,7 +203,7 @@ export default function Expenses() {
 								}
 							})}
 						</ul>
-						<p className="total">
+						<p className="total is-negative">
 							<strong className="amount">
 								-{expensesTotal} {currency.symbol}
 							</strong>
