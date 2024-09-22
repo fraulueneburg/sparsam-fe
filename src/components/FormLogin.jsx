@@ -9,6 +9,7 @@ import { ReactComponent as IconPassword } from '../assets/icons/icon-password.sv
 export default function FormLogin(props) {
 	const [emailInput, setEmailInput] = useState('')
 	const [passwordInput, setPasswordInput] = useState('')
+	const [errorMessage, setErrorMessage] = useState('')
 	const navigate = useNavigate()
 	const { setToken, authenticateUser, setIsLoggedIn } = useContext(AuthContext)
 
@@ -27,10 +28,13 @@ export default function FormLogin(props) {
 			setIsLoggedIn(true)
 			setEmailInput('')
 			setPasswordInput('')
+			setErrorMessage('')
 			navigate('/budget')
 		} catch (err) {
-			console.log('catch block err', err)
-			setEmailInput('')
+			err.response && err.response.status === 400
+				? setErrorMessage('Wrong username or password.')
+				: setErrorMessage('An unexpected error occurred. Please try again.')
+			setEmailInput(emailInput)
 			setPasswordInput('')
 		}
 	}
@@ -48,6 +52,8 @@ export default function FormLogin(props) {
 					value={emailInput}
 					placeholder="Email"
 					onChange={(e) => setEmailInput(e.target.value)}
+					aria-invalid={!!errorMessage ? true : null}
+					aria-errormessage="#login-error"
 				/>
 			</div>
 			<div className="input-group">
@@ -59,15 +65,25 @@ export default function FormLogin(props) {
 					name="password"
 					autoComplete="current-password"
 					value={passwordInput}
-					placeholder="*********"
+					placeholder="Password"
 					onChange={(e) => setPasswordInput(e.target.value)}
+					aria-invalid={!!errorMessage ? true : null}
+					aria-errormessage="#login-error"
 				/>
 			</div>
 			<input type="submit" value="Login" />
 			<p style={{ textAlign: 'center' }}>
-				<small>
-					Don’t have an account yet? <Link to="/auth/signup">Sign up now</Link>
-				</small>
+				{errorMessage ? (
+					<small className="text-error" id="login-error">
+						{errorMessage}
+						<br />
+						Don’t have an account yet? <Link to="/auth/signup">Sign up now</Link>
+					</small>
+				) : (
+					<small>
+						Don’t have an account yet? <Link to="/auth/signup">Sign up now</Link>
+					</small>
+				)}
 			</p>
 		</form>
 	)
