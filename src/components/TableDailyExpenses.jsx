@@ -158,17 +158,15 @@ export default function TableDailyExpenses() {
 	}
 
 	return categoriesArr?.length <= 0 ? (
-		<Alert
-			content={
-				<>
-					<h4>No categories defined</h4>
-					<p>You need to add at least one category to start your budget planning</p>
-					<HashLink to="/settings#categories" className="btn-primary">
-						add categories in Settings
-					</HashLink>
-				</>
-			}
-		/>
+		<Alert>
+			<>
+				<h4>No categories defined</h4>
+				<p>You need to add at least one category to start your budget planning</p>
+				<HashLink to="/settings#categories" className="btn-primary">
+					add categories in Settings
+				</HashLink>
+			</>
+		</Alert>
 	) : (
 		<section className="expenses">
 			<h2>Your Expenses</h2>

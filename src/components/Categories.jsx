@@ -439,19 +439,16 @@ export default function Categories(props) {
 						</ul>
 					)}
 					{categoriesArr?.length >= maxNumOfCategories ? (
-						<Alert
-							type="primary"
-							content={
-								<>
-									<h5>You created the maximum number of categories.</h5>
-									<p>
-										Need more? Get in touch with us about our{' '}
-										<strong className="rainbow-text">whopping bargain 999{currency}</strong> premium subscription pla… — no,
-										seriously: just delete a few.
-									</p>
-								</>
-							}
-						/>
+						<Alert type="primary">
+							<>
+								<h5>You created the maximum number of categories.</h5>
+								<p>
+									Need more? Get in touch with us about our{' '}
+									<strong className="rainbow-text">whopping bargain 999{currency}</strong> premium subscription pla… — no,
+									seriously: just delete a few.
+								</p>
+							</>
+						</Alert>
 					) : (
 						<form className="form-categories" onSubmit={handleAddNewCategory}>
 							<h3 className="sr-only">Add new category</h3>

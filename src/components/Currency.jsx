@@ -57,17 +57,14 @@ export default function Currency() {
 					<option value="4">Thursday</option>
 				</select>
 			</div>
-			<Alert
-				type="success"
-				content={
-					<>
-						<p>
-							<strong>Tipp:</strong> Weekends are usually when we spend the most money. So we recommend starting your budget
-							week on friday. You’ll be able to adapt this soon.
-						</p>
-					</>
-				}
-			/>
+			<Alert type="success">
+				<>
+					<p>
+						<strong>Tipp:</strong> Weekends are usually when we spend the most money. So we recommend starting your budget
+						week on friday. You’ll be able to adapt this soon.
+					</p>
+				</>
+			</Alert>
 		</>
 	)
 }

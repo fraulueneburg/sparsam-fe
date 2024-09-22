@@ -1,10 +1,9 @@
-export default function Alert(props) {
-	const type = props.type
-	const content = props.content
+export default function Alert({ children, ...props }) {
+	const { type } = props
 
 	return (
 		<>
-			<div className={type ? 'alert alert-' + type : 'alert'}>{content}</div>
+			<div className={type ? 'alert alert-' + type : 'alert'}>{children}</div>
 		</>
 	)
 }
