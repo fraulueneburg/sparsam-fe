@@ -10,7 +10,7 @@ export default function Footer() {
 					and{' '}
 					<a href="https://github.com/michelsaber/" target="_blank" rel="noreferrer">
 						Michel
-					</a>{' '}
+					</a>
 				</small>
 				<a
 					href="https://github.com/fraulueneburg/sparsam-fe"
