@@ -5,6 +5,7 @@ import { AuthContext } from '../context/auth.context'
 import { API_URL } from '../config'
 import { ReactComponent as IconEmail } from '../assets/icons/icon-email.svg'
 import { ReactComponent as IconPassword } from '../assets/icons/icon-password.svg'
+import Alert from './Alert'
 
 export default function FormLogin(props) {
 	const [emailInput, setEmailInput] = useState('')
@@ -41,6 +42,13 @@ export default function FormLogin(props) {
 
 	return (
 		<form onSubmit={handleSubmit} className={props.classes ? 'form-login ' + props.classes : 'form-login'}>
+			{errorMessage ? (
+				<Alert type="danger">
+					<p id="login-error" className="text-error" role="alert" aria-live="polite">
+						{errorMessage} Don’t have an account yet? <Link to="/auth/signup">Sign up now</Link>
+					</p>
+				</Alert>
+			) : null}
 			<div className="input-group">
 				<span className="text">
 					<IconEmail />
@@ -73,17 +81,9 @@ export default function FormLogin(props) {
 			</div>
 			<input type="submit" value="Login" />
 			<p style={{ textAlign: 'center' }}>
-				{errorMessage ? (
-					<small className="text-error" id="login-error">
-						{errorMessage}
-						<br />
-						Don’t have an account yet? <Link to="/auth/signup">Sign up now</Link>
-					</small>
-				) : (
-					<small>
-						Don’t have an account yet? <Link to="/auth/signup">Sign up now</Link>
-					</small>
-				)}
+				<small>
+					Don’t have an account yet? <Link to="/auth/signup">Sign up now</Link>
+				</small>
 			</p>
 		</form>
 	)

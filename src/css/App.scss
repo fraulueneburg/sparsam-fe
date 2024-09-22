@@ -316,6 +316,10 @@ small {
 	text-underline-offset: 2px;
 }
 
+.text-error {
+	text-align: center;
+}
+
 @media (prefers-contrast: no-preference) {
 	.rainbow-text {
 		background: linear-gradient(to right, var(--color-pink), var(--color-blue), var(--color-lime));
@@ -488,6 +492,10 @@ input[type='submit'] {
 form {
 	text-align: left;
 	margin: 0;
+
+	> .alert {
+		margin: 0;
+	}
 }
 
 form + p small {
