@@ -36,6 +36,7 @@
 	--color-success: var(--color-teal);
 	--color-warning: var(--color-amber);
 	--color-danger: var(--color-red);
+	--color-danger-focus: rgba(229, 57, 53, 0.25);
 }
 
 * {
@@ -177,7 +178,14 @@ svg {
 
 .hidden,
 .sr-only {
-	display: none;
+	border: 0;
+	clip: rect(0, 0, 0, 0);
+	position: absolute;
+	height: 1px;
+	margin: -1px;
+	overflow: hidden;
+	padding: 0;
+	width: 1px;
 }
 
 .sr-hidden {
@@ -256,6 +264,11 @@ time {
 	white-space: nowrap;
 }
 
+ul {
+	margin: 0 0 1rem;
+	padding: 0 0 0 0.9rem;
+}
+
 h1 {
 	font-size: 2.75rem;
 	line-height: 1.2;
@@ -296,6 +309,7 @@ small {
 	--font-size: 0.875em;
 }
 
+.text-error,
 .text-delete,
 .text-delete a {
 	color: var(--color-danger);
@@ -329,6 +343,17 @@ small {
 	text-decoration: none;
 	transition: background-color var(--transition), border-color var(--transition), color var(--transition),
 		box-shadow var(--transition);
+}
+
+.btn-success {
+	background-color: var(--color-green);
+	border-color: var(--color-green);
+
+	&:hover,
+	&:focus,
+	&:active {
+		background-color: var(--color-green-hover);
+	}
 }
 
 .btn-danger {
@@ -429,6 +454,16 @@ input[type='submit'] {
 	display: flex;
 	flex-wrap: nowrap;
 	gap: 0.5rem;
+}
+
+.btn-sign {
+	font-weight: normal;
+	height: calc(1rem * var(--line-height) + var(--form-element-spacing-vertical) * 2 + var(--border-width) * 2);
+	padding: var(--form-element-spacing-vertical) calc(var(--form-element-spacing-horizontal));
+
+	&.btn-plus {
+		background-color: var(--color-green);
+	}
 }
 
 .btn-as-text {
@@ -546,38 +581,62 @@ select {
 
 .input-group {
 	align-items: center;
+	border-radius: var(--border-radius);
 	display: flex;
-}
 
-.input-group > * {
-	border-radius: 0;
-}
+	.text {
+		background-color: var(--form-element-disabled-background-color);
+		border: var(--border-width) solid var(--form-element-border-color);
+		display: block;
+		height: calc(1rem * var(--line-height) + var(--form-element-spacing-vertical) * 2 + var(--border-width) * 2);
+		line-height: 1.4rem;
+		padding: var(--form-element-spacing-vertical) calc(var(--form-element-spacing-horizontal));
+	}
 
-.input-group .text {
-	background-color: var(--form-element-disabled-background-color);
-	border: var(--border-width) solid var(--form-element-border-color);
-	display: block;
-	height: calc(1rem * var(--line-height) + var(--form-element-spacing-vertical) * 2 + var(--border-width) * 2);
-	line-height: 1.4rem;
-	padding: var(--form-element-spacing-vertical) calc(var(--form-element-spacing-horizontal));
-}
+	> * {
+		border-radius: 0;
 
-.input-group > *:first-child {
-	border-top-left-radius: var(--border-radius);
-	border-bottom-left-radius: var(--border-radius);
-}
-.input-group > *:nth-child(2) {
-	border-left: none;
-}
+		&:first-child {
+			border-radius: var(--border-radius) 0 0 var(--border-radius);
+			border-right: none;
+		}
 
-.input-group > *:nth-child(2):not(:last-child) {
-	border-right: none;
-}
+		&:nth-child(2) {
+			border-left: none;
 
-.input-group > *:last-child {
-	background-color: transparent;
-	border-top-right-radius: var(--border-radius);
-	border-bottom-right-radius: var(--border-radius);
+			&:not(:last-child) {
+				border-right: none;
+			}
+		}
+
+		&:last-child {
+			background-color: var(--form-element-background-color);
+			border-radius: 0 var(--border-radius) var(--border-radius) 0;
+		}
+	}
+
+	&:has([aria-invalid='true']) {
+		> * {
+			border-color: var(--color-danger);
+		}
+	}
+
+	&:has(:focus),
+	&:has(:active) {
+		box-shadow: 0 0 0 var(--outline-width) var(--form-element-focus-color);
+
+		input {
+			box-shadow: none;
+		}
+
+		* {
+			border-color: var(--form-element-active-border-color);
+
+			&:last-child {
+				border-left-color: var(--form-element-border-color);
+			}
+		}
+	}
 }
 
 /*----- FORM: BUDGET FORM -----*/
