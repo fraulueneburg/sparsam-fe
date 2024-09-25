@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { useState, useContext, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import { AuthContext } from '../context/auth.context'
 import { API_URL } from '../config'
 import { ReactComponent as IconUser } from '../assets/icons/icon-user.svg'
@@ -10,12 +10,14 @@ import { ModalProvider } from '../context/modal.context'
 import ModalButton from '../components/ModalButton'
 import Modal from '../components/Modal'
 import cryingGif from '../assets/img/gif-crying.gif'
+import Alert from '../components/Alert'
 
 export default function UserSettings() {
 	const [nameInput, setNameInput] = useState('')
 	const [emailInput, setEmailInput] = useState('')
 	const [passwordInput, setPasswordInput] = useState('')
-	const { setToken, setIsLoggedIn, logOutUser } = useContext(AuthContext)
+	const [isTemporaryAccount, setIsTemporaryAccount] = useState(false)
+	const { logOutUser } = useContext(AuthContext)
 
 	const navigate = useNavigate()
 
@@ -23,12 +25,16 @@ export default function UserSettings() {
 		const fetchUserData = async () => {
 			try {
 				const gotToken = localStorage.getItem('authToken')
-				const resp = await axios.get(`${API_URL}/auth/profile`, {
+				const response = await axios.get(`${API_URL}/auth/profile`, {
 					headers: { authorization: `Bearer ${gotToken}` },
 				})
 
-				setNameInput(resp.data.userNeeded.name)
-				setEmailInput(resp.data.userNeeded.email)
+				const { name, email, isTemporary, createdAt } = response.data.userNeeded
+
+				setNameInput(name)
+				setEmailInput(email)
+				setIsTemporaryAccount(isTemporary)
+				console.log('createdAt', createdAt)
 			} catch (err) {
 				console.log(err)
 			}
@@ -88,8 +94,16 @@ export default function UserSettings() {
 	return (
 		<>
 			<title>User Settings</title>
+			<h1>User Settings</h1>
+			{isTemporaryAccount ? (
+				<Alert type="success">
+					<p>
+						You are using a demo account which will be deleted in less than <strong>24 hours.</strong> <br />
+						If you fancy a permanent account, <Link to="/auth/signup">sign up here.</Link>
+					</p>
+				</Alert>
+			) : null}
 			<form onSubmit={handleSubmit} className="edit-profile">
-				<h1>User Settings</h1>
 				<div className="input-group">
 					<span className="text">
 						<IconUser />
