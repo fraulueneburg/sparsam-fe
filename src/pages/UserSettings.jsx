@@ -87,7 +87,7 @@ export default function UserSettings() {
 
 	return (
 		<>
-			<title>Budget | User Settings</title>
+			<title>User Settings</title>
 			<form onSubmit={handleSubmit} className="edit-profile">
 				<h1>User Settings</h1>
 				<div className="input-group">
