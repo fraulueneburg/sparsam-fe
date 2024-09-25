@@ -6,16 +6,6 @@ export default function Signup() {
 		<>
 			<title>Signup | sparsam</title>
 			<h1>Signup</h1>
-			<Alert type="primary">
-				<>
-					<p>
-						<strong>☝️ Coming soon:&nbsp;</strong>
-						No-signup demo for anyone reviewing Wiebke’s portfolio.
-						<br /> For now, just sign up with x@y.z or something. We won’t shame you, promise.
-					</p>
-				</>
-			</Alert>
-
 			<FormSignup />
 		</>
 	)
