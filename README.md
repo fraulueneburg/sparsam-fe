@@ -1,9 +1,10 @@
 ![Screenshot of the sparsam budgeting app](https://repository-images.githubusercontent.com/693795209/d7feabc3-39cf-4943-8156-e2ec47eb605d)
 
-# [IN REVISION] 👷🐽<br />sparsam - An awesome budgeting app
+# sparsam - An awesome budgeting app
 
 > [!IMPORTANT]
-> Please note that this project is currently in revision. The demo still works, of course. You can follow my progress here or on [Linkedin](https://linkedin.com/in/fraulueneburg)
+>
+> > While this app is no longer in revision, there are still a few minor improvements being implemented here and there. You can follow my progress here or on [Linkedin](https://linkedin.com/in/fraulueneburg)
 
 ### 👉&nbsp;&nbsp;See the demo at&nbsp;&nbsp;[sparsam-app.netlify.app](https://sparsam-app.netlify.app/)
 
@@ -94,7 +95,7 @@ npm install mongo-db express axios react-router-dom react-router-hash-link chart
 
 ## 5. Team
 
-Sparsam was created in a team with [Michel Saber](https://github.com/michelsaber).
+Sparsam’s code base was completely revised by me, Wiebke, in 2024. The very first version of the App started out as a final project at the Ironhack Coding Bootcamp in 2023 and was created in a team with [Michel Saber](https://github.com/michelsaber).
 
 ---
 
