@@ -1,5 +1,7 @@
-import Alert from '../components/Alert'
+import { Link } from 'react-router-dom'
+import Tabs from '../components/Tabs'
 import FormSignup from '../components/FormSignup'
+import FormSignupDemo from '../components/FormSignupDemo'
 
 export default function HomePage() {
 	return (
@@ -7,17 +9,12 @@ export default function HomePage() {
 			<title>Welcome | sparsam</title>
 			<h1>Welcome to Sparsam</h1>
 			<h2>An awesome budgeting app</h2>
-			<Alert type="primary">
-				<>
-					<p>
-						<strong>☝️ Coming soon:&nbsp;</strong>
-						No-signup demo for anyone reviewing Wiebke’s portfolio.
-						<br /> For now, just sign up with x@y.z or something. We won’t shame you, promise.
-					</p>
-				</>
-			</Alert>
 			<div className="columns">
 				<div className="column">
+					<h3>
+						Budgeting made easy. <br />
+						Sign up and …
+					</h3>
 					<ul className="list-emoji">
 						<li>
 							<span className="emoji sr-hidden">💻&nbsp; </span>calculate your weekly budget
@@ -37,7 +34,23 @@ export default function HomePage() {
 					</ul>
 				</div>
 				<div className="column">
-					<FormSignup />
+					<Tabs
+						tabs={[
+							{
+								label: 'Demo Signup',
+								content: <FormSignupDemo />,
+							},
+							{
+								label: 'Regular Signup',
+								content: <FormSignup />,
+							},
+						]}
+					/>
+					<center>
+						<small>
+							Already have an account? <Link to="/auth/login">Login now</Link>
+						</small>
+					</center>
 				</div>
 			</div>
 		</>

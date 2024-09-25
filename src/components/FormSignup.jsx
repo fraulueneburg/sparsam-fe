@@ -3,18 +3,20 @@ import { useState, useContext } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { AuthContext } from '../context/auth.context'
 import { API_URL } from '../config'
+
+import currenciesArr from '../data/currencies.json'
 import { ReactComponent as IconUser } from '../assets/icons/icon-user.svg'
 import { ReactComponent as IconEmail } from '../assets/icons/icon-email.svg'
 import { ReactComponent as IconPassword } from '../assets/icons/icon-password.svg'
-import currenciesArr from '../data/currencies.json'
 
 export default function FormSignup() {
-	const [nameInput, setNameInput] = useState('')
-	const [emailInput, setEmailInput] = useState('')
-	const [passwordInput, setPasswordInput] = useState('')
 	const { setToken, setIsLoggedIn } = useContext(AuthContext)
 	const navigate = useNavigate()
 	const indexDefaultCurrency = currenciesArr.findIndex((elem) => elem.symbol === '€')
+
+	const [nameInput, setNameInput] = useState('')
+	const [emailInput, setEmailInput] = useState('')
+	const [passwordInput, setPasswordInput] = useState('')
 
 	const handleSubmit = async (e) => {
 		e.preventDefault()
@@ -57,6 +59,7 @@ export default function FormSignup() {
 						placeholder="Name"
 						onChange={(e) => setNameInput(e.target.value)}
 						autoComplete="username"
+						required
 					/>
 				</div>
 				<div className="input-group">
@@ -70,6 +73,7 @@ export default function FormSignup() {
 						placeholder="Email"
 						autoComplete="email"
 						onChange={(e) => setEmailInput(e.target.value)}
+						required
 					/>
 				</div>
 				<div className="input-group">
@@ -83,15 +87,11 @@ export default function FormSignup() {
 						placeholder="*********"
 						autoComplete="new-password"
 						onChange={(e) => setPasswordInput(e.target.value)}
+						required
 					/>
 				</div>
 				<input type="submit" value="Sign up and login" />
 			</form>
-			<p>
-				<small>
-					Already have an account? <Link to="/auth/login">Login now</Link>
-				</small>
-			</p>
 		</>
 	)
 }

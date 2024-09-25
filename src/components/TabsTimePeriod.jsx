@@ -23,7 +23,7 @@ export default function TabsTimePeriod() {
 	return (
 		<>
 			<section>
-				<div className={`card card-budget ${timePeriod}-active`}>
+				<div className={`card card-tabs card-budget ${timePeriod}-active`}>
 					<div className="nav-tabs">
 						<button
 							onClick={() => navigate('?timePeriod=week')}
@@ -48,7 +48,7 @@ export default function TabsTimePeriod() {
 					<p>
 						<big
 							className={
-								budgetLeft === 0 || budgetLeft?.toFixed(2) === '-0.00'
+								budgetLeft === 0 || budgetLeft?.toFixed(2) === '-0.00' || budgetLeft?.toFixed(2) === '0.00'
 									? 'is-zero'
 									: budgetLeft < 0 && budgetLeft?.toFixed(2) !== '-0.00'
 									? 'is-negative'
