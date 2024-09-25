@@ -92,6 +92,11 @@ export default function FormSignup() {
 				</div>
 				<input type="submit" value="Sign up and login" />
 			</form>
+			<p style={{ textAlign: 'center' }}>
+				<small>
+					Already have an account? <Link to="/auth/login">Login now</Link>
+				</small>
+			</p>
 		</>
 	)
 }
