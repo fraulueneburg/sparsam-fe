@@ -1,4 +1,3 @@
-import Alert from '../components/Alert'
 import FormLogin from '../components/FormLogin'
 
 export default function Login() {
