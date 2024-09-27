@@ -144,15 +144,11 @@ table.table-daily-expenses {
 
 	time {
 		font-weight: bold;
-		opacity: 0;
 	}
 
 	tr.first-of-date {
 		td {
 			border-top: 3px solid var(--table-border-color);
-		}
-		time {
-			opacity: 1;
 		}
 	}
 

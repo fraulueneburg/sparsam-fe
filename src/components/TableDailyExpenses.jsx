@@ -38,9 +38,11 @@ export default function TableDailyExpenses() {
 	const handleAddDailyExpense = async (event) => {
 		event.preventDefault()
 
+		const gotToken = localStorage.getItem('authToken')
 		const { date, category, name, amount } = event.target
 		const expenseDate = new Date(date.value)
-		const gotToken = localStorage.getItem('authToken')
+		// const now = new Date()
+		// expenseDate.setHours(now.getHours(), now.getMinutes(), now.getSeconds(), now.getMilliseconds())
 
 		const newDailyExpense = {
 			date: expenseDate.toISOString(),
@@ -56,8 +58,9 @@ export default function TableDailyExpenses() {
 			const response = await axios.post(`${API_URL}/budget/addexpense`, newDailyExpense, {
 				headers: { authorization: `Bearer ${gotToken}` },
 			})
+
 			const createdExpense = response.data
-			const newArr = [...dailyExpensesArr, createdExpense].sort((a, b) => (a.date > b.date ? -1 : b.date > a.date ? 1 : 0))
+			const newArr = [createdExpense, ...dailyExpensesArr].sort((a, b) => (a.date > b.date ? -1 : b.date > a.date ? 1 : 0))
 
 			setDailyExpensesArr(newArr)
 			setDailyExpensesTotal(calculateTotalAmount(newArr))
@@ -230,16 +233,14 @@ export default function TableDailyExpenses() {
 										if (dailyExpense._id !== editExpenseId) {
 											const isPositiveAmount = dailyExpense.amount.toFixed(2) < 0
 											const categoryData = categoriesArr.find((category) => category._id === dailyExpense.category)
+											const isNotFirstOfDate = index > 0 && arr[index - 1].date.slice(0, 10) === arr[index].date.slice(0, 10)
+
 											return (
-												<tr
-													key={dailyExpense._id}
-													className={
-														index > 0 && arr[index - 1].date.slice(0, 10) === arr[index].date.slice(0, 10)
-															? null
-															: 'first-of-date'
-													}>
+												<tr key={dailyExpense._id} className={isNotFirstOfDate ? null : 'first-of-date'}>
 													<td>
-														<time dateTime={dailyExpense.date}>{writeOutDate(dailyExpense.date)}</time>
+														<time dateTime={dailyExpense.date} className={isNotFirstOfDate ? 'sr-only' : null}>
+															{writeOutDate(dailyExpense.date)}
+														</time>
 													</td>
 													<td className="td-category">
 														<strong
