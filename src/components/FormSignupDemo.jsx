@@ -16,8 +16,8 @@ export default function FormSignupDemo() {
 		try {
 			const { data } = await axios.post(`${API_URL}/auth/one-click-signup`, {
 				currency: currenciesArr[indexDefaultCurrency],
-				isTemporary: true,
 			})
+
 			const actualToken = data.authToken
 			setToken(actualToken)
 			setIsLoggedIn(true)
