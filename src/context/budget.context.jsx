@@ -123,6 +123,7 @@ const BudgetContextWrapper = ({ children }) => {
 				currency,
 				existingBudget,
 				existingDailyExpenses,
+				setExistingDailyExpenses,
 				monthlyBudget,
 				budgetLeft,
 				setBudgetLeft,

@@ -20,6 +20,8 @@ export default function TableDailyExpenses() {
 	const {
 		currency,
 		existingBudget,
+		existingDailyExpenses,
+		setExistingDailyExpenses,
 		budgetLeft,
 		setBudgetLeft,
 		budgetTotal,
@@ -41,8 +43,6 @@ export default function TableDailyExpenses() {
 		const gotToken = localStorage.getItem('authToken')
 		const { date, category, name, amount } = event.target
 		const expenseDate = new Date(date.value)
-		// const now = new Date()
-		// expenseDate.setHours(now.getHours(), now.getMinutes(), now.getSeconds(), now.getMilliseconds())
 
 		const newDailyExpense = {
 			date: expenseDate.toISOString(),
@@ -60,7 +60,9 @@ export default function TableDailyExpenses() {
 			})
 
 			const createdExpense = response.data
-			const newArr = [createdExpense, ...dailyExpensesArr].sort((a, b) => (a.date > b.date ? -1 : b.date > a.date ? 1 : 0))
+			const newArr = [createdExpense, ...dailyExpensesArr].sort((a, b) => {
+				return new Date(b.date) - new Date(a.date) || new Date(b.dateFieldUpdatedAt) - new Date(a.dateFieldUpdatedAt)
+			})
 
 			setDailyExpensesArr(newArr)
 			setDailyExpensesTotal(calculateTotalAmount(newArr))
@@ -131,23 +133,24 @@ export default function TableDailyExpenses() {
 		}
 
 		try {
-			await axios.post(`${API_URL}/budget/updateexpense/${expenseId}`, updatedExpense, {
+			const response = await axios.post(`${API_URL}/budget/updateexpense/${expenseId}`, updatedExpense, {
 				headers: { authorization: `Bearer ${gotToken}` },
 			})
+			updatedExpense.dateFieldUpdatedAt = response.data.dateFieldUpdatedAt
+			updatedExpense._id = response.data._id
 
 			const expenseIndex = dailyExpensesArr.findIndex((elem) => elem._id === expenseId)
-			const isInDateRange = firstDayISO <= editExpenseDate && editExpenseDate <= lastDayISO
-
 			let updatedDailyExpensesArr = [...dailyExpensesArr]
+			const isInDateRange = firstDayISO <= editExpenseDate && editExpenseDate <= lastDayISO
 
 			if (isInDateRange) {
 				updatedDailyExpensesArr[expenseIndex] = {
 					...updatedDailyExpensesArr[expenseIndex],
 					...updatedExpense,
-					//date: expenseDate.toISOString(),
 				}
 			} else {
 				updatedDailyExpensesArr.splice(expenseIndex, 1)
+				setExistingDailyExpenses((prevItems) => prevItems.map((item) => (item._id === expenseId ? updatedExpense : item)))
 			}
 
 			const newDailyExpensesTotal = calculateTotalAmount(updatedDailyExpensesArr)
@@ -228,7 +231,11 @@ export default function TableDailyExpenses() {
 							</thead>
 							<tbody>
 								{dailyExpensesArr
-									.sort((a, b) => (a.date > b.date ? -1 : b.date > a.date ? 1 : 0))
+									.sort((a, b) => {
+										return (
+											new Date(b.date) - new Date(a.date) || new Date(b.dateFieldUpdatedAt) - new Date(a.dateFieldUpdatedAt)
+										)
+									})
 									.map((dailyExpense, index, arr) => {
 										if (dailyExpense._id !== editExpenseId) {
 											const isPositiveAmount = dailyExpense.amount.toFixed(2) < 0
