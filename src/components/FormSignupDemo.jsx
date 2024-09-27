@@ -29,10 +29,10 @@ export default function FormSignupDemo() {
 
 	return (
 		<>
-			<p>A one-click, no-hassle solution for anyone reviewing Wiebke’s portfolio:</p>
+			<p>A one-click, no-hassle solution for anyone reviewing Wiebke’s portfolio</p>
 			<ul className="text-list">
 				<li>instant login</li>
-				<li>prefilled with dummy data</li>
+				<li>pre-filled with dummy data</li>
 				<li>account self-deletes after 24h</li>
 			</ul>
 			<button type="button" onClick={handleRecruiterSubmit}>
