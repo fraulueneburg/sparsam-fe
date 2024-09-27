@@ -29,12 +29,11 @@ export default function UserSettings() {
 					headers: { authorization: `Bearer ${gotToken}` },
 				})
 
-				const { name, email, isTemporary, createdAt } = response.data.userNeeded
+				const { name, email, isTemporary } = response.data.userNeeded
 
 				setNameInput(name)
 				setEmailInput(email)
 				setIsTemporaryAccount(isTemporary)
-				console.log('createdAt', createdAt)
 			} catch (err) {
 				console.log(err)
 			}
