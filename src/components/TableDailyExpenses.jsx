@@ -66,6 +66,7 @@ export default function TableDailyExpenses() {
 
 			setDailyExpensesArr(newArr)
 			setDailyExpensesTotal(calculateTotalAmount(newArr))
+			setExistingDailyExpenses([...existingDailyExpenses, createdExpense])
 			setBudgetLeft(budgetTotal - calculateTotalAmount(newArr))
 		} catch (err) {
 			name.value = newDailyExpense.name
@@ -94,6 +95,7 @@ export default function TableDailyExpenses() {
 			console.log('ERROR WHILE DELETING EXPENSE', err)
 		}
 		setDailyExpensesTotal(calculateTotalAmount(filteredDailyExpensesArr))
+		setExistingDailyExpenses((prevItems) => prevItems.filter((item) => item._id !== expenseId))
 		setBudgetLeft(budgetTotal - calculateTotalAmount(filteredDailyExpensesArr))
 		setEditExpenseId(0)
 	}
