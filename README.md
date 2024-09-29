@@ -32,8 +32,8 @@ Created by leading experts in the industry (read: two formerly broke students), 
 2. [Technologies](#2-technologies)
 3. [Installation](#3-installation)
 4. [Demo](#4-demo)
-5. [Team](#5-team)
-6. [About me](#6-about-me)
+5. [About me](#5-about-me)
+6. [Team](#6-team)
 7. [Contact](#7-like-this-project-lets-connect)
 
 ## 1. Code
@@ -93,16 +93,14 @@ npm install mongo-db express axios react-router-dom react-router-hash-link chart
 
 ### 👉&nbsp;&nbsp;See the demo at&nbsp;&nbsp;[sparsam-app.netlify.app](https://sparsam-app.netlify.app/)
 
-## 5. Team
-
-Sparsam’s code base was completely revised by me, Wiebke, in 2024. The very first version of the App started out as a final project at the Ironhack Coding Bootcamp in 2023 and was created in a team with [Michel Saber](https://github.com/michelsaber).
-
----
-
-## 6. About Me
+## 5. About Me
 
 I’m Wiebke, a Full Stack Web Developer and UI/UX Designer, currently living in Hamburg, Germany.  
 Usability is a top priority in my work and I am also strongly advocating for (and keep learning about) web accessibility.
+
+## 6. Team
+
+Sparsam’s code base was completely revised by me, Wiebke, in 2024. The very first version of the App started out as a final project at the Ironhack Coding Bootcamp in 2023 and was created in a team with [Michel Saber](https://github.com/michelsaber).
 
 ## 7. Like this project? Let’s connect:
 
