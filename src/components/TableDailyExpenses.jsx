@@ -152,11 +152,12 @@ export default function TableDailyExpenses() {
 				}
 			} else {
 				updatedDailyExpensesArr.splice(expenseIndex, 1)
-				setExistingDailyExpenses((prevItems) => prevItems.map((item) => (item._id === expenseId ? updatedExpense : item)))
 			}
 
-			const newDailyExpensesTotal = calculateTotalAmount(updatedDailyExpensesArr)
+			setExistingDailyExpenses((prevItems) => prevItems.map((item) => (item._id === expenseId ? updatedExpense : item)))
 			setDailyExpensesArr(updatedDailyExpensesArr)
+
+			const newDailyExpensesTotal = calculateTotalAmount(updatedDailyExpensesArr)
 			setDailyExpensesTotal(newDailyExpensesTotal)
 			setBudgetLeft(budgetTotal - newDailyExpensesTotal)
 			setEditExpenseId(0)

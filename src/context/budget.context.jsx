@@ -28,10 +28,17 @@ const BudgetContextWrapper = ({ children }) => {
 
 	const [existingBudget, setExistingBudget] = useState([])
 	const [existingDailyExpenses, setExistingDailyExpenses] = useState([])
-	const [monthlyBudget, setMonthlyBudget] = useState(0)
 	const [categoriesArr, setCategoriesArr] = useState([])
 	const [currency, setCurrency] = useState('')
 	const [dataLoaded, setDataLoaded] = useState(false)
+
+	const [dailyExpensesArr, setDailyExpensesArr] = useState([])
+	const [dailyExpensesTotal, setDailyExpensesTotal] = useState(0)
+	const [budgetTotal, setBudgetTotal] = useState(0)
+	const [monthlyBudget, setMonthlyBudget] = useState(0)
+	const [budgetLeft, setBudgetLeft] = useState(0)
+
+	// INITIAL RENDER, fetch data from database
 
 	useEffect(() => {
 		const fetchBudgetData = async () => {
@@ -45,10 +52,8 @@ const BudgetContextWrapper = ({ children }) => {
 
 				setExistingDailyExpenses(fetchedDailyExpenses)
 				setExistingBudget(fetchedBudget)
-				setMonthlyBudget(calculateTotalAmount(fetchedBudget.earnings) - calculateTotalAmount(fetchedBudget.expenses))
 				setCategoriesArr(fetchedBudget.categories)
 				setCurrency(fetchedBudget.currency.symbol)
-
 				setDataLoaded(true)
 			} catch (err) {
 				console.log('Error while fetching budget:', err)
@@ -56,64 +61,78 @@ const BudgetContextWrapper = ({ children }) => {
 			}
 		}
 		fetchBudgetData()
-	}, [timePeriod])
-
-	const [dailyExpensesArr, setDailyExpensesArr] = useState(
-		existingDailyExpenses.filter(
-			(element) => element.date.slice(0, 10) >= firstDayISO && element.date.slice(0, 10) <= lastDayISO
-		)
-	)
-
-	const [dailyExpensesTotal, setDailyExpensesTotal] = useState(calculateTotalAmount(dailyExpensesArr))
-	const [budgetTotal, setBudgetTotal] = useState((monthlyBudget / 31) * 7)
-	const [budgetLeft, setBudgetLeft] = useState(budgetTotal - dailyExpensesTotal)
+	}, [])
 
 	// NAVIGATE BACK/FORTH
+	// calculate new first and last day
 
 	useEffect(() => {
-		setNumOfItemsToNavigate(0)
-		timePeriod === 'week' ? setBudgetTotal((monthlyBudget / 31) * 7) : setBudgetTotal(monthlyBudget)
-	}, [timePeriod, monthlyBudget])
+		const currentFirstDay = new Date(firstDay)
+		const currentLastDay = new Date(lastDay)
+		const newDate = new Date()
+		const timezoneOffsetHours = Math.floor(Math.abs(newDate.getTimezoneOffset()) / 60)
+		const oneWeek = 7 * 24 * 60 * 60 * 1000
 
-	useEffect(() => {
-		// Convert ISO format strings to JavaScript Date objects
-		let currentFirstDay = new Date(firstDay)
-		let currentLastDay = new Date(lastDay)
-		const oneWeek = 7 * 24 * 60 * 60 * 1000 // One week in milliseconds
-
-		// Calculate new first and last day
-		let newFirstDay = new Date(currentFirstDay.getTime() + numOfItemsToNavigate * oneWeek)
-		let newLastDay = new Date(currentLastDay.getTime() + numOfItemsToNavigate * oneWeek)
+		let newFirstDay, newLastDay
 
 		if (timePeriod === 'month') {
-			const newDate = new Date()
-			const timezoneOffsetHours = Math.floor(Math.abs(newDate.getTimezoneOffset()) / 60)
 			newFirstDay = new Date(yearToday, monthToday + numOfItemsToNavigate, 1, timezoneOffsetHours)
 			newLastDay = new Date(yearToday, monthToday + numOfItemsToNavigate + 1, 0, timezoneOffsetHours)
+		} else {
+			newFirstDay = new Date(currentFirstDay.getTime() + numOfItemsToNavigate * oneWeek)
+			newLastDay = new Date(currentLastDay.getTime() + numOfItemsToNavigate * oneWeek)
 		}
 
-		// convert back to ISO format strings
 		const newFirstDayISO = convertToISO(newFirstDay)
 		const newLastDayISO = convertToISO(newLastDay)
 		setFirstDayISO(newFirstDayISO)
 		setLastDayISO(newLastDayISO)
 
-		// update daily expenses array
-		const updatedDailyExpArr = existingDailyExpenses.filter(
-			(element) => element.date.slice(0, 10) >= firstDayISO && element.date.slice(0, 10) <= lastDayISO
-		)
-		setDailyExpensesArr(updatedDailyExpArr)
-		setDailyExpensesTotal(calculateTotalAmount(updatedDailyExpArr))
-		setBudgetLeft(budgetTotal - calculateTotalAmount(updatedDailyExpArr))
-
-		// check if today’s week/month
 		setIsCurrentTime(
-			(timePeriod === 'month' && yearToday === +lastDayISO.slice(0, 4) && monthToday + 1 === +lastDayISO.slice(5, 7)) ||
-				(timePeriod === 'week' && convertToISO(new Date()) >= firstDayISO && convertToISO(new Date()) <= lastDayISO)
+			(timePeriod === 'month' &&
+				yearToday === +newLastDayISO.slice(0, 4) &&
+				monthToday + 1 === +newLastDayISO.slice(5, 7)) ||
+				(timePeriod === 'week' && convertToISO(new Date()) >= newFirstDayISO && convertToISO(new Date()) <= newLastDayISO)
 				? true
 				: false
 		)
-	}, [firstDayISO, lastDayISO, numOfItemsToNavigate, timePeriod, existingDailyExpenses])
+	}, [numOfItemsToNavigate, timePeriod])
+
+	// RESET WEEK/MONTH TO TODAY ON TIME PERIOD CHANGE
+
+	useEffect(() => {
+		setNumOfItemsToNavigate(0)
+	}, [timePeriod])
+
+	// UPDATE DAILY EXPENSES ARRAY
+	// filter items of new dates
+
+	useEffect(() => {
+		setDailyExpensesArr(
+			existingDailyExpenses.filter(
+				(element) => element.date.slice(0, 10) >= firstDayISO && element.date.slice(0, 10) <= lastDayISO
+			)
+		)
+	}, [existingDailyExpenses, timePeriod, firstDayISO, lastDayISO])
+
+	// CALCULATE TOTALS
+
+	useEffect(() => {
+		const calculateTotals = () => {
+			const newMonthlyBudget = calculateTotalAmount(existingBudget.earnings) - calculateTotalAmount(existingBudget.expenses)
+			const newDailyExpensesTotal = calculateTotalAmount(dailyExpensesArr)
+			const newBudgetTotal = timePeriod === 'week' ? (newMonthlyBudget / 31) * 7 : newMonthlyBudget
+			const newBudgetLeft = newBudgetTotal - newDailyExpensesTotal
+
+			return { newMonthlyBudget, newDailyExpensesTotal, newBudgetLeft, newBudgetTotal }
+		}
+		const { newMonthlyBudget, newDailyExpensesTotal, newBudgetTotal, newBudgetLeft } = calculateTotals()
+
+		setMonthlyBudget(newMonthlyBudget)
+		setDailyExpensesTotal(newDailyExpensesTotal)
+		setBudgetLeft(newBudgetLeft)
+		setBudgetTotal(newBudgetTotal)
+	}, [dailyExpensesArr, existingDailyExpenses, existingBudget])
 
 	return (
 		<BudgetContext.Provider
