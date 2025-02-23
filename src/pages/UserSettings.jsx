@@ -152,7 +152,7 @@ export default function UserSettings() {
 					description={
 						<>
 							<p>
-								{`Oh, ${nameInput}, we hate to see you go.`}
+								{`Oh, ${nameInput + ', '}we hate to see you go.`}
 								<br />
 								{`But, no worries. As long as you’re happy, we’re happy.`}
 								<br />
