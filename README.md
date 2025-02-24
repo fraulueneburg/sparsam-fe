@@ -2,10 +2,6 @@
 
 # sparsam - An awesome budgeting app
 
-> [!IMPORTANT]
->
-> > While this app is no longer in revision, there are still a few minor improvements being implemented here and there. You can follow my progress here or on [Linkedin](https://linkedin.com/in/fraulueneburg)
-
 ### 👉&nbsp;&nbsp;See the demo at&nbsp;&nbsp;[sparsam-app.netlify.app](https://sparsam-app.netlify.app/)
 
 ---
