@@ -9,10 +9,6 @@ export default function Footer() {
 					<a href="https://github.com/fraulueneburg/" target="_blank" rel="noreferrer">
 						Wiebke
 					</a>{' '}
-					at{' '}
-					<a href="https://ironhack.com/" target="_blank" rel="noreferrer">
-						Ironhack
-					</a>
 				</small>
 				<a
 					href="https://github.com/fraulueneburg/sparsam-fe"
