@@ -438,6 +438,11 @@ input[type='submit'] {
 	width: 2rem;
 	transform: scale(1);
 	transition: transform 0.2s ease;
+
+	svg {
+		width: 24px;
+		height: 24px;
+	}
 }
 
 .btn-add-item {

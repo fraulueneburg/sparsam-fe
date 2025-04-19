@@ -4,13 +4,9 @@
 	"private": true,
 	"dependencies": {
 		"@react-navigation/native": "^6.1.7",
-		"@testing-library/jest-dom": "^5.16.5",
-		"@testing-library/react": "^13.4.0",
-		"@testing-library/user-event": "^13.5.0",
 		"@vitejs/plugin-react-swc": "^3.9.0",
 		"axios": "^1.7.3",
 		"chart.js": "^4.3.0",
-		"chartjs": "^0.3.24",
 		"express": "^4.19.2",
 		"flag-icons": "^7.2.3",
 		"mongodb": "^6.15.0",
@@ -31,24 +27,6 @@
 		"serve": "vite preview",
 		"test": "vitest",
 		"test:coverage": "vitest run --coverage --watch=false"
-	},
-	"eslintConfig": {
-		"extends": [
-			"react-app",
-			"react-app/jest"
-		]
-	},
-	"browserslist": {
-		"production": [
-			">0.2%",
-			"not dead",
-			"not op_mini all"
-		],
-		"development": [
-			"last 1 chrome version",
-			"last 1 firefox version",
-			"last 1 safari version"
-		]
 	},
 	"devDependencies": {
 		"@vitest/coverage-v8": "^3.1.1",
