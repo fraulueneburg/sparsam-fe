@@ -41,7 +41,7 @@ Created by leading experts in the industry (read: two formerly broke students), 
 
 | Name                                                        | Description                                                                             |
 | :---------------------------------------------------------- | :-------------------------------------------------------------------------------------- |
-| **Create React App**                                        | Bootstrap code                                                                          |
+| **Vite**                                                    | Bootstrap code                                                                          |
 | **React.js**                                                | Javascript library for building awesome and fast user interfaces                        |
 | **MongoDB:**                                                | Non-relational database                                                                 |
 | **Express.js:**                                             | Backend web application framework for Node.js.                                          |
