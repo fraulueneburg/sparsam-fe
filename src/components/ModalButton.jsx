@@ -1,3 +1,4 @@
+import React from 'react'
 import { useModal } from '../context/modal.context'
 
 export default function ModalButton({ children, ...props }) {

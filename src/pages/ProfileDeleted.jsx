@@ -1,3 +1,4 @@
+import React from 'react'
 import highFiveGif from '../assets/img/gif-high-five.gif'
 import { useNavigate } from 'react-router-dom'
 

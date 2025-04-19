@@ -1,8 +1,9 @@
+import React from 'react'
 import { useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { BudgetContext } from '../context/budget.context'
-import { ReactComponent as IconChevronLeft } from '../assets/icons/icon-chevron-left.svg'
-import { ReactComponent as IconChevronRight } from '../assets/icons/icon-chevron-right.svg'
+import IconChevronLeft from '../assets/icons/icon-chevron-left.svg?react'
+import IconChevronRight from '../assets/icons/icon-chevron-right.svg?react'
 
 export default function TabsTimePeriod() {
 	const {

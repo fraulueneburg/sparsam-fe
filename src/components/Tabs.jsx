@@ -1,3 +1,4 @@
+import React from 'react'
 import { useState, useId } from 'react'
 
 export default function Tabs({ ...props }) {

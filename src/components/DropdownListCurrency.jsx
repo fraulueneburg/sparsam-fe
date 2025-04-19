@@ -1,6 +1,7 @@
+import React from 'react'
 import { useId, useState, useEffect, useMemo, useRef } from 'react'
-import { ReactComponent as IconChevronDown } from '../assets/icons/icon-chevron-down.svg'
-import { ReactComponent as IconGlobe } from '../assets/icons/icon-globe.svg'
+import IconChevronDown from '../assets/icons/icon-chevron-down.svg?react'
+import IconGlobe from '../assets/icons/icon-globe.svg?react'
 
 export default function DropdownListCurrency({
 	legend,

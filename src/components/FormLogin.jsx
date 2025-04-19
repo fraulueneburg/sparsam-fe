@@ -1,10 +1,11 @@
+import React from 'react'
 import axios from 'axios'
 import { useContext, useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { AuthContext } from '../context/auth.context'
 import { API_URL } from '../config'
-import { ReactComponent as IconEmail } from '../assets/icons/icon-email.svg'
-import { ReactComponent as IconPassword } from '../assets/icons/icon-password.svg'
+import IconEmail from '../assets/icons/icon-email.svg?react'
+import IconPassword from '../assets/icons/icon-password.svg?react'
 import Alert from './Alert'
 
 export default function FormLogin(props) {

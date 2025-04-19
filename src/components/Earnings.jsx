@@ -1,13 +1,14 @@
+import React from 'react'
 import { useState, useContext } from 'react'
 import { SettingsContext } from '../context/settings.context'
 import { API_URL } from '../config'
 import axios from 'axios'
 
 import CardEmpty from '../components/CardEmpty'
-import { ReactComponent as IconMinus } from '../assets/icons/icon-minus.svg'
-import { ReactComponent as IconEdit } from '../assets/icons/icon-edit.svg'
-import { ReactComponent as IconClose } from '../assets/icons/icon-close.svg'
-import { ReactComponent as IconCheck } from '../assets/icons/icon-check.svg'
+import IconMinus from '../assets/icons/icon-minus.svg?react'
+import IconEdit from '../assets/icons/icon-edit.svg?react'
+import IconClose from '../assets/icons/icon-close.svg?react'
+import IconCheck from '../assets/icons/icon-check.svg?react'
 import noEarningsGif from '../assets/img/gif-no-earnings.gif'
 
 export default function Earnings() {

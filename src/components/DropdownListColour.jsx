@@ -1,6 +1,7 @@
+import React from 'react'
 import { useId, useEffect, useRef } from 'react'
-import { ReactComponent as IconChevronDown } from '../assets/icons/icon-chevron-down.svg'
-import { ReactComponent as IconCheck } from '../assets/icons/icon-check.svg'
+import IconChevronDown from '../assets/icons/icon-chevron-down.svg?react'
+import IconCheck from '../assets/icons/icon-check.svg?react'
 
 export default function DropdownListColour(props) {
 	const label = props.label

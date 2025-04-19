@@ -1,5 +1,6 @@
+import React from 'react'
 import { useModal } from '../context/modal.context'
-import { ReactComponent as IconClose } from '../assets/icons/icon-close.svg'
+import IconClose from '../assets/icons/icon-close.svg?react'
 
 export default function Modal(props) {
 	const { modalIsOpen, handleClose } = useModal()

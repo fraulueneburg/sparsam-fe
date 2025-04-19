@@ -1,4 +1,5 @@
-import { ReactComponent as IconGithub } from '../assets/icons/icon-github.svg'
+import React from 'react'
+import IconGithub from '../assets/icons/icon-github.svg?react'
 
 export default function Footer() {
 	return (

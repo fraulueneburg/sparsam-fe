@@ -1,3 +1,4 @@
+import React from 'react'
 import axios from 'axios'
 import { useState, useContext } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
@@ -5,9 +6,9 @@ import { AuthContext } from '../context/auth.context'
 import { API_URL } from '../config'
 
 import currenciesArr from '../data/currencies.json'
-import { ReactComponent as IconUser } from '../assets/icons/icon-user.svg'
-import { ReactComponent as IconEmail } from '../assets/icons/icon-email.svg'
-import { ReactComponent as IconPassword } from '../assets/icons/icon-password.svg'
+import IconUser from '../assets/icons/icon-user.svg?react'
+import IconEmail from '../assets/icons/icon-email.svg?react'
+import IconPassword from '../assets/icons/icon-password.svg?react'
 
 export default function FormSignup() {
 	const { setToken, setIsLoggedIn } = useContext(AuthContext)

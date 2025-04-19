@@ -1,8 +1,9 @@
+import React from 'react'
 import { AuthContext } from '../context/auth.context'
 import { useContext } from 'react'
 import { NavLink } from 'react-router-dom'
-import { ReactComponent as IconUser } from '../assets/icons/icon-user.svg'
-import { ReactComponent as IconSettings } from '../assets/icons/icon-settings.svg'
+import IconUser from '../assets/icons/icon-user.svg?react'
+import IconSettings from '../assets/icons/icon-settings.svg?react'
 
 export default function Navbar() {
 	const { logOutUser, isLoggedIn } = useContext(AuthContext)

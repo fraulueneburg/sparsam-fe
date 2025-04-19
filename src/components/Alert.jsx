@@ -1,3 +1,5 @@
+import React from 'react'
+
 export default function Alert({ children, ...props }) {
 	const { type } = props
 

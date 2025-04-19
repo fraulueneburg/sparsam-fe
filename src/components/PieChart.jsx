@@ -1,3 +1,4 @@
+import React from 'react'
 import { useContext, useRef, useEffect } from 'react'
 import { BudgetContext } from '../context/budget.context'
 import { Chart, ArcElement, CategoryScale, Tooltip, Legend } from 'chart.js'
