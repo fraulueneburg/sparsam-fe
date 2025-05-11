@@ -9,17 +9,20 @@ import currenciesArr from '../data/currencies.json'
 import IconUser from '../assets/icons/icon-user.svg?react'
 import IconEmail from '../assets/icons/icon-email.svg?react'
 import IconPassword from '../assets/icons/icon-password.svg?react'
+import Spinner from './Spinner'
 
 export default function FormSignup() {
 	const { setToken, setIsLoggedIn } = useContext(AuthContext)
 	const navigate = useNavigate()
 	const indexDefaultCurrency = currenciesArr.findIndex((elem) => elem.symbol === '€')
+	const [isLoading, setIsLoading] = useState(false)
 
 	const [nameInput, setNameInput] = useState('')
 	const [emailInput, setEmailInput] = useState('')
 	const [passwordInput, setPasswordInput] = useState('')
 
 	const handleSubmit = async (e) => {
+		setIsLoading(true)
 		e.preventDefault()
 		try {
 			const { data } = await axios.post(`${API_URL}/auth/signup`, {
@@ -36,6 +39,8 @@ export default function FormSignup() {
 			setNameInput('')
 			setEmailInput('')
 			setPasswordInput('')
+
+			setIsLoading(false)
 			navigate('/budget')
 		} catch (err) {
 			console.log('im in the catch block')
@@ -91,7 +96,10 @@ export default function FormSignup() {
 						required
 					/>
 				</div>
-				<input type="submit" value="Sign up and login" />
+				<button type="submit">
+					Sign up and login
+					{isLoading ? <Spinner /> : null}
+				</button>
 			</form>
 			<p style={{ textAlign: 'center' }}>
 				<small>
