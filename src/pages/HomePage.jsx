@@ -47,11 +47,6 @@ export default function HomePage() {
 							},
 						]}
 					/>
-					<center>
-						<small>
-							Already have an account? <Link to="/auth/login">Login now</Link>
-						</small>
-					</center>
 				</div>
 			</div>
 		</>
