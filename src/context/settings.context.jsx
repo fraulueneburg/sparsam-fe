@@ -1,4 +1,3 @@
-import React from 'react'
 import { createContext, useEffect, useState } from 'react'
 import { API_URL } from '../config'
 import axios from 'axios'
@@ -32,9 +31,10 @@ const SettingsContextWrapper = ({ children }) => {
 		const fetchBudgetData = async () => {
 			try {
 				const gotToken = localStorage.getItem('authToken')
-				const resp = await axios.get(`${API_URL}/budget/settings`, {
+				const resp = await axios.get(`${API_URL}/budget?excludeDailyExpenses=true`, {
 					headers: { authorization: `Bearer ${gotToken}` },
 				})
+
 				const budget = resp.data.respMonthlyBudget
 
 				if (budget) {

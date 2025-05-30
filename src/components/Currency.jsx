@@ -18,8 +18,8 @@ export default function Currency() {
 		setCurrency(updatedCurrency)
 
 		try {
-			const response = await axios.post(
-				`${API_URL}/budget/currency/update`,
+			const response = await axios.put(
+				`${API_URL}/budget/currency`,
 				{ currency: updatedCurrency },
 				{ headers: { authorization: `Bearer ${gotToken}` } }
 			)

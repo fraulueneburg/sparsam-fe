@@ -50,8 +50,8 @@ export default function Earnings() {
 		setEditEarningAmount('')
 
 		try {
-			const response = await axios.post(
-				`${API_URL}/budget/earnings/update`,
+			const response = await axios.put(
+				`${API_URL}/budget/earnings/${editEarningId}`,
 				{ updatedEarning },
 				{ headers: { authorization: `Bearer ${gotToken}` } }
 			)
@@ -79,7 +79,7 @@ export default function Earnings() {
 		setEditEarningName('')
 		setEditEarningAmount('')
 		try {
-			const response = await axios.delete(`${API_URL}/budget/earnings/delete/${earningId}`, {
+			const response = await axios.delete(`${API_URL}/budget/earnings/${earningId}`, {
 				headers: { authorization: `Bearer ${gotToken}` },
 			})
 			setEarningsArr(response.data.earnings)
@@ -106,7 +106,7 @@ export default function Earnings() {
 
 		try {
 			const response = await axios.post(
-				`${API_URL}/budget/earnings/add`,
+				`${API_URL}/budget/earnings`,
 				{ earnings: newArr },
 				{ headers: { authorization: `Bearer ${gotToken}` } }
 			)

@@ -48,6 +48,7 @@ const BudgetContextWrapper = ({ children }) => {
 				const resp = await axios.get(`${API_URL}/budget`, {
 					headers: { authorization: `Bearer ${gotToken}` },
 				})
+
 				const fetchedBudget = resp.data.respMonthlyBudget
 				const fetchedDailyExpenses = resp.data.respDailyExpenses
 

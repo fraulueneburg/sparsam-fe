@@ -56,7 +56,7 @@ export default function TableDailyExpenses() {
 			name.value = ''
 			amount.value = ''
 
-			const response = await axios.post(`${API_URL}/budget/addexpense`, newDailyExpense, {
+			const response = await axios.post(`${API_URL}/daily-expenses`, newDailyExpense, {
 				headers: { authorization: `Bearer ${gotToken}` },
 			})
 
@@ -74,31 +74,6 @@ export default function TableDailyExpenses() {
 			amount.value = newDailyExpense.amount
 			console.log('ERROR WHILE ADDING EXPENSE:', err)
 		}
-	}
-
-	// DELETE EXPENSE
-
-	const handleDeleteDailyExpense = async (index, event) => {
-		event.preventDefault()
-
-		const gotToken = localStorage.getItem('authToken')
-		const expenseId = event.target.getAttribute('data-key')
-		const filteredDailyExpensesArr = dailyExpensesArr.filter((elem, i) => {
-			return i !== index ? elem : null
-		})
-		setDailyExpensesArr(filteredDailyExpensesArr)
-
-		try {
-			await axios.delete(`${API_URL}/budget/deleteexpense/${expenseId}`, {
-				headers: { authorization: `Bearer ${gotToken}` },
-			})
-		} catch (err) {
-			console.log('ERROR WHILE DELETING EXPENSE', err)
-		}
-		setDailyExpensesTotal(calculateTotalAmount(filteredDailyExpensesArr))
-		setExistingDailyExpenses((prevItems) => prevItems.filter((item) => item._id !== expenseId))
-		setBudgetLeft(budgetTotal - calculateTotalAmount(filteredDailyExpensesArr))
-		setEditExpenseId(0)
 	}
 
 	// EDIT EXPENSE
@@ -136,7 +111,7 @@ export default function TableDailyExpenses() {
 		}
 
 		try {
-			const response = await axios.post(`${API_URL}/budget/updateexpense/${expenseId}`, updatedExpense, {
+			const response = await axios.put(`${API_URL}/daily-expenses/${expenseId}`, updatedExpense, {
 				headers: { authorization: `Bearer ${gotToken}` },
 			})
 			updatedExpense.dateFieldUpdatedAt = response.data.dateFieldUpdatedAt
@@ -165,6 +140,31 @@ export default function TableDailyExpenses() {
 		} catch (err) {
 			console.log('ERROR WHILE UPDATING EXPENSE', err)
 		}
+	}
+
+	// DELETE EXPENSE
+
+	const handleDeleteDailyExpense = async (index, event) => {
+		event.preventDefault()
+
+		const gotToken = localStorage.getItem('authToken')
+		const expenseId = event.target.getAttribute('data-key')
+		const filteredDailyExpensesArr = dailyExpensesArr.filter((elem, i) => {
+			return i !== index ? elem : null
+		})
+		setDailyExpensesArr(filteredDailyExpensesArr)
+
+		try {
+			await axios.delete(`${API_URL}/daily-expenses/${expenseId}`, {
+				headers: { authorization: `Bearer ${gotToken}` },
+			})
+		} catch (err) {
+			console.log('ERROR WHILE DELETING EXPENSE', err)
+		}
+		setDailyExpensesTotal(calculateTotalAmount(filteredDailyExpensesArr))
+		setExistingDailyExpenses((prevItems) => prevItems.filter((item) => item._id !== expenseId))
+		setBudgetLeft(budgetTotal - calculateTotalAmount(filteredDailyExpensesArr))
+		setEditExpenseId(0)
 	}
 
 	return categoriesArr?.length <= 0 ? (

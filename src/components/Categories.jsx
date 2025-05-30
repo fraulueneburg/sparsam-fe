@@ -93,8 +93,8 @@ export default function Categories(props) {
 		setEditCategoryColour('')
 
 		try {
-			const response = await axios.post(
-				`${API_URL}/budget/categories/update`,
+			const response = await axios.put(
+				`${API_URL}/categories/${editCategoryId}`,
 				{ updatedCategory },
 				{ headers: { authorization: `Bearer ${gotToken}` } }
 			)
@@ -136,7 +136,7 @@ export default function Categories(props) {
 
 		try {
 			const response = await axios.post(
-				`${API_URL}/budget/categories/add`,
+				`${API_URL}/categories`,
 				{ categories: newArr },
 				{ headers: { authorization: `Bearer ${gotToken}` } }
 			)
@@ -171,7 +171,7 @@ export default function Categories(props) {
 		const categoryId = editCategoryId
 
 		try {
-			const { data } = await axios.get(`${API_URL}/budget/${categoryId}/expenses`, {
+			const { data } = await axios.get(`${API_URL}/categories/${categoryId}/daily-expenses`, {
 				headers: { authorization: `Bearer ${gotToken}` },
 			})
 			setFoundExpensesArr(data.foundExpensesArr)
@@ -201,8 +201,8 @@ export default function Categories(props) {
 
 		try {
 			const response = await axios.post(
-				`${API_URL}/budget/${oldCategoryId}/expenses/move/${newCategoryId}`,
-				{},
+				`${API_URL}/categories/${oldCategoryId}/daily-expenses/move`,
+				{ newCategoryId: newCategoryId },
 				{
 					headers: { authorization: `Bearer ${gotToken}` },
 				}
@@ -225,7 +225,7 @@ export default function Categories(props) {
 		const categoryId = editCategoryId
 
 		try {
-			const response = await axios.delete(`${API_URL}/budget/${categoryId}/expenses/delete`, {
+			const response = await axios.delete(`${API_URL}/categories/${categoryId}/daily-expenses`, {
 				headers: { authorization: `Bearer ${gotToken}` },
 			})
 		} catch (err) {
@@ -253,7 +253,7 @@ export default function Categories(props) {
 		setEditCategoryColour('')
 
 		try {
-			const response = await axios.delete(`${API_URL}/budget/categories/delete/${categoryId}`, {
+			const response = await axios.delete(`${API_URL}/categories/${categoryId}`, {
 				headers: { authorization: `Bearer ${gotToken}` },
 			})
 			setCategoriesArr(response.data.categories)

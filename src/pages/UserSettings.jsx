@@ -77,7 +77,7 @@ export default function UserSettings() {
 		const gotToken = localStorage.getItem('authToken')
 		try {
 			await axios.delete(
-				`${API_URL}/auth/profile/delete`,
+				`${API_URL}/auth/profile`,
 
 				{
 					headers: { authorization: `Bearer ${gotToken}` },

@@ -49,8 +49,8 @@ export default function Expenses() {
 		setEditExpenseAmount('')
 
 		try {
-			const response = await axios.post(
-				`${API_URL}/budget/expenses/update`,
+			const response = await axios.put(
+				`${API_URL}/budget/expenses/${editExpenseId}`,
 				{ updatedExpense },
 				{ headers: { authorization: `Bearer ${gotToken}` } }
 			)
@@ -78,7 +78,7 @@ export default function Expenses() {
 		setEditExpenseName('')
 		setEditExpenseAmount('')
 		try {
-			const response = await axios.delete(`${API_URL}/budget/expenses/delete/${expenseId}`, {
+			const response = await axios.delete(`${API_URL}/budget/expenses/${expenseId}`, {
 				headers: { authorization: `Bearer ${gotToken}` },
 			})
 			setExpensesArr(response.data.expenses)
@@ -105,7 +105,7 @@ export default function Expenses() {
 		setNewExpenseAmount('')
 		try {
 			const response = await axios.post(
-				`${API_URL}/budget/expenses/add`,
+				`${API_URL}/budget/expenses`,
 				{ expenses: newArr },
 				{ headers: { authorization: `Bearer ${gotToken}` } }
 			)
