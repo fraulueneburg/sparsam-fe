@@ -10,6 +10,7 @@ import IconUser from '../assets/icons/icon-user.svg?react'
 import IconEmail from '../assets/icons/icon-email.svg?react'
 import IconPassword from '../assets/icons/icon-password.svg?react'
 import Spinner from './Spinner'
+import Alert from './Alert'
 
 export default function FormSignup() {
 	const { setToken, setIsLoggedIn } = useContext(AuthContext)
@@ -20,6 +21,7 @@ export default function FormSignup() {
 	const [nameInput, setNameInput] = useState('')
 	const [emailInput, setEmailInput] = useState('')
 	const [passwordInput, setPasswordInput] = useState('')
+	const [errorMessage, setErrorMessage] = useState('')
 
 	const handleSubmit = async (e) => {
 		setIsLoading(true)
@@ -43,17 +45,32 @@ export default function FormSignup() {
 			setIsLoading(false)
 			navigate('/budget')
 		} catch (err) {
-			console.log('im in the catch block')
 			console.log('THIS IS THE ERR', err)
 			setNameInput('')
 			setEmailInput('')
 			setPasswordInput('')
+			setIsLoading(false)
+
+			err.response && err.response.status === 400
+				? setErrorMessage('Wrong username or password.')
+				: setErrorMessage('An unexpected error occurred. Please try again.')
+			setNameInput(nameInput)
+			setEmailInput(emailInput)
+			setPasswordInput('')
+			setIsLoading(false)
 		}
 	}
 
 	return (
 		<>
 			<form onSubmit={handleSubmit}>
+				{errorMessage ? (
+					<Alert type="danger">
+						<p id="login-error" className="text-error" role="alert" aria-live="polite">
+							{errorMessage} Don’t have an account yet? <Link to="/auth/signup">Sign up now</Link>
+						</p>
+					</Alert>
+				) : null}
 				<div className="input-group">
 					<span className="text">
 						<IconUser />
@@ -65,6 +82,8 @@ export default function FormSignup() {
 						placeholder="Name"
 						onChange={(e) => setNameInput(e.target.value)}
 						autoComplete="username"
+						aria-invalid={!!errorMessage ? true : null}
+						aria-errormessage="#login-error"
 						required
 					/>
 				</div>
@@ -79,6 +98,8 @@ export default function FormSignup() {
 						placeholder="Email"
 						autoComplete="email"
 						onChange={(e) => setEmailInput(e.target.value)}
+						aria-invalid={!!errorMessage ? true : null}
+						aria-errormessage="#login-error"
 						required
 					/>
 				</div>
@@ -93,6 +114,8 @@ export default function FormSignup() {
 						placeholder="*********"
 						autoComplete="new-password"
 						onChange={(e) => setPasswordInput(e.target.value)}
+						aria-invalid={!!errorMessage ? true : null}
+						aria-errormessage="#login-error"
 						required
 					/>
 				</div>
