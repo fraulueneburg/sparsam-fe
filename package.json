@@ -3,7 +3,6 @@
 	"version": "0.1.0",
 	"private": true,
 	"dependencies": {
-		"@react-navigation/native": "^6.1.7",
 		"@vitejs/plugin-react-swc": "^3.9.0",
 		"axios": "^1.7.3",
 		"chart.js": "^4.3.0",
